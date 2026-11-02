@@ -16,13 +16,13 @@ Open `index.html` in a modern browser. The game also includes touch controls for
 
 ## Prototype features
 - Responsive boxing ring and fighter HUD
-- Three punch types with different stamina costs and damage
+- Pre-fight fighter selection: balanced, speed, and power styles with distinct stats\n- Three punch types with different stamina costs and damage
 - Guarding, dodging, and opponent counterattacks
 - Health, stamina, match timer, and win/loss record
 - Keyboard and mobile touch input
 
 ## Roadmap
-1. Add a world-tour ladder with multiple original opponents and boss fights.
+1. Expand the tournament with more original opponents, rival stories, and boss fights.
 2. Improve fighter animation, timing windows, telegraphed attacks, knockdowns, and referee counts.
 3. Add audio, music, training mode, difficulty, and saved career progression.
 4. Package the browser game as an Android APK.
