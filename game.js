@@ -15,7 +15,7 @@ function update(){
  $("ps").style.width=s.st+"%";$("rs").style.width=s.rs+"%";
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
- $("record").textContent=wins+"–"+losses;\n $("kds").textContent=s.rivalDowns;
+ $("record").textContent=wins+"–"+losses;\n $("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;
  player.style.left=s.x+"%";
  const label=document.querySelector(".rival b");
  if(label)label.textContent="RIVAL · "+opponent().name;
@@ -47,7 +47,7 @@ function hit(type){
   s.rh=clamp(s.rh-damage*critical,0,opponent().health);
   s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!");}
   say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");
- }else say("MISSED — WATCH YOUR TIMING");
+ }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");}
  update();if(s.rh<=0)finish(true);
 }
 function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*4,17,43);update()}
@@ -84,7 +84,7 @@ tick=setInterval(()=>{
   const o=opponent();
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!");}}\n  else if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
   else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER")}
-  else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7)),0,100);anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!");}}
+  else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7)),0,100);s.combo=0;anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!");}}
   s.enemy=o.pace+Math.random()*o.pace;update();if(s.hp<=0){finish(false);return}
  }
  if(s.t===0){finish(s.hp>=s.rh);return}update();
