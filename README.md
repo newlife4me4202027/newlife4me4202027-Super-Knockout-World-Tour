@@ -20,6 +20,7 @@ Open `index.html` in a modern browser. The game also includes touch controls for
 - Pre-fight fighter selection: balanced, speed, and power styles with distinct stats
 - Three punch types with different stamina costs and damage
 - Guarding, dodging, and opponent counterattacks
+- Four rival AI styles with visible jab, hook, uppercut, and counter telegraphs
 - Health, stamina, match timer, and win/loss record
 - Saved boxer selection, tournament progress, and career record between sessions
 - Synthesized sound effects with an in-game mute toggle
