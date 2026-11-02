@@ -1,1 +1,93 @@
-(()=>{const $=id=>document.getElementById(id),p=$("you"),r=$("foe");let s={hp:100,rh:100,st:100,rs:100,t:120,x:29,active:false,block:false,w:0,l:0,enemy:2};const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));function update(){$("ph").style.width=s.hp+"%";$("rh").style.width=s.rh+"%";$("ps").style.width=s.st+"%";$("rs").style.width=s.rs+"%";$("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);$("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");$("record").textContent=s.w+"–"+s.l;p.style.left=s.x+"%"}function say(t){$("status").textContent=t}function announce(t){$("callout").textContent=t;setTimeout(()=>{$("callout").textContent=""},850)}function anim(el,c){el.classList.remove(c);void el.offsetWidth;el.classList.add(c);setTimeout(()=>el.classList.remove(c),280)}function finish(win){if(!s.active)return;s.active=false;if(win)s.w++;else s.l++;say(win?"VICTORY — KNOCKOUT!":"DEFEAT — TRAIN AND RETURN");announce(win?"KNOCKOUT!":"DOWN!");update()}function start(){Object.assign(s,{hp:100,rh:100,st:100,rs:100,t:120,x:29,active:true,block:false,enemy:2});say("BELL RINGS — FIGHT SMART");announce("FIGHT!");p.classList.remove("guard");update()}function hit(type){if(!s.active)return;let cost={jab:5,hook:12,upper:18}[type],dmg={jab:7,hook:13,upper:20}[type];if(s.st<cost){say("TOO TIRED — RECOVER");return}s.st-=cost;anim(p,"punch");if(Math.random()<({jab:.9,hook:.75,upper:.63}[type])){s.rh=clamp(s.rh-dmg*(Math.random()<.15?.5:1),0,100);anim(r,"hit");say(type.toUpperCase()+" CONNECTS!");}else say("MISSED — WATCH YOUR TIMING");update();if(s.rh<=0)finish(true)}function move(d){if(s.active){s.x=clamp(s.x+d*4,17,43);update()}}function dodge(){if(!s.active||s.st<10)return;s.st-=10;p.style.transition=".1s";p.style.translate="0 14px";setTimeout(()=>{p.style.translate="0 0"},330);s.dodging=true;setTimeout(()=>s.dodging=false,350);update()}function defend(on){s.block=on;p.classList.toggle("guard",on)}function act(a){if(a==="left")move(-1);else if(a==="right")move(1);else if(a==="jab"||a==="hook"||a==="upper")hit(a);else if(a==="dodge")dodge();else if(a==="block")defend(true)}document.querySelectorAll("[data-a]").forEach(b=>{let a=b.dataset.a;b.addEventListener("pointerdown",e=>{e.preventDefault();act(a)});let up=()=>{if(a==="block")defend(false)};b.addEventListener("pointerup",up);b.addEventListener("pointercancel",up);b.addEventListener("pointerleave",up)});document.addEventListener("keydown",e=>{if(e.repeat)return;let k=e.key.toLowerCase();if(k==="arrowleft")move(-1);if(k==="arrowright")move(1);if(k==="a")hit("jab");if(k==="s")hit("hook");if(k==="d")hit("upper");if(k===" ") {e.preventDefault();defend(true)}if(k==="shift")dodge()});document.addEventListener("keyup",e=>{if(e.key===" ")defend(false)});$("restart").onclick=start;setInterval(()=>{if(!s.active)return;s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2,0,100);s.rs=clamp(s.rs+2,0,100);s.enemy-=1;if(s.enemy<=0){if(s.dodging)say("PERFECT DODGE!");else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER")}else{s.hp=clamp(s.hp-(8+Math.floor(Math.random()*9)),0,100);anim(p,"hit");say("RIVAL COUNTERED — DEFEND!")};s.enemy=2+Math.random()*2;update();if(s.hp<=0)finish(false)}if(s.t===0)finish(s.hp>=s.rh);update()},1000);update()})();
+(()=>{
+const $=id=>document.getElementById(id),player=$("you"),rival=$("foe");
+const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
+const opponents=[
+{name:"IRON MAKO",health:100,pace:2,damage:9},
+{name:"VICIOUS VELVET",health:115,pace:1.7,damage:11},
+{name:"BRUISER NOVA",health:130,pace:1.4,damage:13},
+{name:"THE WORLD CHAMPION",health:150,pace:1.15,damage:15}
+];
+let career=0,wins=0,losses=0,tick=null;
+let s={hp:100,rh:100,st:100,rs:100,t:120,x:29,active:false,block:false,dodging:false,enemy:2,knockdowns:0};
+function opponent(){return opponents[career]}
+function update(){
+ $("ph").style.width=s.hp+"%";$("rh").style.width=(s.rh/opponent().health*100)+"%";
+ $("ps").style.width=s.st+"%";$("rs").style.width=s.rs+"%";
+ $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
+ $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
+ $("record").textContent=wins+"–"+losses;
+ player.style.left=s.x+"%";
+ const label=document.querySelector(".rival b");
+ if(label)label.textContent="RIVAL · "+opponent().name;
+ const round=document.querySelector(".clock small");
+ if(round)round.textContent="TOUR FIGHT 0"+(career+1);
+}
+function say(message){$("status").textContent=message}
+function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1000)}
+function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),300)}
+function finish(win){
+ if(!s.active)return;s.active=false;
+ if(win){wins++;say(career===opponents.length-1?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — NEXT CHALLENGER UNLOCKED");announce(career===opponents.length-1?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
+ else{losses++;say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
+ update();
+}
+function start(){
+ const o=opponent();
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:29,active:true,block:false,dodging:false,enemy:2,knockdowns:0});
+ player.classList.remove("guard");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");update();
+}
+function hit(type){
+ if(!s.active)return;
+ const cost={jab:5,hook:12,upper:18}[type],damage={jab:7,hook:13,upper:20}[type];
+ if(s.st<cost){say("TOO TIRED — RECOVER");return}
+ s.st-=cost;anim(player,"punch");
+ const accuracy={jab:.91,hook:.76,upper:.65}[type];
+ if(Math.random()<accuracy){
+  const critical=Math.random()<.16?1.7:1;
+  s.rh=clamp(s.rh-damage*critical,0,opponent().health);
+  s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");
+  say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");
+ }else say("MISSED — WATCH YOUR TIMING");
+ update();if(s.rh<=0)finish(true);
+}
+function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*4,17,43);update()}
+function dodge(){
+ if(!s.active||s.st<10)return;s.st-=10;s.dodging=true;
+ player.style.transition=".1s";player.style.translate="0 14px";
+ setTimeout(()=>{player.style.translate="0 0"},300);
+ setTimeout(()=>s.dodging=false,380);update();
+}
+function guard(on){s.block=on;player.classList.toggle("guard",on)}
+function act(action){
+ if(action==="left")move(-1);else if(action==="right")move(1);
+ else if(["jab","hook","upper"].includes(action))hit(action);
+ else if(action==="dodge")dodge();else if(action==="block")guard(true);
+}
+document.querySelectorAll("[data-a]").forEach(button=>{
+ const action=button.dataset.a;
+ button.addEventListener("pointerdown",event=>{event.preventDefault();act(action)});
+ const release=()=>{if(action==="block")guard(false)};
+ button.addEventListener("pointerup",release);button.addEventListener("pointercancel",release);button.addEventListener("pointerleave",release);
+});
+document.addEventListener("keydown",event=>{
+ if(event.repeat)return;const key=event.key.toLowerCase();
+ if(key==="arrowleft")move(-1);if(key==="arrowright")move(1);
+ if(key==="a")hit("jab");if(key==="s")hit("hook");if(key==="d")hit("upper");
+ if(key===" "){event.preventDefault();guard(true)}if(key==="shift")dodge();
+});
+document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
+$("restart").onclick=start;
+tick=setInterval(()=>{
+ if(!s.active)return;
+ s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
+ if(s.enemy<=0){
+  const o=opponent();
+  if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
+  else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER")}
+  else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7)),0,100);anim(player,"hit");say(o.name+" COUNTERED — DEFEND!")}
+  s.enemy=o.pace+Math.random()*o.pace;update();if(s.hp<=0){finish(false);return}
+ }
+ if(s.t===0){finish(s.hp>=s.rh);return}update();
+},1000);
+update();
+})();
