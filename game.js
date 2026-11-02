@@ -21,6 +21,7 @@ function update(){
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
  $("record").textContent=wins+"–"+losses;$("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;
+ const range=$("range");if(range)range.textContent=s.depth>=7?"CLOSE":s.depth<=-3?"FAR":"MID";
  player.style.left="calc(50% - var(--fighter-half, 71px) + "+s.x+"px)";player.style.bottom=(8+s.depth*1.15)+"%";
  player.style.transform="scale("+(1+(12-s.depth)*.004).toFixed(3)+")";
  const label=document.querySelector(".rival b");if(label)label.textContent="RIVAL · "+opponent().name;
@@ -88,7 +89,7 @@ setInterval(()=>{
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!")}}
   else if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
   else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER")}
-  else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7)),0,100);s.combo=0;anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}
+  else{const distance=clamp(.62+(s.depth+8)*.024,.62,1.1);const evade=clamp(Math.abs(s.x)/64*.16+(s.depth<=-3?.12:0),0,.28);if(Math.random()<evade){say("RIVAL MISSES — COUNTER NOW!");announce("MISS!")}else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance,0,100);s.combo=0;anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}}
   s.enemy=o.pace+Math.random()*o.pace;update();if(s.hp<=0){finish(false);return}
  }
  if(s.t===0){finish(s.hp>=s.rh);return}update();
