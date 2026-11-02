@@ -12,7 +12,18 @@ balanced:{name:"THE TECHNICIAN",damage:1,accuracy:1,stamina:1,skin:"#a86c4d",sho
 speed:{name:"FLASH FURY",damage:.88,accuracy:1.12,stamina:1.2,skin:"#bd8059",short:"#168c83",glove:"#f1c644"},
 power:{name:"THE HAMMER",damage:1.28,accuracy:.9,stamina:.86,skin:"#80543e",short:"#7038a6",glove:"#e8752d"}
 };
-let boxer="balanced",career=0,wins=0,losses=0;
+const SAVE_KEY="super-knockout-world-tour-v1";
+function loadCareer(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(SAVE_KEY)||"{}");
+  return {boxer:boxers[saved.boxer]?saved.boxer:"balanced",career:clamp(Number(saved.career)||0,0,opponents.length-1),wins:Math.max(0,Number(saved.wins)||0),losses:Math.max(0,Number(saved.losses)||0)};
+ }catch(error){return {boxer:"balanced",career:0,wins:0,losses:0}}
+}
+const savedCareer=loadCareer();
+let boxer=savedCareer.boxer,career=savedCareer.career,wins=savedCareer.wins,losses=savedCareer.losses;
+function saveCareer(){
+ try{localStorage.setItem(SAVE_KEY,JSON.stringify({boxer,career,wins,losses}));}catch(error){}
+}
 let audioContext=null,audioMuted=false;
 function sound(kind){
  if(audioMuted)return;
@@ -63,6 +74,7 @@ function finish(win){
  if(!s.active)return;s.active=false;
  if(win){wins++;sound("cheer");say(career===opponents.length-1?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — NEXT CHALLENGER UNLOCKED");announce(career===opponents.length-1?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
  else{losses++;sound("down");say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
+ saveCareer();
  update();
 }
 function start(){
@@ -95,16 +107,18 @@ document.querySelectorAll("[data-a]").forEach(button=>{
  button.addEventListener("pointerup",release);button.addEventListener("pointercancel",release);button.addEventListener("pointerleave",release);
 });
 document.querySelectorAll("[data-boxer]").forEach(button=>button.addEventListener("click",()=>{
- boxer=button.dataset.boxer;document.querySelectorAll("[data-boxer]").forEach(b=>b.classList.toggle("selected",b===button));applyBoxer();
+ boxer=button.dataset.boxer;saveCareer();document.querySelectorAll("[data-boxer]").forEach(b=>b.classList.toggle("selected",b===button));applyBoxer();
 }));
 $("audio-toggle").addEventListener("click",()=>{audioMuted=!audioMuted;$("audio-toggle").textContent=audioMuted?"SOUND OFF":"SOUND ON";if(!audioMuted)sound("bell")});
 $("enter-ring").addEventListener("click",start);$("restart").addEventListener("click",()=>{if(s.active){s.active=false}showSelect()});
 document.addEventListener("keydown",event=>{
+ if(["arrowleft","arrowright","arrowup","arrowdown"," "].includes(event.key.toLowerCase()))event.preventDefault();
  if(event.repeat)return;const key=event.key.toLowerCase();
  if(key==="arrowleft")move(-1);if(key==="arrowright")move(1);if(key==="arrowup")moveDepth(1);if(key==="arrowdown")moveDepth(-1);if(key==="a")hit("jab");if(key==="s")hit("hook");if(key==="d")hit("upper");
  if(key===" "){event.preventDefault();guard(true)}if(key==="shift")dodge();
 });
 document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
+window.addEventListener("blur",()=>guard(false));
 setInterval(()=>{
  if(!s.active)return;
  s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;if(s.enemy<=1&&!s.block&&!s.dodging)rival.classList.add("telegraph");
