@@ -123,7 +123,7 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .movement button[data-a="up"],.movement button[data-a="down"]{background:linear-gradient(#4a7898,#25425e)}
 @media(max-width:620px){
  .arena{height:430px}
- .fighter{left:calc(50% - 56px);bottom:8%;width:112px;height:235px}
+ .fighter{--fighter-half:56px;left:calc(50% - 56px);bottom:8%;width:112px;height:235px}
  .you{left:calc(50% - 56px);bottom:8%}
  .foe{left:calc(50% - 56px);top:20%;bottom:auto;scale:.82;transform:scale(.72);transform-origin:top center}
  .movement{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
