@@ -102,3 +102,30 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes hook-strike{35%{translate:24px -8px;rotate:-13deg}70%{translate:34px 0;rotate:-5deg}}
 @keyframes upper-strike{45%{translate:25px -22px;rotate:-9deg}75%{translate:34px -10px;rotate:-4deg}}
 @media(prefers-reduced-motion:reduce){.you,.foe,.fighter.telegraph .glove{animation:none!important}.fighter{transition:none!important}}
+
+
+/* CLASSIC FIXED UP/DOWN RING VIEW — PLAYER NEAR, RIVAL FAR */
+.arena{perspective:900px;background:
+ radial-gradient(ellipse at 50% 47%,#d8dde5 0%,#8796aa 37%,transparent 38%),
+ linear-gradient(180deg,#111a2a 0%,#293b57 22%,#65748a 38%,#d4d8df 39%,#8b97a8 100%)}
+.crowd{inset:0 0 62%;mask-image:linear-gradient(#000,transparent)}
+.ropes{top:27%;height:6px;box-shadow:0 32px #f7f8fc,0 64px #e8edf5,0 0 13px #fff9,0 32px 13px #fff8,0 64px 13px #fff7}
+.fighter{left:calc(50% - 71px);bottom:8%;transform:none;transform-origin:bottom center}
+.you{left:calc(50% - 71px);bottom:8%;z-index:5}
+.foe{left:calc(50% - 71px);top:19%;bottom:auto;transform:scale(.72);transform-origin:top center;z-index:4;filter:drop-shadow(0 9px 8px #101522aa)}
+.you{filter:drop-shadow(0 12px 9px #101522aa)}
+.fighter.punch-jab{animation:jab-strike .2s ease-out}
+.fighter.punch-hook{animation:hook-strike .26s ease-out}
+.fighter.punch-upper{animation:upper-strike .3s ease-out}
+@keyframes jab-strike{50%{translate:0 -12px;rotate:-3deg}}
+@keyframes hook-strike{35%{translate:0 -8px;rotate:-13deg}70%{translate:0 -12px;rotate:-5deg}}
+@keyframes upper-strike{45%{translate:0 -22px;rotate:-9deg}75%{translate:0 -10px;rotate:-4deg}}
+.movement button[data-a="up"],.movement button[data-a="down"]{background:linear-gradient(#4a7898,#25425e)}
+@media(max-width:620px){
+ .arena{height:430px}
+ .fighter{left:calc(50% - 56px);bottom:8%;width:112px;height:235px}
+ .you{left:calc(50% - 56px);bottom:8%}
+ .foe{left:calc(50% - 56px);top:20%;bottom:auto;scale:.82;transform:scale(.72);transform-origin:top center}
+ .movement{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+ .movement button{min-width:0;font-size:9px}
+}
