@@ -51,7 +51,7 @@ function update(){
  const round=document.querySelector(".clock small");if(round)round.textContent="TOUR FIGHT 0"+(career+1);
 }
 function say(message){$("status").textContent=message}
-function down(el){el.classList.add("knockdown");setTimeout(()=>el.classList.remove("knockdown"),1800)}
+function down(el){sound("down");el.classList.add("knockdown");setTimeout(()=>el.classList.remove("knockdown"),1800)}
 function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1100)}
 function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),300)}
 function showSelect(){$("select-screen").classList.remove("hidden")}
