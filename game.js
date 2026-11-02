@@ -8,7 +8,7 @@ const opponents=[
 {name:"THE WORLD CHAMPION",health:150,pace:1.15,damage:15}
 ];
 let career=0,wins=0,losses=0,tick=null;
-let s={hp:100,rh:100,st:100,rs:100,t:120,x:29,active:false,block:false,dodging:false,enemy:2,knockdowns:0};
+let s={hp:100,rh:100,st:100,rs:100,t:120,x:29,active:false,block:false,dodging:false,enemy:2,knockdowns:0,rivalDowns:0,playerDowns:0,downTimer:0,combo:0};
 function opponent(){return opponents[career]}
 function update(){
  $("ph").style.width=s.hp+"%";$("rh").style.width=(s.rh/opponent().health*100)+"%";
@@ -22,7 +22,7 @@ function update(){
  const round=document.querySelector(".clock small");
  if(round)round.textContent="TOUR FIGHT 0"+(career+1);
 }
-function say(message){$("status").textContent=message}
+function say(message){$("status").textContent=message}\nfunction down(el){el.classList.add("knockdown");setTimeout(()=>el.classList.remove("knockdown"),1800)}
 function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1000)}
 function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),300)}
 function finish(win){
@@ -33,14 +33,14 @@ function finish(win){
 }
 function start(){
  const o=opponent();
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:29,active:true,block:false,dodging:false,enemy:2,knockdowns:0});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:29,active:true,block:false,dodging:false,enemy:2,knockdowns:0,rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
  player.classList.remove("guard");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");update();
 }
 function hit(type){
  if(!s.active)return;
  const cost={jab:5,hook:12,upper:18}[type],damage={jab:7,hook:13,upper:20}[type];
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
- s.st-=cost;anim(player,"punch");
+ s.st-=cost;s.combo++;anim(player,"punch");
  const accuracy={jab:.91,hook:.76,upper:.65}[type];
  if(Math.random()<accuracy){
   const critical=Math.random()<.16?1.7:1;
@@ -82,9 +82,9 @@ tick=setInterval(()=>{
  s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
  if(s.enemy<=0){
   const o=opponent();
-  if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
+  if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!");}}\n  else if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
   else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER")}
-  else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7)),0,100);anim(player,"hit");say(o.name+" COUNTERED — DEFEND!")}
+  else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7)),0,100);anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!");}}
   s.enemy=o.pace+Math.random()*o.pace;update();if(s.hp<=0){finish(false);return}
  }
  if(s.t===0){finish(s.hp>=s.rh);return}update();
