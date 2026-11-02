@@ -13,7 +13,7 @@ speed:{name:"FLASH FURY",damage:.88,accuracy:1.12,stamina:1.2,skin:"#bd8059",sho
 power:{name:"THE HAMMER",damage:1.28,accuracy:.9,stamina:.86,skin:"#80543e",short:"#7038a6",glove:"#e8752d"}
 };
 let boxer="balanced",career=0,wins=0,losses=0;
-let s={hp:100,rh:100,st:100,rs:100,t:120,x:29,active:false,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0};
+let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0};
 function opponent(){return opponents[career]}
 function update(){
  $("ph").style.width=s.hp+"%";$("rh").style.width=(s.rh/opponent().health*100)+"%";
@@ -21,7 +21,7 @@ function update(){
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
  $("record").textContent=wins+"–"+losses;$("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;
- player.style.left=s.x+"%";
+ player.style.left="calc(50% - 71px + "+s.x+"px)";player.style.bottom=(8+s.depth*1.15)+"%";
  const label=document.querySelector(".rival b");if(label)label.textContent="RIVAL · "+opponent().name;
  const round=document.querySelector(".clock small");if(round)round.textContent="TOUR FIGHT 0"+(career+1);
 }
@@ -42,7 +42,7 @@ function finish(win){
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:29,active:true,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
  player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");update();
 }
 function hit(type){
@@ -58,10 +58,10 @@ function hit(type){
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING")}
  update();if(s.rh<=0)finish(true);
 }
-function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*4,17,43);update()}
+function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);update()}\nfunction moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);update()}
 function dodge(){if(!s.active||s.st<10)return;s.st-=10;s.dodging=true;player.style.transition=".1s";player.style.translate="0 14px";setTimeout(()=>player.style.translate="0 0",300);setTimeout(()=>s.dodging=false,380);update()}
 function guard(on){s.block=on;player.classList.toggle("guard",on)}
-function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="block")guard(true)}
+function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(action==="up")moveDepth(1);else if(action==="down")moveDepth(-1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="block")guard(true)}
 document.querySelectorAll("[data-a]").forEach(button=>{
  const action=button.dataset.a;button.addEventListener("pointerdown",event=>{event.preventDefault();act(action)});
  const release=()=>{if(action==="block")guard(false)};
@@ -73,7 +73,7 @@ document.querySelectorAll("[data-boxer]").forEach(button=>button.addEventListene
 $("enter-ring").addEventListener("click",start);$("restart").addEventListener("click",()=>{if(s.active){s.active=false}showSelect()});
 document.addEventListener("keydown",event=>{
  if(event.repeat)return;const key=event.key.toLowerCase();
- if(key==="arrowleft")move(-1);if(key==="arrowright")move(1);if(key==="a")hit("jab");if(key==="s")hit("hook");if(key==="d")hit("upper");
+ if(key==="arrowleft")move(-1);if(key==="arrowright")move(1);if(key==="arrowup")moveDepth(1);if(key==="arrowdown")moveDepth(-1);if(key==="a")hit("jab");if(key==="s")hit("hook");if(key==="d")hit("upper");
  if(key===" "){event.preventDefault();guard(true)}if(key==="shift")dodge();
 });
 document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
