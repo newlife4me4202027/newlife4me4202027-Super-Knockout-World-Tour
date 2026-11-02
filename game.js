@@ -22,6 +22,7 @@ function update(){
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
  $("record").textContent=wins+"–"+losses;$("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;
  player.style.left="calc(50% - var(--fighter-half, 71px) + "+s.x+"px)";player.style.bottom=(8+s.depth*1.15)+"%";
+ player.style.transform="scale("+(1+(12-s.depth)*.004).toFixed(3)+")";
  const label=document.querySelector(".rival b");if(label)label.textContent="RIVAL · "+opponent().name;
  const round=document.querySelector(".clock small");if(round)round.textContent="TOUR FIGHT 0"+(career+1);
 }
@@ -50,15 +51,16 @@ function hit(type){
  const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina,damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
  s.st-=cost;s.combo++;anim(player,"punch");anim(player,"punch-"+type);
- const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy;
+ const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);\n const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
-  const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical,0,opponent().health);s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
+  const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical*rangeFactor,0,opponent().health);s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
   say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING")}
  update();if(s.rh<=0)finish(true);
 }
-function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);update()}\nfunction moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);update()}
+function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);update()}
+function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);update()}
 function dodge(){if(!s.active||s.st<10)return;s.st-=10;s.dodging=true;player.style.transition=".1s";player.style.translate="0 14px";setTimeout(()=>player.style.translate="0 0",300);setTimeout(()=>s.dodging=false,380);update()}
 function guard(on){s.block=on;player.classList.toggle("guard",on)}
 function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(action==="up")moveDepth(1);else if(action==="down")moveDepth(-1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="block")guard(true)}
