@@ -134,3 +134,6 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .utility-buttons{display:flex;align-items:center;gap:8px}
 #audio-toggle{min-height:30px;padding:0 10px;border:1px solid #eac04e88;border-radius:3px;background:linear-gradient(#40536d,#202e43);color:#f8d77f;font-size:9px;font-weight:900;letter-spacing:1px;cursor:pointer}
 @media(max-width:620px){.utility-buttons{justify-content:flex-end;margin-left:auto}.bottom{gap:8px}.bottom small{max-width:52%}#audio-toggle,#restart{font-size:8px;padding:0 7px}}
+
+/* STAR PUNCH POWER MOVE */
+#star-button{background:linear-gradient(180deg,#ffe88a,#d58b16);color:#241707;border:2px solid #fff0ad;text-shadow:0 1px #fff7;box-shadow:0 0 13px #f6c45377,inset 0 1px #fff9}#star-button:disabled{opacity:.48;filter:grayscale(.65);box-shadow:none}.fighter.star-punch{animation:star-blast .48s ease-out;filter:brightness(1.65) drop-shadow(0 0 24px #ffe36a)}@keyframes star-blast{0%{translate:0 0;scale:1}35%{translate:0 -32px;scale:1.16}70%{translate:0 -8px;scale:1.05}100%{translate:0 0;scale:1}}@media(max-width:620px){#star-button{font-size:9px;min-height:47px;padding:0 3px}}
