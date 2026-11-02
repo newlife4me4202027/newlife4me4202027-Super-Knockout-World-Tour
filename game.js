@@ -51,7 +51,8 @@ function hit(type){
  const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina,damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
  s.st-=cost;s.combo++;anim(player,"punch");anim(player,"punch-"+type);
- const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);\n const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
+ const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
+ const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
   const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical*rangeFactor,0,opponent().health);s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
