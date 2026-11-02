@@ -45,7 +45,7 @@ function hit(type){
  if(Math.random()<accuracy){
   const critical=Math.random()<.16?1.7:1;
   s.rh=clamp(s.rh-damage*critical,0,opponent().health);
-  s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");
+  s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!");}
   say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");
  }else say("MISSED — WATCH YOUR TIMING");
  update();if(s.rh<=0)finish(true);
