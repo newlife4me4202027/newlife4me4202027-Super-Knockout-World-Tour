@@ -129,3 +129,8 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
  .movement{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
  .movement button{min-width:0;font-size:9px}
 }
+
+/* AUDIO AND MATCH UTILITY CONTROLS */
+.utility-buttons{display:flex;align-items:center;gap:8px}
+#audio-toggle{min-height:30px;padding:0 10px;border:1px solid #eac04e88;border-radius:3px;background:linear-gradient(#40536d,#202e43);color:#f8d77f;font-size:9px;font-weight:900;letter-spacing:1px;cursor:pointer}
+@media(max-width:620px){.utility-buttons{justify-content:flex-end;margin-left:auto}.bottom{gap:8px}.bottom small{max-width:52%}#audio-toggle,#restart{font-size:8px;padding:0 7px}}
