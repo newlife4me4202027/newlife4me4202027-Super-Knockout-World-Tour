@@ -64,7 +64,7 @@ function update(){
 function say(message){$("status").textContent=message}
 function down(el){sound("down");el.classList.add("knockdown");setTimeout(()=>el.classList.remove("knockdown"),1800)}
 function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1100)}
-function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),300)}
+function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),cls==="star-punch"?560:300)}
 function showSelect(){$("select-screen").classList.remove("hidden")}
 function hideSelect(){$("select-screen").classList.add("hidden")}
 function applyBoxer(){
@@ -96,7 +96,7 @@ function hit(type){
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");sound("miss")}
  update();if(s.rh<=0)finish(true);
 }
-function starPunch(){if(!s.active||s.stars<1){say("LAND THREE CLEAN HITS TO EARN A STAR");return}const b=boxers[boxer];s.stars--;s.st-=Math.min(s.st,14/b.stamina);anim(player,"star-punch");sound("star");const rangeFactor=clamp(.82+(s.depth+8)*.012,.82,1.08);const damage=32*b.damage*rangeFactor;s.rh=clamp(s.rh-damage,0,opponent().health);s.rs=clamp(s.rs-9,0,100);s.combo++;anim(rival,"hit");anim(rival,"impact");say("STAR PUNCH! MASSIVE DAMAGE!");announce("★ STAR PUNCH!");update();if(s.rh<=0)finish(true)}
+function starPunch(){if(!s.active||s.stars<1){say("LAND THREE CLEAN HITS TO EARN A STAR");return}const b=boxers[boxer];s.stars--;s.st-=Math.min(s.st,14/b.stamina);anim(player,"star-punch");sound("star");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("star-impact");void arena.offsetWidth;arena.classList.add("star-impact");setTimeout(()=>arena.classList.remove("star-impact"),520)}const rangeFactor=clamp(.82+(s.depth+8)*.012,.82,1.08);const damage=32*b.damage*rangeFactor;s.rh=clamp(s.rh-damage,0,opponent().health);s.rs=clamp(s.rs-9,0,100);s.combo++;s.enemy=Math.max(s.enemy,2.5);rival.classList.remove("telegraph");anim(rival,"hit");anim(rival,"impact");say("STAR PUNCH! MASSIVE DAMAGE!");announce("★ STAR PUNCH!");update();if(s.rh<=0)finish(true)}
 function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);update()}
 function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);update()}
 function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;player.style.transition=".1s";player.style.translate="0 14px";setTimeout(()=>player.style.translate="0 0",300);setTimeout(()=>s.dodging=false,380);update()}
