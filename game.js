@@ -13,6 +13,29 @@ speed:{name:"FLASH FURY",damage:.88,accuracy:1.12,stamina:1.2,skin:"#bd8059",sho
 power:{name:"THE HAMMER",damage:1.28,accuracy:.9,stamina:.86,skin:"#80543e",short:"#7038a6",glove:"#e8752d"}
 };
 let boxer="balanced",career=0,wins=0,losses=0;
+let audioContext=null,audioMuted=false;
+function sound(kind){
+ if(audioMuted)return;
+ const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;
+ try{
+  audioContext=audioContext||new Audio();if(audioContext.state==="suspended")audioContext.resume();
+  const now=audioContext.currentTime;
+  const tones={bell:[740,988,.32],jab:[170,95,.11],hook:[115,62,.18],upper:[90,48,.24],impact:[95,52,.16],miss:[260,180,.08],dodge:[420,680,.13],block:[150,230,.12],cheer:[520,780,.35],down:[75,42,.48],warning:[330,220,.1]};
+  const [a,b,duration]=tones[kind]||tones.impact;
+  [a,b].forEach((freq,index)=>{
+   const osc=audioContext.createOscillator(),gain=audioContext.createGain();
+   osc.type=kind==="cheer"?"triangle":"sawtooth";
+   osc.frequency.setValueAtTime(freq,now+index*.025);
+   if(kind==="bell")osc.frequency.exponentialRampToValueAtTime(freq*1.45,now+duration);
+   gain.gain.setValueAtTime(.0001,now+index*.025);
+   gain.gain.exponentialRampToValueAtTime(kind==="cheer"?.045:.075,now+index*.025+.012);
+   gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+   osc.connect(gain);gain.connect(audioContext.destination);
+   osc.start(now+index*.025);osc.stop(now+duration+.03);
+  });
+ }catch(error){}
+}
+
 let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0};
 function opponent(){return opponents[career]}
 function update(){
@@ -38,32 +61,32 @@ function applyBoxer(){
 }
 function finish(win){
  if(!s.active)return;s.active=false;
- if(win){wins++;say(career===opponents.length-1?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — NEXT CHALLENGER UNLOCKED");announce(career===opponents.length-1?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
- else{losses++;say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
+ if(win){wins++;sound("cheer");say(career===opponents.length-1?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — NEXT CHALLENGER UNLOCKED");announce(career===opponents.length-1?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
+ else{losses++;sound("down");say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
  update();
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();
  Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
- player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");update();
+ player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
  if(!s.active)return;
  const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina,damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
- s.st-=cost;s.combo++;anim(player,"punch");anim(player,"punch-"+type);
+ s.st-=cost;s.combo++;anim(player,"punch");anim(player,"punch-"+type);sound(type);
  const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
   const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical*rangeFactor,0,opponent().health);s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
-  say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");
- }else{s.combo=0;say("MISSED — WATCH YOUR TIMING")}
+  say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");sound("impact");
+ }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");sound("miss")}
  update();if(s.rh<=0)finish(true);
 }
 function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);update()}
 function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);update()}
-function dodge(){if(!s.active||s.st<10)return;s.st-=10;s.dodging=true;player.style.transition=".1s";player.style.translate="0 14px";setTimeout(()=>player.style.translate="0 0",300);setTimeout(()=>s.dodging=false,380);update()}
+function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;player.style.transition=".1s";player.style.translate="0 14px";setTimeout(()=>player.style.translate="0 0",300);setTimeout(()=>s.dodging=false,380);update()}
 function guard(on){s.block=on;player.classList.toggle("guard",on)}
 function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(action==="up")moveDepth(1);else if(action==="down")moveDepth(-1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="block")guard(true)}
 document.querySelectorAll("[data-a]").forEach(button=>{
@@ -74,6 +97,7 @@ document.querySelectorAll("[data-a]").forEach(button=>{
 document.querySelectorAll("[data-boxer]").forEach(button=>button.addEventListener("click",()=>{
  boxer=button.dataset.boxer;document.querySelectorAll("[data-boxer]").forEach(b=>b.classList.toggle("selected",b===button));applyBoxer();
 }));
+$("audio-toggle").addEventListener("click",()=>{audioMuted=!audioMuted;$("audio-toggle").textContent=audioMuted?"SOUND OFF":"SOUND ON";if(!audioMuted)sound("bell")});
 $("enter-ring").addEventListener("click",start);$("restart").addEventListener("click",()=>{if(s.active){s.active=false}showSelect()});
 document.addEventListener("keydown",event=>{
  if(event.repeat)return;const key=event.key.toLowerCase();
@@ -88,8 +112,8 @@ setInterval(()=>{
   rival.classList.remove("telegraph");const o=opponent();
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!")}}
   else if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
-  else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER")}
-  else{const distance=clamp(.62+(s.depth+8)*.024,.62,1.1);const evade=clamp(Math.abs(s.x)/64*.16+(s.depth<=-3?.12:0),0,.28);if(Math.random()<evade){say("RIVAL MISSES — COUNTER NOW!");announce("MISS!")}else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance,0,100);s.combo=0;anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}}
+  else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER");sound("block")}
+  else{const distance=clamp(.62+(s.depth+8)*.024,.62,1.1);const evade=clamp(Math.abs(s.x)/64*.16+(s.depth<=-3?.12:0),0,.28);if(Math.random()<evade){say("RIVAL MISSES — COUNTER NOW!");announce("MISS!");sound("miss")}else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance,0,100);s.combo=0;anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");sound("impact");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}}
   s.enemy=o.pace+Math.random()*o.pace;update();if(s.hp<=0){finish(false);return}
  }
  if(s.t===0){finish(s.hp>=s.rh);return}update();
