@@ -43,16 +43,16 @@ function finish(win){
 function start(){
  const o=opponent();hideSelect();applyBoxer();
  Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:29,active:true,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
- player.classList.remove("guard","knockdown");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");update();
+ player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");update();
 }
 function hit(type){
  if(!s.active)return;
  const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina,damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
- s.st-=cost;s.combo++;anim(player,"punch");
+ s.st-=cost;s.combo++;anim(player,"punch");anim(player,"punch-"+type);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy;
  if(Math.random()<Math.min(.98,accuracy)){
-  const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical,0,opponent().health);s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");
+  const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical,0,opponent().health);s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
   say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING")}
@@ -79,9 +79,9 @@ document.addEventListener("keydown",event=>{
 document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
 setInterval(()=>{
  if(!s.active)return;
- s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
+ s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;if(s.enemy<=1&&!s.block&&!s.dodging)rival.classList.add("telegraph");
  if(s.enemy<=0){
-  const o=opponent();
+  rival.classList.remove("telegraph");const o=opponent();
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!")}}
   else if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
   else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER")}
