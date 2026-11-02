@@ -31,7 +31,7 @@ function sound(kind){
  try{
   audioContext=audioContext||new Audio();if(audioContext.state==="suspended")audioContext.resume();
   const now=audioContext.currentTime;
-  const tones={bell:[740,988,.32],jab:[170,95,.11],hook:[115,62,.18],upper:[90,48,.24],impact:[95,52,.16],miss:[260,180,.08],dodge:[420,680,.13],block:[150,230,.12],cheer:[520,780,.35],down:[75,42,.48],warning:[330,220,.1]};
+  const tones={bell:[740,988,.32],star:[880,440,.38],jab:[170,95,.11],hook:[115,62,.18],upper:[90,48,.24],impact:[95,52,.16],miss:[260,180,.08],dodge:[420,680,.13],block:[150,230,.12],cheer:[520,780,.35],down:[75,42,.48],warning:[330,220,.1]};
   const [a,b,duration]=tones[kind]||tones.impact;
   [a,b].forEach((freq,index)=>{
    const osc=audioContext.createOscillator(),gain=audioContext.createGain();
@@ -47,14 +47,14 @@ function sound(kind){
  }catch(error){}
 }
 
-let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0};
+let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0};
 function opponent(){return opponents[career]}
 function update(){
  $("ph").style.width=s.hp+"%";$("rh").style.width=(s.rh/opponent().health*100)+"%";
  $("ps").style.width=s.st+"%";$("rs").style.width=s.rs+"%";
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
- $("record").textContent=wins+"–"+losses;$("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;
+ $("record").textContent=wins+"–"+losses;$("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;const starDisplay=$("star-display");if(starDisplay)starDisplay.textContent="★".repeat(s.stars)+"☆".repeat(3-s.stars);const starButton=document.querySelector('[data-a="star"]');if(starButton)starButton.disabled=s.stars<1||!s.active;
  const range=$("range");if(range)range.textContent=s.depth>=7?"CLOSE":s.depth<=-3?"FAR":"MID";
  player.style.left="calc(50% - var(--fighter-half, 71px) + "+s.x+"px)";player.style.bottom=(8+s.depth*1.15)+"%";
  player.style.transform="scale("+(1+(12-s.depth)*.004).toFixed(3)+")";
@@ -79,7 +79,7 @@ function finish(win){
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0});
  player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
@@ -90,17 +90,18 @@ function hit(type){
  const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
-  const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical*rangeFactor,0,opponent().health);s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
+  const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical*rangeFactor,0,opponent().health);if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
   say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");sound("impact");
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");sound("miss")}
  update();if(s.rh<=0)finish(true);
 }
+function starPunch(){if(!s.active||s.stars<1){say("LAND THREE CLEAN HITS TO EARN A STAR");return}const b=boxers[boxer];s.stars--;s.st-=Math.min(s.st,14/b.stamina);anim(player,"star-punch");sound("star");const rangeFactor=clamp(.82+(s.depth+8)*.012,.82,1.08);const damage=32*b.damage*rangeFactor;s.rh=clamp(s.rh-damage,0,opponent().health);s.rs=clamp(s.rs-9,0,100);s.combo++;anim(rival,"hit");anim(rival,"impact");say("STAR PUNCH! MASSIVE DAMAGE!");announce("★ STAR PUNCH!");update();if(s.rh<=0)finish(true)}
 function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);update()}
 function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);update()}
 function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;player.style.transition=".1s";player.style.translate="0 14px";setTimeout(()=>player.style.translate="0 0",300);setTimeout(()=>s.dodging=false,380);update()}
 function guard(on){s.block=on;player.classList.toggle("guard",on)}
-function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(action==="up")moveDepth(1);else if(action==="down")moveDepth(-1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="block")guard(true)}
+function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(action==="up")moveDepth(1);else if(action==="down")moveDepth(-1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="star")starPunch();else if(action==="block")guard(true)}
 document.querySelectorAll("[data-a]").forEach(button=>{
  const action=button.dataset.a;button.addEventListener("pointerdown",event=>{event.preventDefault();act(action)});
  const release=()=>{if(action==="block")guard(false)};
@@ -115,7 +116,7 @@ document.addEventListener("keydown",event=>{
  if(["arrowleft","arrowright","arrowup","arrowdown"," "].includes(event.key.toLowerCase()))event.preventDefault();
  if(event.repeat)return;const key=event.key.toLowerCase();
  if(key==="arrowleft")move(-1);if(key==="arrowright")move(1);if(key==="arrowup")moveDepth(1);if(key==="arrowdown")moveDepth(-1);if(key==="a")hit("jab");if(key==="s")hit("hook");if(key==="d")hit("upper");
- if(key===" "){event.preventDefault();guard(true)}if(key==="shift")dodge();
+ if(key===" "){event.preventDefault();guard(true)}if(key==="shift")dodge();if(key==="f")starPunch();
 });
 document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
 window.addEventListener("blur",()=>guard(false));
