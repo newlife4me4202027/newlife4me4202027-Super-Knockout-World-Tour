@@ -17,7 +17,8 @@ Open `index.html` in a modern browser. The game also includes touch controls for
 
 ## Prototype features
 - Responsive boxing ring and fighter HUD
-- Pre-fight fighter selection: balanced, speed, and power styles with distinct stats\n- Three punch types with different stamina costs and damage
+- Pre-fight fighter selection: balanced, speed, and power styles with distinct stats
+- Three punch types with different stamina costs and damage
 - Guarding, dodging, and opponent counterattacks
 - Health, stamina, match timer, and win/loss record
 - Saved boxer selection, tournament progress, and career record between sessions
