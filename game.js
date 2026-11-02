@@ -21,7 +21,7 @@ function update(){
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
  $("record").textContent=wins+"–"+losses;$("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;
- player.style.left="calc(50% - 71px + "+s.x+"px)";player.style.bottom=(8+s.depth*1.15)+"%";
+ player.style.left="calc(50% - var(--fighter-half, 71px) + "+s.x+"px)";player.style.bottom=(8+s.depth*1.15)+"%";
  const label=document.querySelector(".rival b");if(label)label.textContent="RIVAL · "+opponent().name;
  const round=document.querySelector(".clock small");if(round)round.textContent="TOUR FIGHT 0"+(career+1);
 }
