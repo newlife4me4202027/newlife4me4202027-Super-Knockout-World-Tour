@@ -2,10 +2,10 @@
 const $=id=>document.getElementById(id),player=$("you"),rival=$("foe");
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const opponents=[
-{name:"IRON MAKO",health:100,pace:2,damage:9},
-{name:"VICIOUS VELVET",health:115,pace:1.7,damage:11},
-{name:"BRUISER NOVA",health:130,pace:1.4,damage:13},
-{name:"THE WORLD CHAMPION",health:150,pace:1.15,damage:15}
+{name:"IRON MAKO",health:100,pace:2,damage:9,style:"pressure"},
+{name:"VICIOUS VELVET",health:115,pace:1.7,damage:11,style:"counter"},
+{name:"BRUISER NOVA",health:130,pace:1.4,damage:13,style:"power"},
+{name:"THE WORLD CHAMPION",health:150,pace:1.15,damage:15,style:"champion"}
 ];
 const boxers={
 balanced:{name:"THE TECHNICIAN",damage:1,accuracy:1,stamina:1,skin:"#a86c4d",short:"#236fc5",glove:"#e74343"},
@@ -47,7 +47,7 @@ function sound(kind){
  }catch(error){}
 }
 
-let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0};
+let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0};
 function opponent(){return opponents[career]}
 function update(){
  $("ph").style.width=s.hp+"%";$("rh").style.width=(s.rh/opponent().health*100)+"%";
@@ -79,7 +79,7 @@ function finish(win){
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0});
  player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
@@ -121,14 +121,31 @@ document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
 window.addEventListener("blur",()=>guard(false));
 setInterval(()=>{
  if(!s.active)return;
- s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;if(s.enemy<=1&&!s.block&&!s.dodging)rival.classList.add("telegraph");
+ s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
+ const o=opponent();
+ if(s.enemy<=1&&!rival.classList.contains("telegraph")){
+  const moves=o.style==="power"?["hook","upper","hook"]:o.style==="counter"?["jab","hook","counter"]:o.style==="champion"?["jab","hook","upper","counter"]:["jab","jab","hook"];
+  s.enemyMove=moves[Math.floor(Math.random()*moves.length)];
+  rival.classList.add("telegraph");
+  say(s.enemyMove==="upper"?"RIVAL LOADS AN UPPERCUT!":s.enemyMove==="hook"?"RIVAL WINDING UP A HOOK!":s.enemyMove==="counter"?"RIVAL IS WAITING FOR YOUR PUNCH!":"RIVAL PREPARING A JAB!");
+  sound("warning");
+ }
  if(s.enemy<=0){
-  rival.classList.remove("telegraph");const o=opponent();
+  rival.classList.remove("telegraph");
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!")}}
   else if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
-  else if(s.block){s.hp=clamp(s.hp-4,0,100);say("GUARD BLOCKED THE COUNTER");sound("block")}
-  else{const distance=clamp(.62+(s.depth+8)*.024,.62,1.1);const evade=clamp(Math.abs(s.x)/64*.16+(s.depth<=-3?.12:0),0,.28);if(Math.random()<evade){say("RIVAL MISSES — COUNTER NOW!");announce("MISS!");sound("miss")}else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance,0,100);s.combo=0;anim(player,"hit");say(o.name+" COUNTERED — DEFEND!");sound("impact");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}}
-  s.enemy=o.pace+Math.random()*o.pace;update();if(s.hp<=0){finish(false);return}
+  else if(s.block){
+   const blockedDamage=s.enemyMove==="upper"?9:s.enemyMove==="hook"?7:4;
+   s.hp=clamp(s.hp-blockedDamage,0,100);say("GUARD ABSORBS THE "+s.enemyMove.toUpperCase());sound("block");
+  }else{
+   const distance=clamp(.62+(s.depth+8)*.024,.62,1.1);
+   const evade=clamp(Math.abs(s.x)/64*.16+(s.depth<=-3?.12:0),0,.28);
+   const moveDamage=s.enemyMove==="upper"?1.55:s.enemyMove==="hook"?1.25:s.enemyMove==="counter"?1.35:1;
+   const counterMiss=o.style==="counter"&&s.combo>0?.12:0;
+   if(Math.random()<Math.min(.45,evade+counterMiss)){say("RIVAL MISSES — COUNTER NOW!");announce("MISS!");sound("miss")}
+   else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance*moveDamage,0,100);s.combo=0;anim(player,"hit");say(o.name+" LANDS A "+s.enemyMove.toUpperCase()+"!");sound("impact");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}
+  }
+  s.enemy=o.pace+Math.random()*o.pace;s.enemyMove="jab";update();if(s.hp<=0){finish(false);return}
  }
  if(s.t===0){finish(s.hp>=s.rh);return}update();
 },1000);
