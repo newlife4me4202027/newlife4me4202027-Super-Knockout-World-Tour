@@ -72,3 +72,33 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
  .ropes{top:39%;box-shadow:0 38px #f7f8fc,0 76px #e8edf5,0 0 13px #fff9,0 38px 13px #fff8,0 76px 13px #fff7}
  .controls{display:block}.movement,.attacks{justify-content:center;margin-bottom:8px}
 }
+
+
+/* FIGHTER DETAIL + COMBAT READABILITY PASS */
+.fighter{isolation:isolate}
+.fighter:before{content:"";position:absolute;z-index:-1;left:12px;right:8px;bottom:-5px;height:17px;border-radius:50%;background:#080d18a8;filter:blur(7px)}
+.head{z-index:2}
+.head:before{z-index:3}
+.torso{z-index:1}
+.shorts{z-index:2}
+.arm{z-index:2}
+.glove{z-index:4}
+.leg{z-index:1}
+.shorts:after{content:"★";position:absolute;left:50%;top:12px;translate:-50% 0;color:#fff1c8;font-size:15px;text-shadow:0 1px 3px #0008}
+.glove:after{content:"";position:absolute;left:7px;right:7px;top:5px;height:3px;border-radius:4px;background:#fff9;box-shadow:0 6px #ffffff55}
+.leg:after{content:"";position:absolute;left:-3px;right:-4px;bottom:-2px;height:13px;border-radius:5px 7px 3px 3px;background:linear-gradient(180deg,#f3eee2,#9da9bb 70%,#283246);box-shadow:0 3px 4px #0008}
+.you{animation:corner-breathe 2.8s ease-in-out infinite}
+.foe{animation:corner-breathe 2.5s ease-in-out infinite}
+.fighter.punch,.fighter.hit,.fighter.knockdown{animation-play-state:running}
+.fighter.telegraph{filter:drop-shadow(0 0 13px #ff4d4d) drop-shadow(0 12px 9px #101522aa)}
+.fighter.telegraph .glove{animation:glove-warning .28s ease-in-out infinite alternate}
+.fighter.impact{filter:brightness(1.8) drop-shadow(0 0 20px #fff)}
+.fighter.punch-jab{animation:jab-strike .2s ease-out}
+.fighter.punch-hook{animation:hook-strike .26s ease-out}
+.fighter.punch-upper{animation:upper-strike .3s ease-out}
+@keyframes corner-breathe{0%,100%{translate:0 0}50%{translate:0 -3px}}
+@keyframes glove-warning{to{filter:brightness(1.8);translate:-5px -4px}}
+@keyframes jab-strike{50%{translate:38px -2px;rotate:-3deg}}
+@keyframes hook-strike{35%{translate:24px -8px;rotate:-13deg}70%{translate:34px 0;rotate:-5deg}}
+@keyframes upper-strike{45%{translate:25px -22px;rotate:-9deg}75%{translate:34px -10px;rotate:-4deg}}
+@media(prefers-reduced-motion:reduce){.you,.foe,.fighter.telegraph .glove{animation:none!important}.fighter{transition:none!important}}
