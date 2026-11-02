@@ -20,7 +20,7 @@ Open `index.html` in a modern browser. The game also includes touch controls for
 - Responsive boxing ring and fighter HUD
 - Pre-fight fighter selection: balanced, speed, and power styles with distinct stats
 - Three standard punch types with different stamina costs and damage
-- Star Punch special attack: build stars with clean hit streaks, then unleash a high-damage power punch
+- Star Punch special attack: build stars with clean hit streaks, then unleash a high-damage power punch with a cinematic flash, ring shake, and rival interruption
 - Guarding, dodging, and opponent counterattacks
 - Four rival AI styles with visible jab, hook, uppercut, and counter telegraphs
 - Health, stamina, match timer, and win/loss record
