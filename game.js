@@ -15,7 +15,7 @@ function update(){
  $("ps").style.width=s.st+"%";$("rs").style.width=s.rs+"%";
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
- $("record").textContent=wins+"–"+losses;
+ $("record").textContent=wins+"–"+losses;\n $("kds").textContent=s.rivalDowns;
  player.style.left=s.x+"%";
  const label=document.querySelector(".rival b");
  if(label)label.textContent="RIVAL · "+opponent().name;
