@@ -80,6 +80,7 @@ function applyBoxer(){
 }
 function finish(win){
  if(!s.active)return;s.active=false;
+ const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
  if(win){wins++;sound("cheer");say(career===opponents.length-1?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — NEXT CHALLENGER UNLOCKED");announce(career===opponents.length-1?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
  else{losses++;sound("down");say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
  saveCareer();
