@@ -140,3 +140,31 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 
 /* STAR PUNCH CINEMATIC IMPACT */
 #star-flash{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 52%,#fff9 0 3%,#ffe36a88 8%,transparent 29%),repeating-conic-gradient(from 0deg at 50% 52%,#fff0 0deg 9deg,#ffe27b99 10deg 11deg,#fff0 12deg 20deg)}.arena.star-impact{animation:ring-shake .42s cubic-bezier(.36,.07,.19,.97)}.arena.star-impact #star-flash{animation:star-flash-burst .48s ease-out}@keyframes star-flash-burst{0%{opacity:0;scale:.25}18%{opacity:1;scale:1.2}55%{opacity:.8;scale:1.45}100%{opacity:0;scale:1.8}}@keyframes ring-shake{0%,100%{translate:0 0}20%{translate:-7px 2px}40%{translate:7px -2px}60%{translate:-4px 1px}80%{translate:3px 0}}@media(prefers-reduced-motion:reduce){.arena.star-impact{animation:none}#star-flash{display:none}}
+
+
+/* FOOTWORK AND GLOVE-LED PUNCH ANIMATION PASS */
+.fighter .arm,.fighter .glove{transition:filter .12s ease}
+.you .arm.a,.you .arm.b{transform-origin:top center}
+.you.punch-jab .arm.b{animation:player-jab-arm .22s ease-out}
+.you.punch-jab .glove.d{animation:player-jab-glove .22s ease-out}
+.you.punch-hook .arm.a{animation:player-hook-arm .28s ease-out}
+.you.punch-hook .glove.c{animation:player-hook-glove .28s ease-out}
+.you.punch-upper .arm.b{animation:player-upper-arm .3s ease-out}
+.you.punch-upper .glove.d{animation:player-upper-glove .3s ease-out}
+.foe.telegraph .arm.a,.foe.telegraph .arm.b{animation:rival-load .35s ease-in-out infinite alternate}
+.foe.hit .head{filter:brightness(1.6)}
+.you.step-in .leg.e{animation:step-leg .24s ease-out}
+.you.step-out .leg.f{animation:step-leg .24s ease-out reverse}
+.you.dodge-step{animation:player-weave .34s ease-out}
+.you.dodge-step .arm.a,.you.dodge-step .arm.b{animation:weave-guard .34s ease-out}
+@keyframes player-jab-arm{45%{transform:rotate(-48deg) translateY(-7px)}100%{transform:rotate(24deg)}}
+@keyframes player-jab-glove{45%{translate:8px -43px;scale:1.13}100%{translate:0 0}}
+@keyframes player-hook-arm{35%{transform:rotate(75deg) translateY(5px)}70%{transform:rotate(48deg)}100%{transform:rotate(25deg)}}
+@keyframes player-hook-glove{40%{translate:-26px -20px;scale:1.18}75%{translate:8px -8px}100%{translate:0 0}}
+@keyframes player-upper-arm{45%{transform:rotate(-72deg) translateY(-8px)}100%{transform:rotate(-25deg)}}
+@keyframes player-upper-glove{45%{translate:4px -53px;scale:1.2}100%{translate:0 0}}
+@keyframes rival-load{to{transform:rotate(-48deg) translate(-4px,7px)}}
+@keyframes step-leg{45%{translate:0 -7px;rotate:5deg}100%{translate:0 0}}
+@keyframes player-weave{35%{translate:-27px 10px;rotate:-7deg}70%{translate:20px 2px;rotate:5deg}100%{translate:0 0;rotate:0}}
+@keyframes weave-guard{50%{transform:rotate(-50deg) translateY(-9px)}}
+@media(prefers-reduced-motion:reduce){.you.dodge-step,.you.step-in,.you.step-out,.you.punch-jab .arm,.you.punch-jab .glove,.you.punch-hook .arm,.you.punch-hook .glove,.you.punch-upper .arm,.you.punch-upper .glove,.foe.telegraph .arm{animation:none!important}}
