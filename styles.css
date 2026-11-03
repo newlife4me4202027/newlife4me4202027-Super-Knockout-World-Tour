@@ -188,3 +188,8 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes foe-upper-glove{45%{translate:4px 52px;scale:1.2}100%{translate:0 0}}
 @keyframes foe-body-lunge{0%,100%{translate:0 0}45%{translate:0 13px}75%{translate:0 5px}}
 @media(prefers-reduced-motion:reduce){.foe.rival-strike,.foe.rival-strike .arm,.foe.rival-strike .glove{animation:none!important}}
+
+/* KNOCKOUT FLASH */
+.arena.ko-flash:after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;background:radial-gradient(circle at 50% 48%,#fff 0,#ffe58a99 12%,transparent 48%);animation:ko-burst .72s ease-out forwards}
+@keyframes ko-burst{0%{opacity:0;scale:.35}18%{opacity:1;scale:1}100%{opacity:0;scale:1.6}}
+@media(prefers-reduced-motion:reduce){.arena.ko-flash:after{animation:none!important}}
