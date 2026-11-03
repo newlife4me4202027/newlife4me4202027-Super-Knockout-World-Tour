@@ -168,3 +168,23 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes player-weave{35%{translate:-27px 10px;rotate:-7deg}70%{translate:20px 2px;rotate:5deg}100%{translate:0 0;rotate:0}}
 @keyframes weave-guard{50%{transform:rotate(-50deg) translateY(-9px)}}
 @media(prefers-reduced-motion:reduce){.you.dodge-step,.you.step-in,.you.step-out,.you.punch-jab .arm,.you.punch-jab .glove,.you.punch-hook .arm,.you.punch-hook .glove,.you.punch-upper .arm,.you.punch-upper .glove,.foe.telegraph .arm{animation:none!important}}
+
+
+/* RIVAL ATTACKS: TELEGRAPH INTO VISIBLE STRIKE */
+.foe.rival-strike{filter:brightness(1.12) drop-shadow(0 0 12px #ffb65b) drop-shadow(0 9px 8px #101522aa)}
+.foe.rival-strike-jab .arm.b{animation:foe-jab-arm .3s ease-out}
+.foe.rival-strike-jab .glove.d{animation:foe-jab-glove .3s ease-out}
+.foe.rival-strike-hook .arm.a{animation:foe-hook-arm .34s ease-out}
+.foe.rival-strike-hook .glove.c{animation:foe-hook-glove .34s ease-out}
+.foe.rival-strike-upper .arm.b{animation:foe-upper-arm .36s ease-out}
+.foe.rival-strike-upper .glove.d{animation:foe-upper-glove .36s ease-out}
+.foe.rival-strike{animation:foe-body-lunge .32s ease-out}
+.foe.rival-strike-counter .arm.a{animation:foe-hook-arm .34s ease-out}
+@keyframes foe-jab-arm{45%{transform:rotate(68deg) translateY(7px)}100%{transform:rotate(-24deg)}}
+@keyframes foe-jab-glove{45%{translate:8px 42px;scale:1.16}100%{translate:0 0}}
+@keyframes foe-hook-arm{35%{transform:rotate(-78deg) translateY(5px)}70%{transform:rotate(-48deg)}100%{transform:rotate(24deg)}}
+@keyframes foe-hook-glove{40%{translate:-25px 20px;scale:1.18}75%{translate:8px 8px}100%{translate:0 0}}
+@keyframes foe-upper-arm{45%{transform:rotate(72deg) translateY(8px)}100%{transform:rotate(-24deg)}}
+@keyframes foe-upper-glove{45%{translate:4px 52px;scale:1.2}100%{translate:0 0}}
+@keyframes foe-body-lunge{0%,100%{translate:0 0}45%{translate:0 13px}75%{translate:0 5px}}
+@media(prefers-reduced-motion:reduce){.foe.rival-strike,.foe.rival-strike .arm,.foe.rival-strike .glove{animation:none!important}}
