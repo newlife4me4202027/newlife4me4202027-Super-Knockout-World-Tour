@@ -66,6 +66,13 @@ function down(el){sound("down");el.classList.add("knockdown");setTimeout(()=>el.
 function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1100)}
 function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),cls==="star-punch"?560:cls.startsWith("punch-")?340:300)}
 function stepMotion(direction){player.classList.remove("step-in","step-out");void player.offsetWidth;player.classList.add(direction>0?"step-in":"step-out");setTimeout(()=>player.classList.remove("step-in","step-out"),260)}
+function rivalStrike(type){
+ const move=type==="counter"?"hook":type;
+ rival.classList.remove("rival-strike","rival-strike-"+move);
+ void rival.offsetWidth;
+ rival.classList.add("rival-strike","rival-strike-"+move);
+ setTimeout(()=>rival.classList.remove("rival-strike","rival-strike-"+move),430);
+}
 function showSelect(){$("select-screen").classList.remove("hidden")}
 function hideSelect(){$("select-screen").classList.add("hidden")}
 function applyBoxer(){
