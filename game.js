@@ -141,6 +141,7 @@ setInterval(()=>{
  }
  if(s.enemy<=0){
   rival.classList.remove("telegraph");
+  if(s.downTimer<=0)rivalStrike(s.enemyMove);
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!")}}
   else if(s.dodging){say("PERFECT DODGE — COUNTER WINDOW!");s.st=clamp(s.st+7,0,100);s.combo++;s.enemyMove="jab";announce("PERFECT DODGE!") }
   else if(s.block){
