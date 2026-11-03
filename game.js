@@ -64,7 +64,8 @@ function update(){
 function say(message){$("status").textContent=message}
 function down(el){sound("down");el.classList.add("knockdown");setTimeout(()=>el.classList.remove("knockdown"),1800)}
 function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1100)}
-function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),cls==="star-punch"?560:300)}
+function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),cls==="star-punch"?560:cls.startsWith("punch-")?340:300)}
+function stepMotion(direction){player.classList.remove("step-in","step-out");void player.offsetWidth;player.classList.add(direction>0?"step-in":"step-out");setTimeout(()=>player.classList.remove("step-in","step-out"),260)}
 function showSelect(){$("select-screen").classList.remove("hidden")}
 function hideSelect(){$("select-screen").classList.add("hidden")}
 function applyBoxer(){
@@ -97,9 +98,9 @@ function hit(type){
  update();if(s.rh<=0)finish(true);
 }
 function starPunch(){if(!s.active||s.stars<1){say("LAND THREE CLEAN HITS TO EARN A STAR");return}const b=boxers[boxer];s.stars--;s.st-=Math.min(s.st,14/b.stamina);anim(player,"star-punch");sound("star");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("star-impact");void arena.offsetWidth;arena.classList.add("star-impact");setTimeout(()=>arena.classList.remove("star-impact"),520)}const rangeFactor=clamp(.82+(s.depth+8)*.012,.82,1.08);const damage=32*b.damage*rangeFactor;s.rh=clamp(s.rh-damage,0,opponent().health);s.rs=clamp(s.rs-9,0,100);s.combo++;s.enemy=Math.max(s.enemy,2.5);rival.classList.remove("telegraph");anim(rival,"hit");anim(rival,"impact");say("STAR PUNCH! MASSIVE DAMAGE!");announce("★ STAR PUNCH!");update();if(s.rh<=0)finish(true)}
-function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);update()}
-function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);update()}
-function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;player.style.transition=".1s";player.style.translate="0 14px";setTimeout(()=>player.style.translate="0 0",300);setTimeout(()=>s.dodging=false,380);update()}
+function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);stepMotion(direction);update()}
+function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);stepMotion(direction);update()}
+function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;const timed=rival.classList.contains("telegraph");player.classList.remove("dodge-step");void player.offsetWidth;player.classList.add("dodge-step");setTimeout(()=>player.classList.remove("dodge-step"),timed?760:360);setTimeout(()=>s.dodging=false,timed?1250:380);update()}
 function guard(on){s.block=on;player.classList.toggle("guard",on)}
 function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(action==="up")moveDepth(1);else if(action==="down")moveDepth(-1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="star")starPunch();else if(action==="block")guard(true)}
 document.querySelectorAll("[data-a]").forEach(button=>{
@@ -134,7 +135,7 @@ setInterval(()=>{
  if(s.enemy<=0){
   rival.classList.remove("telegraph");
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!")}}
-  else if(s.dodging){say("PERFECT DODGE!");s.st=clamp(s.st+4,0,100)}
+  else if(s.dodging){say("PERFECT DODGE — COUNTER WINDOW!");s.st=clamp(s.st+7,0,100);s.combo++;s.enemyMove="jab";announce("PERFECT DODGE!") }
   else if(s.block){
    const blockedDamage=s.enemyMove==="upper"?9:s.enemyMove==="hook"?7:4;
    s.hp=clamp(s.hp-blockedDamage,0,100);say("GUARD ABSORBS THE "+s.enemyMove.toUpperCase());sound("block");
