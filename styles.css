@@ -193,3 +193,23 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .arena.ko-flash:after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;background:radial-gradient(circle at 50% 48%,#fff 0,#ffe58a99 12%,transparent 48%);animation:ko-burst .72s ease-out forwards}
 @keyframes ko-burst{0%{opacity:0;scale:.35}18%{opacity:1;scale:1}100%{opacity:0;scale:1.6}}
 @media(prefers-reduced-motion:reduce){.arena.ko-flash:after{animation:none!important}}
+
+
+/* RIVAL PERSONALITY VISUAL IDENTITIES */
+.foe.style-pressure{--glove:#e23a36;filter:drop-shadow(0 0 10px #e23a3666) drop-shadow(0 12px 9px #101522aa)}
+.foe.style-counter{--glove:#a76cff;filter:drop-shadow(0 0 12px #a76cff88) drop-shadow(0 12px 9px #101522aa)}
+.foe.style-power{--glove:#f39a32;filter:drop-shadow(0 0 12px #f39a3277) drop-shadow(0 12px 9px #101522aa)}
+.foe.style-champion{--glove:#f3d36c;filter:drop-shadow(0 0 15px #f3d36c99) drop-shadow(0 12px 9px #101522aa)}
+.foe.style-pressure .shorts{background:linear-gradient(110deg,#551b26,#c52f3d 55%,#f06a50)}
+.foe.style-counter .shorts{background:linear-gradient(110deg,#38205f,#8152c6 55%,#c18aff)}
+.foe.style-power .shorts{background:linear-gradient(110deg,#65300f,#c66b22 55%,#f2b24e)}
+.foe.style-champion .shorts{background:linear-gradient(110deg,#6b5017,#d7ad43 55%,#fff0a1)}
+.foe.style-pressure.telegraph{animation:mako-pressure .34s ease-in-out infinite alternate}
+.foe.style-counter.telegraph{animation:velvet-feint .48s ease-in-out infinite alternate}
+.foe.style-power.telegraph{animation:nova-load .62s ease-in-out infinite alternate}
+.foe.style-champion.telegraph{animation:champion-focus .5s ease-in-out infinite alternate}
+@keyframes mako-pressure{to{translate:0 5px;filter:brightness(1.25) drop-shadow(0 0 16px #ed3737)}}
+@keyframes velvet-feint{to{translate:-9px -3px;filter:brightness(1.35) drop-shadow(0 0 18px #b57aff)}}
+@keyframes nova-load{to{scale:1.07;filter:brightness(1.2) drop-shadow(0 0 18px #ff9b35)}}
+@keyframes champion-focus{to{filter:brightness(1.45) drop-shadow(0 0 22px #ffe28a)}}
+@media(prefers-reduced-motion:reduce){.foe.style-pressure.telegraph,.foe.style-counter.telegraph,.foe.style-power.telegraph,.foe.style-champion.telegraph{animation:none}}
