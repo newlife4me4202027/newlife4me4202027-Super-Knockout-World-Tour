@@ -95,8 +95,10 @@ function hit(type){
  if(!s.active)return;
  const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina,damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
- s.st-=cost;s.combo++;anim(player,"punch");anim(player,"punch-"+type);sound(type);
- const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
+ s.st-=cost;anim(player,"punch");anim(player,"punch-"+type);sound(type);
+ const slipChance=opponent().style==="counter"?.2:opponent().style==="champion"?.12:0;
+ if(s.combo>=2&&Math.random()<slipChance){s.combo=0;s.enemy=Math.min(s.enemy,.8);say(opponent().name+" SLIPS THE REPEATED ATTACK!");announce("PUNCH MISSED!");sound("miss");update();return}
+ s.combo++;const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
   const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical*rangeFactor,0,opponent().health);if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
@@ -156,7 +158,8 @@ setInterval(()=>{
    if(Math.random()<Math.min(.45,evade+counterMiss)){say("RIVAL MISSES — COUNTER NOW!");announce("MISS!");sound("miss")}
    else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance*moveDamage,0,100);s.combo=0;anim(player,"hit");say(o.name+" LANDS A "+s.enemyMove.toUpperCase()+"!");sound("impact");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}
   }
-  s.enemy=o.pace+Math.random()*o.pace;s.enemyMove="jab";update();if(s.hp<=0){finish(false);return}
+  const recovery=o.style==="pressure"?.78:o.style==="counter"?1.18:o.style==="power"?1.3:o.style==="champion"?(Math.random()<.25?.72:1.05):1;
+  s.enemy=(o.pace+Math.random()*o.pace)*recovery;s.enemyMove="jab";update();if(s.hp<=0){finish(false);return}
  }
  if(s.t===0){finish(s.hp>=s.rh);return}update();
 },1000);
