@@ -94,7 +94,7 @@ function crowdReact(big=false){const arena=document.querySelector(".arena");if(!
 function finish(win){
  if(!s.active)return;s.active=false;
  const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
- if(win){wins++;sound("cheer");crowdReact(true);rival.classList.add("final-knockout");setTimeout(()=>rival.classList.remove("final-knockout"),1700);const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
+ if(win){wins++;sound("cheer");crowdReact(true);const rivalStyle=opponents[career].style,celebration="celebrate-"+boxer;rival.classList.add("final-knockout","ko-"+rivalStyle);player.classList.add("victory-celebrate",celebration);setTimeout(()=>{rival.classList.remove("final-knockout","ko-pressure","ko-counter","ko-power","ko-champion");player.classList.remove("victory-celebrate",celebration)},1900);const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
  else{losses++;sound("down");crowdReact();say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
  saveCareer();
  update();
@@ -102,7 +102,7 @@ function finish(win){
 function start(){
  const o=opponent();hideSelect();applyBoxer();
  Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,dialogueStage:0,hurtStage:0});
- player.classList.remove("guard","knockdown","counter-ready");rival.classList.remove("telegraph","impact","final-knockout");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
+ player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
  if(!s.active)return;
