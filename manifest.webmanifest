@@ -1,0 +1,10 @@
+{
+  "name": "Super Knockout: World Tour",
+  "short_name": "Super Knockout",
+  "description": "Mobile-first arcade boxing championship.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#10131b",
+  "theme_color": "#10131b"
+}
