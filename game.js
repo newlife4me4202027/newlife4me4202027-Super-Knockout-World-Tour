@@ -2,15 +2,15 @@
 const $=id=>document.getElementById(id),player=$("you"),rival=$("foe");
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const opponents=[
-{name:"IRON MAKO",health:100,skin:"#7a4932",short:"#1c477b",glove:"#d83c46",pace:2,damage:9,style:"pressure",intro:"IRON MAKO: “I don't chase victories. I run straight through them.”"},,taunt:"IRON MAKO: “I’m going to walk straight through you.”",hurt:"IRON MAKO: “That one actually stung!”"
-{name:"VICIOUS VELVET",health:112,skin:"#a66c4b",short:"#315c6c",glove:"#e3b936",pace:1.75,damage:10,style:"counter",intro:"VICIOUS VELVET: “Every punch tells me what you'll do next.”"},,taunt:"VICIOUS VELVET: “Go on. Show me your next mistake.”",hurt:"VICIOUS VELVET: “Clever shot. Don’t expect another.”"
-{name:"BRUISER NOVA",health:124,skin:"#6e4536",short:"#652c39",glove:"#c36b2c",pace:1.48,damage:12,style:"power",intro:"BRUISER NOVA: “One clean hit. That's all I need.”"},,taunt:"BRUISER NOVA: “I only need one opening.”",hurt:"BRUISER NOVA: “You hit hard. I hit harder.”"
-{name:"DUKE DYNAMITE",health:132,skin:"#bd805e",short:"#253f70",glove:"#b7c9e8",pace:1.62,damage:11,style:"pressure",intro:"DUKE DYNAMITE: “The crowd came for fireworks. Let's give them a show.”"},,taunt:"DUKE DYNAMITE: “Everybody loves a big entrance!”",hurt:"DUKE DYNAMITE: “Now that’s a plot twist!”"
-{name:"EL TORO ROJO",health:140,skin:"#965b3f",short:"#9a252b",glove:"#f2c64a",pace:1.36,damage:13,style:"power",intro:"EL TORO ROJO: “Stand your ground. I dare you.”"},,taunt:"EL TORO ROJO: “The bull is coming. Hold your ground!”",hurt:"EL TORO ROJO: “You have courage. I respect that.”"
-{name:"MIDNIGHT JACKAL",health:146,skin:"#77503e",short:"#202b43",glove:"#8b69c7",pace:1.22,damage:12,style:"counter",intro:"MIDNIGHT JACKAL: “You won't see the punch that ends this.”"},,taunt:"MIDNIGHT JACKAL: “The dark always finds a way in.”",hurt:"MIDNIGHT JACKAL: “You found me. Interesting.”"
-{name:"QUEEN COBRA",health:154,skin:"#c58d6a",short:"#2e6b52",glove:"#d0d6dc",pace:1.32,damage:13,style:"counter",intro:"QUEEN COBRA: “Fast hands. Cold eyes. No second chances.”"},,taunt:"QUEEN COBRA: “One wrong move. That’s all I need.”",hurt:"QUEEN COBRA: “A sharp strike. I’ll remember it.”"
-{name:"ATLAS PRIME",health:170,skin:"#75462f",short:"#242d3e",glove:"#d8a93d",pace:1.18,damage:15,style:"champion",intro:"ATLAS PRIME: “This ring is my kingdom. Come take it.”"},taunt:"ATLAS PRIME: “You stand before a champion. Prove you belong.”",hurt:"ATLAS PRIME: “At last. A worthy challenger.”"
-];
+{name:"IRON MAKO",health:100,skin:"#7a4932",short:"#1c477b",glove:"#d83c46",pace:2,damage:9,style:"pressure",intro:"IRON MAKO: “I don't chase victories. I run straight through them.”",taunt:"IRON MAKO: “I’m going to walk straight through you.”",hurt:"IRON MAKO: “That one actually stung!”"},
+{name:"VICIOUS VELVET",health:112,skin:"#a66c4b",short:"#315c6c",glove:"#e3b936",pace:1.75,damage:10,style:"counter",intro:"VICIOUS VELVET: “Every punch tells me what you'll do next.”",taunt:"VICIOUS VELVET: “Go on. Show me your next mistake.”",hurt:"VICIOUS VELVET: “Clever shot. Don’t expect another.”"},
+{name:"BRUISER NOVA",health:124,skin:"#6e4536",short:"#652c39",glove:"#c36b2c",pace:1.48,damage:12,style:"power",intro:"BRUISER NOVA: “One clean hit. That's all I need.”",taunt:"BRUISER NOVA: “I only need one opening.”",hurt:"BRUISER NOVA: “You hit hard. I hit harder.”"},
+{name:"DUKE DYNAMITE",health:132,skin:"#bd805e",short:"#253f70",glove:"#b7c9e8",pace:1.62,damage:11,style:"pressure",intro:"DUKE DYNAMITE: “The crowd came for fireworks. Let's give them a show.”",taunt:"DUKE DYNAMITE: “Everybody loves a big entrance!”",hurt:"DUKE DYNAMITE: “Now that’s a plot twist!”"},
+{name:"EL TORO ROJO",health:140,skin:"#965b3f",short:"#9a252b",glove:"#f2c64a",pace:1.36,damage:13,style:"power",intro:"EL TORO ROJO: “Stand your ground. I dare you.”",taunt:"EL TORO ROJO: “The bull is coming. Hold your ground!”",hurt:"EL TORO ROJO: “You have courage. I respect that.”"},
+{name:"MIDNIGHT JACKAL",health:146,skin:"#77503e",short:"#202b43",glove:"#8b69c7",pace:1.22,damage:12,style:"counter",intro:"MIDNIGHT JACKAL: “You won't see the punch that ends this.”",taunt:"MIDNIGHT JACKAL: “The dark always finds a way in.”",hurt:"MIDNIGHT JACKAL: “You found me. Interesting.”"},
+{name:"QUEEN COBRA",health:154,skin:"#c58d6a",short:"#2e6b52",glove:"#d0d6dc",pace:1.32,damage:13,style:"counter",intro:"QUEEN COBRA: “Fast hands. Cold eyes. No second chances.”",taunt:"QUEEN COBRA: “One wrong move. That’s all I need.”",hurt:"QUEEN COBRA: “A sharp strike. I’ll remember it.”"},
+{name:"ATLAS PRIME",health:170,skin:"#75462f",short:"#242d3e",glove:"#d8a93d",pace:1.18,damage:15,style:"champion",intro:"ATLAS PRIME: “This ring is my kingdom. Come take it.”",taunt:"ATLAS PRIME: “You stand before a champion. Prove you belong.”",hurt:"ATLAS PRIME: “At last. A worthy challenger.”"}
+];;
 const boxers={
 balanced:{name:"THE TECHNICIAN",damage:1,accuracy:1,stamina:1,skin:"#a86c4d",short:"#236fc5",glove:"#e74343",emoji:"🥊",tag:"ALL-ROUND"},
 speed:{name:"FLASH FURY",damage:.88,accuracy:1.12,stamina:1.2,skin:"#bd8059",short:"#168c83",glove:"#f1c644",emoji:"⚡",tag:"SPEED"},
@@ -115,9 +115,9 @@ function hit(type){
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
   const critical=Math.random()<.16?1.7:1,counterBoost=s.counterWindow>0?1.5:1;s.rh=clamp(s.rh-damage*critical*rangeFactor*counterBoost,0,opponent().health);if(counterBoost>1){s.counterWindow=0;player.classList.remove("counter-ready");}if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
-  const damageRatio=s.rh/opponent().health;if(s.hurtStage===0&&damageRatio<.7){s.hurtStage=1;say(opponent().hurt)}else if(s.hurtStage===1&&damageRatio<.35){s.hurtStage=2;say(opponent().hurt+" — NOW I’M MAD!");}
+  const damageRatio=s.rh/opponent().health;let rivalResponse="";if(s.hurtStage===0&&damageRatio<.7){s.hurtStage=1;rivalResponse=opponent().hurt}else if(s.hurtStage===1&&damageRatio<.35){s.hurtStage=2;rivalResponse=opponent().hurt+" — NOW I’M MAD!";}
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
-  say(counterBoost>1?"DODGE COUNTER! 50% BONUS DAMAGE!":critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");sound("impact");
+  say(rivalResponse||(counterBoost>1?"DODGE COUNTER! 50% BONUS DAMAGE!":critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!"));sound("impact");
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");sound("miss")}
  update();if(s.rh<=0)finish(true);
 }
