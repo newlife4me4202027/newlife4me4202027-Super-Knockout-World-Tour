@@ -2,14 +2,14 @@
 const $=id=>document.getElementById(id),player=$("you"),rival=$("foe");
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const opponents=[
-{name:"IRON MAKO",health:100,pace:2,damage:9,style:"pressure",intro:"IRON MAKO: “I don't chase victories. I run straight through them.”"},
-{name:"VICIOUS VELVET",health:112,pace:1.75,damage:10,style:"counter",intro:"VICIOUS VELVET: “Every punch tells me what you'll do next.”"},
-{name:"BRUISER NOVA",health:124,pace:1.48,damage:12,style:"power",intro:"BRUISER NOVA: “One clean hit. That's all I need.”"},
-{name:"DUKE DYNAMITE",health:132,pace:1.62,damage:11,style:"pressure",intro:"DUKE DYNAMITE: “The crowd came for fireworks. Let's give them a show.”"},
-{name:"EL TORO ROJO",health:140,pace:1.36,damage:13,style:"power",intro:"EL TORO ROJO: “Stand your ground. I dare you.”"},
-{name:"MIDNIGHT JACKAL",health:146,pace:1.22,damage:12,style:"counter",intro:"MIDNIGHT JACKAL: “You won't see the punch that ends this.”"},
-{name:"QUEEN COBRA",health:154,pace:1.32,damage:13,style:"counter",intro:"QUEEN COBRA: “Fast hands. Cold eyes. No second chances.”"},
-{name:"ATLAS PRIME",health:170,pace:1.18,damage:15,style:"champion",intro:"ATLAS PRIME: “This ring is my kingdom. Come take it.”"}
+{name:"IRON MAKO",health:100,skin:"#7a4932",short:"#1c477b",glove:"#d83c46",pace:2,damage:9,style:"pressure",intro:"IRON MAKO: “I don't chase victories. I run straight through them.”"},
+{name:"VICIOUS VELVET",health:112,skin:"#a66c4b",short:"#315c6c",glove:"#e3b936",pace:1.75,damage:10,style:"counter",intro:"VICIOUS VELVET: “Every punch tells me what you'll do next.”"},
+{name:"BRUISER NOVA",health:124,skin:"#6e4536",short:"#652c39",glove:"#c36b2c",pace:1.48,damage:12,style:"power",intro:"BRUISER NOVA: “One clean hit. That's all I need.”"},
+{name:"DUKE DYNAMITE",health:132,skin:"#bd805e",short:"#253f70",glove:"#b7c9e8",pace:1.62,damage:11,style:"pressure",intro:"DUKE DYNAMITE: “The crowd came for fireworks. Let's give them a show.”"},
+{name:"EL TORO ROJO",health:140,skin:"#965b3f",short:"#9a252b",glove:"#f2c64a",pace:1.36,damage:13,style:"power",intro:"EL TORO ROJO: “Stand your ground. I dare you.”"},
+{name:"MIDNIGHT JACKAL",health:146,skin:"#77503e",short:"#202b43",glove:"#8b69c7",pace:1.22,damage:12,style:"counter",intro:"MIDNIGHT JACKAL: “You won't see the punch that ends this.”"},
+{name:"QUEEN COBRA",health:154,skin:"#c58d6a",short:"#2e6b52",glove:"#d0d6dc",pace:1.32,damage:13,style:"counter",intro:"QUEEN COBRA: “Fast hands. Cold eyes. No second chances.”"},
+{name:"ATLAS PRIME",health:170,skin:"#75462f",short:"#242d3e",glove:"#d8a93d",pace:1.18,damage:15,style:"champion",intro:"ATLAS PRIME: “This ring is my kingdom. Come take it.”"}
 ];
 const boxers={
 balanced:{name:"THE TECHNICIAN",damage:1,accuracy:1,stamina:1,skin:"#a86c4d",short:"#236fc5",glove:"#e74343",emoji:"🥊",tag:"ALL-ROUND"},
@@ -60,6 +60,7 @@ let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,do
 function opponent(){return opponents[career]}
 function update(){
  rival.classList.remove("style-pressure","style-counter","style-power","style-champion");rival.classList.add("style-"+opponent().style);
+ const rivalLook=opponent();rival.style.setProperty("--skin",rivalLook.skin);rival.style.setProperty("--short",rivalLook.short);rival.style.setProperty("--glove",rivalLook.glove);
  $("ph").style.width=s.hp+"%";$("rh").style.width=(s.rh/opponent().health*100)+"%";
  $("ps").style.width=s.st+"%";$("rs").style.width=s.rs+"%";
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
