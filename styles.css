@@ -213,3 +213,9 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes nova-load{to{scale:1.07;filter:brightness(1.2) drop-shadow(0 0 18px #ff9b35)}}
 @keyframes champion-focus{to{filter:brightness(1.45) drop-shadow(0 0 22px #ffe28a)}}
 @media(prefers-reduced-motion:reduce){.foe.style-pressure.telegraph,.foe.style-counter.telegraph,.foe.style-power.telegraph,.foe.style-champion.telegraph{animation:none}}
+
+/* WORLD TOUR ROSTER EXPANSION */
+.fighter-choices{grid-template-columns:repeat(4,minmax(0,1fr));max-height:min(48vh,390px);overflow-y:auto;padding:4px;overscroll-behavior:contain}
+.fighter-choice{padding:10px 5px;gap:6px}.fighter-choice .avatar{width:48px;height:48px;font-size:27px}
+.select-card{max-height:94dvh;overflow-y:auto}.fighter-choice small{line-height:1.25}
+@media(max-width:520px){.fighter-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:48dvh}.fighter-choice{padding:8px 4px}.fighter-choice .avatar{width:42px;height:42px;font-size:24px}.select-card{padding:16px}}
