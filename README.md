@@ -1,38 +1,31 @@
 # Super Knockout: World Tour 🥊
 
-A lightweight, browser-playable arcade boxing prototype built as the foundation for a larger World Tour game.
+A fast-loading, browser-playable arcade boxing game prototype built for mobile-first play.
 
-## Play locally
-Open `index.html` in a modern browser. The game also includes touch controls for phones and tablets.
+## Roster and World Tour
+- Eight selectable original boxers, each with distinct damage, accuracy, stamina, colors, and fighting identity.
+- Eight original rivals with individual health, power, pace, AI style, and pre-fight personality lines.
+- Championship ladder advances after each victory and saves career progress locally.
+- Fixed up/down ring camera: your boxer stays near the bottom; the opponent stays near the top.
+- No walking exploration, side-scrolling, or training mode.
+
+## Combat
+- Jab, hook, uppercut, guard, dodge, depth positioning, and stamina recovery.
+- Earn Star Points from clean hit streaks and spend them on the cinematic Star Punch.
+- Rival attack telegraphs, pressure/counter/power/champion AI behaviors, knockdowns, and KO effects.
+- Health, stamina, round timer, record, knockdowns, and combo HUD.
+- Synthesized sound effects with a mute toggle.
 
 ## Controls
-- **← / →** — sidestep left and right
-- **↑ / ↓** — move closer to or farther from the rival
+- **← / →** — sidestep
+- **↑ / ↓** — adjust ring depth
 - **A** — jab
 - **S** — hook
 - **D** — uppercut
-- **F** — Star Punch (earned after three consecutive clean hits; up to three stored)
+- **F** — Star Punch
 - **Space** — hold guard
 - **Shift** — dodge
-- Touch buttons are available on-screen.
+- On-screen touch buttons are available.
 
-## Prototype features
-- Responsive boxing ring and fighter HUD
-- Pre-fight fighter selection: balanced, speed, and power styles with distinct stats
-- Three standard punch types with different stamina costs and damage
-- Star Punch special attack: build stars with clean hit streaks, then unleash a high-damage power punch with a cinematic flash, ring shake, and rival interruption
-- Guarding, dodging, and opponent counterattacks
-- Four rival AI styles with visible jab, hook, uppercut, and counter telegraphs
-- Health, stamina, match timer, and win/loss record
-- Saved boxer selection, tournament progress, and career record between sessions
-- Synthesized sound effects with an in-game mute toggle
-- Keyboard and mobile touch input
-
-## Roadmap
-1. Expand the tournament with more original opponents, rival stories, and boss fights.
-2. Improve fighter animation, timing windows, telegraphed attacks, knockdowns, and referee counts.
-3. Add music, difficulty options, and more career presentation.
-4. Package the browser game as an Android APK.
-5. Explore a separate PS2 homebrew port.
-
-**Platform status:** This is a browser prototype, not yet an Android APK or PS2 executable. A 500 MB target is a later full-release asset goal, not a requirement for this fast-loading prototype.
+## Platform status
+This is a browser game prototype deployed through GitHub Pages. It is not yet an Android APK or PS2 executable. Android packaging and a separate PS2 homebrew port remain future milestones; the 500 MB target belongs to a larger asset-rich release, not this lightweight prototype.
