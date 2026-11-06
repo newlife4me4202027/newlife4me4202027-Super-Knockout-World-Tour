@@ -94,15 +94,15 @@ function crowdReact(big=false){const arena=document.querySelector(".arena");if(!
 function finish(win){
  if(!s.active)return;s.active=false;
  const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
- if(win){wins++;sound("cheer");crowdReact(true);const rivalStyle=opponents[career].style,celebration="celebrate-"+boxer;rival.classList.add("final-knockout","ko-"+rivalStyle);player.classList.add("victory-celebrate",celebration);setTimeout(()=>{rival.classList.remove("final-knockout","ko-pressure","ko-counter","ko-power","ko-champion");player.classList.remove("victory-celebrate",celebration)},1900);const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
+ if(win){wins++;sound("cheer");crowdReact(true);const rivalStyle=opponents[career].style,celebration="celebrate-"+boxer;rival.classList.add("final-knockout","ko-"+rivalStyle);player.classList.add("victory-celebrate",celebration);setTimeout(()=>{rival.classList.remove("final-knockout","ko-pressure","ko-counter","ko-power","ko-champion");player.classList.remove("victory-celebrate",celebration)},1900);const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");if(champion){const screen=$("champion-screen");if(screen)screen.classList.remove("hidden");}career=(career+1)%opponents.length}
  else{losses++;sound("down");crowdReact();say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
  saveCareer();
  update();
 }
 function start(){
- const o=opponent();hideSelect();applyBoxer();
+ const o=opponent();hideSelect();applyBoxer();const arena=document.querySelector(".arena");if(arena){arena.classList.remove("champion-entrance");if(career===opponents.length-1){void arena.offsetWidth;arena.classList.add("champion-entrance");setTimeout(()=>arena.classList.remove("champion-entrance"),1800);}}
  Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,dialogueStage:0,hurtStage:0});
- player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
+ player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(career===opponents.length-1?"FINAL TITLE FIGHT — "+o.name+" ENTERS THE ARENA": "TITLE FIGHT — "+o.intro);announce(career===opponents.length-1?"FINAL BOSS!":"FIGHT!");sound("bell");update();
 }
 function hit(type){
  if(!s.active)return;
@@ -136,7 +136,7 @@ document.querySelectorAll("[data-boxer]").forEach(button=>button.addEventListene
  boxer=button.dataset.boxer;saveCareer();document.querySelectorAll("[data-boxer]").forEach(b=>b.classList.toggle("selected",b===button));applyBoxer();
 }));
 $("audio-toggle").addEventListener("click",()=>{audioMuted=!audioMuted;$("audio-toggle").textContent=audioMuted?"SOUND OFF":"SOUND ON";if(!audioMuted)sound("bell")});
-$("enter-ring").addEventListener("click",start);$("restart").addEventListener("click",()=>{if(s.active){s.active=false}showSelect()});
+$("enter-ring").addEventListener("click",start);$("champion-continue").addEventListener("click",()=>{$("champion-screen").classList.add("hidden");showSelect();});$("restart").addEventListener("click",()=>{if(s.active){s.active=false}showSelect()});
 document.addEventListener("keydown",event=>{
  if(["arrowleft","arrowright","arrowup","arrowdown"," "].includes(event.key.toLowerCase()))event.preventDefault();
  if(event.repeat)return;const key=event.key.toLowerCase();

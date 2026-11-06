@@ -264,3 +264,16 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes celebrate-technical{30%{translate:0 -14px;rotate:-5deg}70%{translate:0 -5px;rotate:5deg}}
 @keyframes celebrate-wild{25%{translate:-10px -16px;rotate:-12deg}75%{translate:12px -12px;rotate:12deg}}
 @media(prefers-reduced-motion:reduce){.foe.final-knockout,.you.victory-celebrate{animation:none!important}}
+
+
+/* BUILD 0.8 — TITLE FIGHT + WORLD CHAMPION PRESENTATION */
+.champion-screen{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 38%,#75551dcc,#080b13f5 68%);backdrop-filter:blur(8px)}
+.champion-screen.hidden{display:none}
+.champion-card{width:min(92vw,440px);padding:30px 24px;text-align:center;border:2px solid #f3d36c;border-radius:20px;background:linear-gradient(155deg,#20283b,#10131b 70%);box-shadow:0 0 45px #f3d36c55,inset 0 0 30px #f3d36c12}
+.champion-card small{color:#f3d36c;font-weight:900;letter-spacing:.22em}.champion-card h2{margin:10px 0;color:#ffe58a;font-size:clamp(27px,7vw,42px);text-shadow:0 0 22px #ffcb4d88}.champion-card p{color:#e0e5ef;line-height:1.5}.champion-trophy{font-size:64px;filter:drop-shadow(0 0 18px #ffd34e);animation:trophy-rise .9s ease-out both}.champion-card button{margin-top:12px;padding:13px 22px;border:0;border-radius:10px;background:linear-gradient(180deg,#ffe88a,#d58b16);color:#241707;font-weight:1000;letter-spacing:.08em}
+.arena.champion-entrance:after{content:"FINAL BOSS · ATLAS PRIME";position:absolute;inset:35% 0 auto;z-index:10;text-align:center;padding:16px 8px;background:linear-gradient(90deg,transparent,#111c,#111c,transparent);color:#ffe58a;font-size:clamp(17px,4vw,28px);font-weight:1000;letter-spacing:.13em;text-shadow:0 0 18px #ffcf58;animation:boss-entrance 1.8s ease-out both;pointer-events:none}
+.arena.champion-entrance .foe{filter:brightness(1.5) drop-shadow(0 0 25px #f3d36c);animation:boss-arrive .9s ease-out both}
+@keyframes boss-entrance{0%{opacity:0;letter-spacing:.4em;scale:1.25}18%,70%{opacity:1}100%{opacity:0;letter-spacing:.13em;scale:1}}
+@keyframes boss-arrive{0%{translate:0 -30px;scale:.55;filter:brightness(2.5) drop-shadow(0 0 35px #ffe58a)}100%{translate:0 0;scale:1;filter:brightness(1) drop-shadow(0 0 15px #f3d36c)}}
+@keyframes trophy-rise{0%{transform:translateY(24px) scale(.55);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){.champion-trophy,.arena.champion-entrance:after,.arena.champion-entrance .foe{animation:none!important}}

@@ -39,3 +39,10 @@ This is a browser game prototype deployed through GitHub Pages. An Android packa
 5. Install `app-debug.apk` on an Android device. Android may ask you to allow installation from that source.
 
 The workflow generates the Capacitor Android project during the build, so generated Android/Gradle files are not committed to the source repository. The first run can take several minutes while Android dependencies are downloaded.
+
+
+## Championship presentation — Build 0.8
+- Title-fight callouts introduce each bout.
+- Atlas Prime receives a final-boss entrance on the last fight of the tour.
+- Winning the final bout opens the World Champion victory screen.
+- Championship overlay supports touch and keyboard-free mobile continuation.
