@@ -56,7 +56,7 @@ function sound(kind){
  }catch(error){}
 }
 
-let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false};
+let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0};
 function opponent(){return opponents[career]}
 function update(){
  rival.classList.remove("style-pressure","style-counter","style-power","style-champion");rival.classList.add("style-"+opponent().style);
@@ -100,12 +100,12 @@ function finish(win){
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0});
  player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
  if(!s.active)return;
- const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina,damage={jab:7,hook:13,upper:20}[type]*b.damage;
+ const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina;let damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
  s.st-=cost;s.lastAttack=type;s.attackCounts[type]++;anim(player,"punch");anim(player,"punch-"+type);sound(type);
  const slipChance=opponent().style==="counter"?.2:opponent().style==="champion"?.12:0;
@@ -113,9 +113,9 @@ function hit(type){
  s.combo++;const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
-  const critical=Math.random()<.16?1.7:1;s.rh=clamp(s.rh-damage*critical*rangeFactor,0,opponent().health);if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
+  const critical=Math.random()<.16?1.7:1,counterBoost=s.counterWindow>0?1.5:1;s.rh=clamp(s.rh-damage*critical*rangeFactor*counterBoost,0,opponent().health);if(counterBoost>1){s.counterWindow=0;player.classList.remove("counter-ready");}if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
-  say(critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");sound("impact");
+  say(counterBoost>1?"DODGE COUNTER! 50% BONUS DAMAGE!":critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");sound("impact");
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");sound("miss")}
  update();if(s.rh<=0)finish(true);
 }
@@ -145,7 +145,7 @@ document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
 window.addEventListener("blur",()=>guard(false));
 setInterval(()=>{
  if(!s.active)return;
- s.t=Math.max(0,s.t-1);s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
+ s.t=Math.max(0,s.t-1);if(s.counterWindow>0){s.counterWindow--;if(s.counterWindow===0)player.classList.remove("counter-ready");}s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
  const o=opponent();
  if(s.enemy<=1&&!rival.classList.contains("telegraph")){
   const moves=o.style==="power"?["hook","upper","hook","upper"]:o.style==="counter"?["jab","hook","counter","counter"]:o.style==="champion"?["jab","hook","upper","counter"]:["jab","jab","hook","jab"];
@@ -161,7 +161,7 @@ setInterval(()=>{
   if(s.feint&&s.downTimer<=0){s.feint=false;s.enemy=.7;say("VELVET FEINTS — DON’T BITE!");announce("FEINT!");sound("miss");update();return;}
   if(s.downTimer<=0)rivalStrike(s.enemyMove);
   if(s.downTimer>0){s.downTimer--;say("GET UP! "+s.downTimer);if(s.downTimer===0){s.hp=Math.max(s.hp,32);say("BACK ON YOUR FEET!")}}
-  else if(s.dodging){say("PERFECT DODGE — COUNTER WINDOW!");s.st=clamp(s.st+7,0,100);s.combo++;s.enemyMove="jab";announce("PERFECT DODGE!") }
+  else if(s.dodging){say("PERFECT DODGE — COUNTER WINDOW!");s.st=clamp(s.st+7,0,100);s.combo++;s.counterWindow=3;player.classList.add("counter-ready");s.enemyMove="jab";announce("PERFECT DODGE!") }
   else if(s.block){
    const blockedDamage=o.style==="power"? (s.enemyMove==="upper"?18:14) : s.enemyMove==="upper"?9:s.enemyMove==="hook"?7:4;
    s.hp=clamp(s.hp-blockedDamage,0,100);say("GUARD ABSORBS THE "+s.enemyMove.toUpperCase());sound("block");
