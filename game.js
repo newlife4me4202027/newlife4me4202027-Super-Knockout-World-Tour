@@ -87,7 +87,7 @@ function showSelect(){$("select-screen").classList.remove("hidden")}
 function hideSelect(){$("select-screen").classList.add("hidden")}
 function applyBoxer(){
  const b=boxers[boxer];player.style.setProperty("--skin",b.skin);player.style.setProperty("--short",b.short);player.style.setProperty("--glove",b.glove);
- const selected=document.querySelector("[data-boxer=\\\""+boxer+"\\\"]");if(selected){document.querySelectorAll("[data-boxer]").forEach(el=>el.classList.toggle("selected",el===selected));}
+ document.querySelectorAll("[data-boxer]").forEach(el=>el.classList.toggle("selected",el.dataset.boxer===boxer));
 }
 function finish(win){
  if(!s.active)return;s.active=false;
