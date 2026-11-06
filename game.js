@@ -2,15 +2,24 @@
 const $=id=>document.getElementById(id),player=$("you"),rival=$("foe");
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const opponents=[
-{name:"IRON MAKO",health:100,pace:2,damage:9,style:"pressure"},
-{name:"VICIOUS VELVET",health:115,pace:1.7,damage:11,style:"counter"},
-{name:"BRUISER NOVA",health:130,pace:1.4,damage:13,style:"power"},
-{name:"THE WORLD CHAMPION",health:150,pace:1.15,damage:15,style:"champion"}
+{name:"IRON MAKO",health:100,pace:2,damage:9,style:"pressure",intro:"IRON MAKO: “I don't chase victories. I run straight through them.”"},
+{name:"VICIOUS VELVET",health:112,pace:1.75,damage:10,style:"counter",intro:"VICIOUS VELVET: “Every punch tells me what you'll do next.”"},
+{name:"BRUISER NOVA",health:124,pace:1.48,damage:12,style:"power",intro:"BRUISER NOVA: “One clean hit. That's all I need.”"},
+{name:"DUKE DYNAMITE",health:132,pace:1.62,damage:11,style:"pressure",intro:"DUKE DYNAMITE: “The crowd came for fireworks. Let's give them a show.”"},
+{name:"EL TORO ROJO",health:140,pace:1.36,damage:13,style:"power",intro:"EL TORO ROJO: “Stand your ground. I dare you.”"},
+{name:"MIDNIGHT JACKAL",health:146,pace:1.22,damage:12,style:"counter",intro:"MIDNIGHT JACKAL: “You won't see the punch that ends this.”"},
+{name:"QUEEN COBRA",health:154,pace:1.32,damage:13,style:"counter",intro:"QUEEN COBRA: “Fast hands. Cold eyes. No second chances.”"},
+{name:"ATLAS PRIME",health:170,pace:1.18,damage:15,style:"champion",intro:"ATLAS PRIME: “This ring is my kingdom. Come take it.”"}
 ];
 const boxers={
-balanced:{name:"THE TECHNICIAN",damage:1,accuracy:1,stamina:1,skin:"#a86c4d",short:"#236fc5",glove:"#e74343"},
-speed:{name:"FLASH FURY",damage:.88,accuracy:1.12,stamina:1.2,skin:"#bd8059",short:"#168c83",glove:"#f1c644"},
-power:{name:"THE HAMMER",damage:1.28,accuracy:.9,stamina:.86,skin:"#80543e",short:"#7038a6",glove:"#e8752d"}
+balanced:{name:"THE TECHNICIAN",damage:1,accuracy:1,stamina:1,skin:"#a86c4d",short:"#236fc5",glove:"#e74343",emoji:"🥊",tag:"ALL-ROUND"},
+speed:{name:"FLASH FURY",damage:.88,accuracy:1.12,stamina:1.2,skin:"#bd8059",short:"#168c83",glove:"#f1c644",emoji:"⚡",tag:"SPEED"},
+power:{name:"THE HAMMER",damage:1.28,accuracy:.9,stamina:.86,skin:"#80543e",short:"#7038a6",glove:"#e8752d",emoji:"💥",tag:"POWER"},
+counter:{name:"SILK SHADOW",damage:1.04,accuracy:1.08,stamina:1.05,skin:"#9b684e",short:"#513b82",glove:"#b18aff",emoji:"🌙",tag:"COUNTER"},
+southpaw:{name:"LEFTY LEGEND",damage:1.08,accuracy:1.02,stamina:.98,skin:"#bd8968",short:"#277b55",glove:"#e8d36b",emoji:"👊",tag:"SOUTHPAW"},
+endurance:{name:"IRON LUNGS",damage:.96,accuracy:1,stamina:1.32,skin:"#754b38",short:"#4c647b",glove:"#54c8b5",emoji:"🛡️",tag:"ENDURANCE"},
+technical:{name:"RAZOR EDGE",damage:1.12,accuracy:1.16,stamina:.92,skin:"#d09a70",short:"#9b3348",glove:"#f0f0f0",emoji:"🎯",tag:"PRECISION"},
+wild:{name:"WILDFIRE",damage:1.16,accuracy:.94,stamina:1.08,skin:"#86563f",short:"#bb4b20",glove:"#ffb13b",emoji:"🔥",tag:"COMBOS"}
 };
 const SAVE_KEY="super-knockout-world-tour-v1";
 function loadCareer(){
@@ -78,11 +87,12 @@ function showSelect(){$("select-screen").classList.remove("hidden")}
 function hideSelect(){$("select-screen").classList.add("hidden")}
 function applyBoxer(){
  const b=boxers[boxer];player.style.setProperty("--skin",b.skin);player.style.setProperty("--short",b.short);player.style.setProperty("--glove",b.glove);
+ const selected=document.querySelector("[data-boxer=\\\""+boxer+"\\\"]");if(selected){document.querySelectorAll("[data-boxer]").forEach(el=>el.classList.toggle("selected",el===selected));}
 }
 function finish(win){
  if(!s.active)return;s.active=false;
  const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
- if(win){wins++;sound("cheer");say(career===opponents.length-1?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — NEXT CHALLENGER UNLOCKED");announce(career===opponents.length-1?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
+ if(win){wins++;sound("cheer");const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
  else{losses++;sound("down");say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
  saveCareer();
  update();
@@ -90,7 +100,7 @@ function finish(win){
 function start(){
  const o=opponent();hideSelect();applyBoxer();
  Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false});
- player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say("BELL RINGS — "+o.name+" ENTERS THE RING");announce("FIGHT!");sound("bell");update();
+ player.classList.remove("guard","knockdown");rival.classList.remove("telegraph","impact");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
  if(!s.active)return;
