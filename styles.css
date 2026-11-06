@@ -219,3 +219,8 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .fighter-choice{padding:10px 5px;gap:6px}.fighter-choice .avatar{width:48px;height:48px;font-size:27px}
 .select-card{max-height:94dvh;overflow-y:auto}.fighter-choice small{line-height:1.25}
 @media(max-width:520px){.fighter-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:48dvh}.fighter-choice{padding:8px 4px}.fighter-choice .avatar{width:42px;height:42px;font-size:24px}.select-card{padding:16px}}
+
+/* FIXED-UP/DOWN ARCADE CAMERA: contender foreground, rival background */
+.arena .you{top:auto;bottom:5%;transform-origin:bottom center}
+.arena .foe{top:7%;bottom:auto;transform:scaleX(-1) scale(.68);transform-origin:top center}
+@media(max-width:620px){.arena .you{bottom:4%}.arena .foe{top:8%;transform:scaleX(-1) scale(.68)}}
