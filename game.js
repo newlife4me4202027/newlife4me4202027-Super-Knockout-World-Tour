@@ -101,7 +101,7 @@ function finish(win){
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,dialogueStage:0});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,dialogueStage:0,hurtStage:0});
  player.classList.remove("guard","knockdown","counter-ready");rival.classList.remove("telegraph","impact","final-knockout");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
@@ -115,7 +115,7 @@ function hit(type){
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
   const critical=Math.random()<.16?1.7:1,counterBoost=s.counterWindow>0?1.5:1;s.rh=clamp(s.rh-damage*critical*rangeFactor*counterBoost,0,opponent().health);if(counterBoost>1){s.counterWindow=0;player.classList.remove("counter-ready");}if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
-  const damageRatio=s.rh/opponent().health;if(s.dialogueStage===0&&damageRatio<.7){s.dialogueStage=1;say(opponent().hurt)}else if(s.dialogueStage===1&&damageRatio<.35){s.dialogueStage=2;say(opponent().hurt+" — NOW I’M MAD!");}
+  const damageRatio=s.rh/opponent().health;if(s.hurtStage===0&&damageRatio<.7){s.hurtStage=1;say(opponent().hurt)}else if(s.hurtStage===1&&damageRatio<.35){s.hurtStage=2;say(opponent().hurt+" — NOW I’M MAD!");}
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
   say(counterBoost>1?"DODGE COUNTER! 50% BONUS DAMAGE!":critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!");sound("impact");
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");sound("miss")}
