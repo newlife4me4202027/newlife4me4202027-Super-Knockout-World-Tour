@@ -90,18 +90,19 @@ function applyBoxer(){
  const b=boxers[boxer];player.style.setProperty("--skin",b.skin);player.style.setProperty("--short",b.short);player.style.setProperty("--glove",b.glove);
  document.querySelectorAll("[data-boxer]").forEach(el=>el.classList.toggle("selected",el.dataset.boxer===boxer));
 }
+function crowdReact(big=false){const arena=document.querySelector(".arena");if(!arena)return;arena.classList.remove("crowd-roar","crowd-eruption");void arena.offsetWidth;arena.classList.add(big?"crowd-eruption":"crowd-roar");clearTimeout(crowdReact.timer);crowdReact.timer=setTimeout(()=>arena.classList.remove("crowd-roar","crowd-eruption"),big?1250:700)}
 function finish(win){
  if(!s.active)return;s.active=false;
  const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
- if(win){wins++;sound("cheer");const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
- else{losses++;sound("down");say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
+ if(win){wins++;sound("cheer");crowdReact(true);rival.classList.add("final-knockout");setTimeout(()=>rival.classList.remove("final-knockout"),1700);const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");career=(career+1)%opponents.length}
+ else{losses++;sound("down");crowdReact();say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
  saveCareer();
  update();
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();
  Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0});
- player.classList.remove("guard","knockdown","counter-ready");rival.classList.remove("telegraph","impact");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
+ player.classList.remove("guard","knockdown","counter-ready");rival.classList.remove("telegraph","impact","final-knockout");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(o.intro||("BELL RINGS — "+o.name+" ENTERS THE RING"));announce("FIGHT!");sound("bell");update();
 }
 function hit(type){
  if(!s.active)return;
@@ -110,7 +111,7 @@ function hit(type){
  s.st-=cost;s.lastAttack=type;s.attackCounts[type]++;anim(player,"punch");anim(player,"punch-"+type);sound(type);
  const slipChance=opponent().style==="counter"?.2:opponent().style==="champion"?.12:0;
  if(s.combo>=2&&Math.random()<slipChance){s.combo=0;s.enemy=Math.min(s.enemy,.8);say(opponent().name+" SLIPS THE REPEATED ATTACK!");announce("PUNCH MISSED!");sound("miss");update();return}
- s.combo++;const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
+ s.combo++;if(s.combo===3||s.combo===5||s.combo===8){crowdReact(s.combo>=5);if(s.combo>=5)announce(s.combo>=8?"UNSTOPPABLE COMBO!":"CROWD IS GOING WILD!")}const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
   const critical=Math.random()<.16?1.7:1,counterBoost=s.counterWindow>0?1.5:1;s.rh=clamp(s.rh-damage*critical*rangeFactor*counterBoost,0,opponent().health);if(counterBoost>1){s.counterWindow=0;player.classList.remove("counter-ready");}if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
@@ -119,7 +120,7 @@ function hit(type){
  }else{s.combo=0;say("MISSED — WATCH YOUR TIMING");sound("miss")}
  update();if(s.rh<=0)finish(true);
 }
-function starPunch(){if(!s.active||s.stars<1){say("LAND THREE CLEAN HITS TO EARN A STAR");return}const b=boxers[boxer];s.stars--;s.st-=Math.min(s.st,14/b.stamina);anim(player,"star-punch");sound("star");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("star-impact");void arena.offsetWidth;arena.classList.add("star-impact");setTimeout(()=>arena.classList.remove("star-impact"),520)}const rangeFactor=clamp(.82+(s.depth+8)*.012,.82,1.08);const damage=32*b.damage*rangeFactor;s.rh=clamp(s.rh-damage,0,opponent().health);s.rs=clamp(s.rs-9,0,100);s.combo++;s.enemy=Math.max(s.enemy,2.5);rival.classList.remove("telegraph");anim(rival,"hit");anim(rival,"impact");say("STAR PUNCH! MASSIVE DAMAGE!");announce("★ STAR PUNCH!");update();if(s.rh<=0)finish(true)}
+function starPunch(){if(!s.active||s.stars<1){say("LAND THREE CLEAN HITS TO EARN A STAR");return}const b=boxers[boxer];s.stars--;s.st-=Math.min(s.st,14/b.stamina);anim(player,"star-punch");sound("star");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("star-impact");void arena.offsetWidth;arena.classList.add("star-impact");setTimeout(()=>arena.classList.remove("star-impact"),520)}const rangeFactor=clamp(.82+(s.depth+8)*.012,.82,1.08);const damage=32*b.damage*rangeFactor;s.rh=clamp(s.rh-damage,0,opponent().health);s.rs=clamp(s.rs-9,0,100);s.combo++;s.enemy=Math.max(s.enemy,2.5);rival.classList.remove("telegraph");anim(rival,"hit");anim(rival,"impact");say("STAR PUNCH! MASSIVE DAMAGE!");crowdReact(true);announce("★ STAR PUNCH!");update();if(s.rh<=0)finish(true)}
 function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);stepMotion(direction);update()}
 function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);stepMotion(direction);update()}
 function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;const timed=rival.classList.contains("telegraph");player.classList.remove("dodge-step");void player.offsetWidth;player.classList.add("dodge-step");setTimeout(()=>player.classList.remove("dodge-step"),timed?760:360);setTimeout(()=>s.dodging=false,timed?1250:380);update()}
