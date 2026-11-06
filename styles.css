@@ -235,3 +235,32 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes crowdWave{0%,100%{opacity:.35;filter:brightness(1)}35%{opacity:.85;filter:brightness(1.8)}65%{opacity:.55;filter:brightness(1.35)}}
 @keyframes arenaCheer{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.arena.crowd-roar .crowd,.arena.crowd-eruption .crowd,.arena.crowd-roar:before,.arena.crowd-eruption:before{animation:none!important}.foe.final-knockout{transition:none}}
+
+
+/* BUILD 0.7 — BOXER CELEBRATIONS + RIVAL-SPECIFIC KNOCKOUTS */
+.foe.final-knockout.ko-pressure{animation:ko-pressure-drop .78s cubic-bezier(.2,.8,.2,1) forwards}
+.foe.final-knockout.ko-counter{animation:ko-counter-spin .9s ease-in forwards}
+.foe.final-knockout.ko-power{animation:ko-power-crash .72s cubic-bezier(.3,.8,.2,1) forwards}
+.foe.final-knockout.ko-champion{animation:ko-champion-fall 1s ease-in-out forwards}
+@keyframes ko-pressure-drop{0%{transform:scaleX(-1) scale(.68) translateY(0)}35%{transform:scaleX(-1) scale(.68) translateY(18px)}100%{transform:scaleX(-1) rotate(82deg) scale(.68) translate(-20px,34px)}}
+@keyframes ko-counter-spin{0%{transform:scaleX(-1) scale(.68) rotate(0)}45%{transform:scaleX(-1) scale(.68) rotate(-24deg) translateX(18px)}100%{transform:scaleX(-1) scale(.68) rotate(105deg) translate(-24px,28px)}}
+@keyframes ko-power-crash{0%{transform:scaleX(-1) scale(.68)}25%{transform:scaleX(-1) scale(.78) translateY(10px)}100%{transform:scaleX(-1) rotate(96deg) scale(.68) translate(-30px,35px)}}
+@keyframes ko-champion-fall{0%{transform:scaleX(-1) scale(.68)}30%{transform:scaleX(-1) scale(.72) translateY(-12px)}65%{transform:scaleX(-1) scale(.68) rotate(35deg) translateX(12px)}100%{transform:scaleX(-1) scale(.68) rotate(88deg) translate(-28px,34px)}}
+.you.victory-celebrate{filter:brightness(1.3) drop-shadow(0 0 18px #ffd34e)}
+.you.celebrate-balanced{animation:celebrate-bounce .7s ease-in-out 2}
+.you.celebrate-speed{animation:celebrate-speed .48s ease-in-out 3}
+.you.celebrate-power{animation:celebrate-power .9s ease-out 2}
+.you.celebrate-counter{animation:celebrate-counter .72s ease-in-out 2}
+.you.celebrate-southpaw{animation:celebrate-southpaw .68s ease-in-out 2}
+.you.celebrate-endurance{animation:celebrate-endurance 1s ease-in-out 2}
+.you.celebrate-technical{animation:celebrate-technical .62s ease-in-out 2}
+.you.celebrate-wild{animation:celebrate-wild .56s ease-in-out 3}
+@keyframes celebrate-bounce{50%{translate:0 -18px;rotate:4deg}}
+@keyframes celebrate-speed{25%{translate:-12px -12px;rotate:-8deg}75%{translate:12px -8px;rotate:8deg}}
+@keyframes celebrate-power{35%{translate:0 -8px;scale:1.12}65%{translate:0 2px;scale:1.04}}
+@keyframes celebrate-counter{30%{translate:-10px -10px;rotate:-12deg}70%{translate:10px -5px;rotate:10deg}}
+@keyframes celebrate-southpaw{35%{translate:-12px -14px;rotate:-10deg}70%{translate:7px -6px;rotate:8deg}}
+@keyframes celebrate-endurance{50%{translate:0 -9px;scale:1.08}}
+@keyframes celebrate-technical{30%{translate:0 -14px;rotate:-5deg}70%{translate:0 -5px;rotate:5deg}}
+@keyframes celebrate-wild{25%{translate:-10px -16px;rotate:-12deg}75%{translate:12px -12px;rotate:12deg}}
+@media(prefers-reduced-motion:reduce){.foe.final-knockout,.you.victory-celebrate{animation:none!important}}
