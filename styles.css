@@ -224,3 +224,5 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .arena .you{top:auto;bottom:5%;transform-origin:bottom center}
 .arena .foe{top:7%;bottom:auto;transform:scaleX(-1) scale(.68);transform-origin:top center}
 @media(max-width:620px){.arena .you{bottom:4%}.arena .foe{top:8%;transform:scaleX(-1) scale(.68)}}
+
+.you.counter-ready{filter:drop-shadow(0 0 12px #ffd34e) drop-shadow(0 0 22px #ff8a2b);animation:counterPulse .42s ease-in-out infinite alternate}@keyframes counterPulse{from{filter:drop-shadow(0 0 7px #ffd34e)}to{filter:drop-shadow(0 0 19px #ff8a2b)}}
