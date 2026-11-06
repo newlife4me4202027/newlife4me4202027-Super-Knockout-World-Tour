@@ -100,7 +100,7 @@ function finish(win){
  update();
 }
 function start(){
- const o=opponent();hideSelect();applyBoxer();const arena=document.querySelector(".arena");if(arena){arena.classList.remove("champion-entrance");if(career===opponents.length-1){void arena.offsetWidth;arena.classList.add("champion-entrance");setTimeout(()=>arena.classList.remove("champion-entrance"),1800);}}
+ const o=opponent();hideSelect();applyBoxer();const championArena=document.querySelector(".arena");if(championArena){championArena.classList.remove("champion-entrance");if(career===opponents.length-1){void championArena.offsetWidth;championArena.classList.add("champion-entrance");setTimeout(()=>championArena.classList.remove("champion-entrance"),1800);}}
  Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,dialogueStage:0,hurtStage:0});
  player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(career===opponents.length-1?"FINAL TITLE FIGHT — "+o.name+" ENTERS THE ARENA": "TITLE FIGHT — "+o.intro);announce(career===opponents.length-1?"FINAL BOSS!":"FIGHT!");sound("bell");update();
 }
