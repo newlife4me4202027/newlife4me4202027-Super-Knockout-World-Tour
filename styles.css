@@ -226,3 +226,12 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @media(max-width:620px){.arena .you{bottom:4%}.arena .foe{top:8%;transform:scaleX(-1) scale(.68)}}
 
 .you.counter-ready{filter:drop-shadow(0 0 12px #ffd34e) drop-shadow(0 0 22px #ff8a2b);animation:counterPulse .42s ease-in-out infinite alternate}@keyframes counterPulse{from{filter:drop-shadow(0 0 7px #ffd34e)}to{filter:drop-shadow(0 0 19px #ff8a2b)}}
+
+/* CROWD REACTIONS + KNOCKOUT FINISH */
+.arena.crowd-roar .crowd{animation:crowdWave .7s ease-in-out}
+.arena.crowd-eruption .crowd{animation:crowdWave .34s ease-in-out 2;opacity:.72}
+.arena.crowd-roar:before,.arena.crowd-eruption:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 4%,#ffe18b55,transparent 62%);animation:arenaCheer .7s ease-out}
+.foe.final-knockout{transform:scaleX(-1) rotate(78deg) translate(-22px,26px);transform-origin:50% 90%;filter:drop-shadow(0 0 18px #ffd34e);transition:transform .55s cubic-bezier(.2,.8,.2,1),filter .35s}
+@keyframes crowdWave{0%,100%{opacity:.35;filter:brightness(1)}35%{opacity:.85;filter:brightness(1.8)}65%{opacity:.55;filter:brightness(1.35)}}
+@keyframes arenaCheer{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.arena.crowd-roar .crowd,.arena.crowd-eruption .crowd,.arena.crowd-roar:before,.arena.crowd-eruption:before{animation:none!important}.foe.final-knockout{transition:none}}
