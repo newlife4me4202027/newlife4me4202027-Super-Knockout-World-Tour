@@ -1,0 +1,8 @@
+{
+  "appId": "com.worldtour.superknockout",
+  "appName": "Super Knockout World Tour",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#10131b"
+  }
+}
