@@ -283,3 +283,11 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .foe.rage-2{filter:brightness(1.28) drop-shadow(0 0 23px #ff3434) drop-shadow(0 0 38px #ff343488);animation:desperation-pulse .42s ease-in-out infinite alternate}
 @keyframes desperation-pulse{from{filter:brightness(1.08) drop-shadow(0 0 12px #ff3434)}to{filter:brightness(1.45) drop-shadow(0 0 27px #ff3434) drop-shadow(0 0 42px #ff343488)}}
 @media(prefers-reduced-motion:reduce){.foe.rage-2{animation:none!important}}
+
+
+/* BUILD 1.0 — DISTINCT SIGNATURE SPECIAL TELEGRAPHS */
+.foe.telegraph{filter:brightness(1.35) drop-shadow(0 0 18px #ffd45c) drop-shadow(0 10px 8px #101522aa)}
+.foe.rival-strike-special{filter:brightness(1.55) drop-shadow(0 0 25px #ffcf4d) drop-shadow(0 0 42px #ff6b32)}
+.foe.rival-strike-special .arm.a,.foe.rival-strike-special .arm.b{animation:rival-signature-surge .48s ease-out}
+@keyframes rival-signature-surge{0%{transform:rotate(0)}35%{transform:rotate(-58deg) translateY(7px)}70%{transform:rotate(48deg) translateY(4px)}100%{transform:rotate(0)}}
+@media(prefers-reduced-motion:reduce){.foe.rival-strike-special,.foe.rival-strike-special .arm{animation:none!important}}

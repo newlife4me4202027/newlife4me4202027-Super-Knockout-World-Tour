@@ -53,3 +53,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Their attack cadence increases in each phase; incoming damage rises as they approach defeat.
 - Orange/red visual states and audio callouts make the escalation readable.
 - Phase state resets at the start of every bout.
+
+
+## Unique rival signature specials — Build 1.0
+- Each rival has a named, individually tuned signature attack with a distinct warning callout.
+- Signature attacks use the rival’s recognizable strike animation and deal increased damage.
+- Specials can be avoided with existing sidestep/depth positioning and dodge timing; guarding reduces incoming damage.
+- Atlas Prime’s Titan Breaker is the strongest signature attack, with a clear warning before impact.
+- Reduced-motion settings disable the added special-attack animation.
