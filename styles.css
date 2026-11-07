@@ -277,3 +277,9 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes boss-arrive{0%{translate:0 -30px;scale:.55;filter:brightness(2.5) drop-shadow(0 0 35px #ffe58a)}100%{translate:0 0;scale:1;filter:brightness(1) drop-shadow(0 0 15px #f3d36c)}}
 @keyframes trophy-rise{0%{transform:translateY(24px) scale(.55);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
 @media(prefers-reduced-motion:reduce){.champion-trophy,.arena.champion-entrance:after,.arena.champion-entrance .foe{animation:none!important}}
+
+/* Build 0.9 — rival desperation phases */
+.foe.rage-1{filter:brightness(1.16) drop-shadow(0 0 16px #ff8b32) drop-shadow(0 12px 9px #101522aa)}
+.foe.rage-2{filter:brightness(1.28) drop-shadow(0 0 23px #ff3434) drop-shadow(0 0 38px #ff343488);animation:desperation-pulse .42s ease-in-out infinite alternate}
+@keyframes desperation-pulse{from{filter:brightness(1.08) drop-shadow(0 0 12px #ff3434)}to{filter:brightness(1.45) drop-shadow(0 0 27px #ff3434) drop-shadow(0 0 42px #ff343488)}}
+@media(prefers-reduced-motion:reduce){.foe.rage-2{animation:none!important}}

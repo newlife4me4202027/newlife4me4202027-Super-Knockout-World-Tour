@@ -46,3 +46,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Atlas Prime receives a final-boss entrance on the last fight of the tour.
 - Winning the final bout opens the World Champion victory screen.
 - Championship overlay supports touch and keyboard-free mobile continuation.
+
+
+## Rival desperation phases — Build 0.9
+- Rivals escalate at 55% health and enter a final desperation phase at 25% health.
+- Their attack cadence increases in each phase; incoming damage rises as they approach defeat.
+- Orange/red visual states and audio callouts make the escalation readable.
+- Phase state resets at the start of every bout.
