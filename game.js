@@ -25,13 +25,13 @@ const SAVE_KEY="super-knockout-world-tour-v1";
 function loadCareer(){
  try{
   const saved=JSON.parse(localStorage.getItem(SAVE_KEY)||"{}");
-  return {boxer:boxers[saved.boxer]?saved.boxer:"balanced",career:clamp(Number(saved.career)||0,0,opponents.length-1),wins:Math.max(0,Number(saved.wins)||0),losses:Math.max(0,Number(saved.losses)||0)};
- }catch(error){return {boxer:"balanced",career:0,wins:0,losses:0}}
+  return {boxer:boxers[saved.boxer]?saved.boxer:"balanced",career:clamp(Number(saved.career)||0,0,opponents.length-1),wins:Math.max(0,Number(saved.wins)||0),losses:Math.max(0,Number(saved.losses)||0),tourClears:Math.max(0,Number(saved.tourClears)||0)};
+ }catch(error){return {boxer:"balanced",career:0,wins:0,losses:0,tourClears:0}}
 }
 const savedCareer=loadCareer();
-let boxer=savedCareer.boxer,career=savedCareer.career,wins=savedCareer.wins,losses=savedCareer.losses;
+let boxer=savedCareer.boxer,career=savedCareer.career,wins=savedCareer.wins,losses=savedCareer.losses,tourClears=savedCareer.tourClears;
 function saveCareer(){
- try{localStorage.setItem(SAVE_KEY,JSON.stringify({boxer,career,wins,losses}));}catch(error){}
+ try{localStorage.setItem(SAVE_KEY,JSON.stringify({boxer,career,wins,losses,tourClears}));}catch(error){}
 }
 let audioContext=null,audioMuted=false;
 function sound(kind){
@@ -58,6 +58,13 @@ function sound(kind){
 
 let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,patternStep:0};
 function opponent(){return opponents[career]}
+function updateCareerPanel(){
+ const progress=$("tour-progress"),record=$("career-record"),next=$("next-fight");
+ if(progress)progress.textContent=career+" / "+opponents.length+" RIVALS DEFEATED";
+ if(record)record.textContent=wins+"–"+losses+"  ·  "+tourClears+" TOUR "+(tourClears===1?"CLEAR":"CLEARS");
+ if(next)next.textContent="NEXT FIGHT: "+opponents[career].name;
+ const bar=$("tour-progress-fill");if(bar)bar.style.width=(career/opponents.length*100)+"%";
+}
 const signatures=[{"name":"MAKO'S TIDAL RUSH","move":"jab","power":1.18},{"name":"VELVET'S MIRROR TRAP","move":"counter","power":1.28},{"name":"NOVA'S COMET CRASH","move":"upper","power":1.65},{"name":"DUKE'S DOUBLE FUSE","move":"hook","power":1.42},{"name":"TORO'S BULL CHARGE","move":"upper","power":1.8},{"name":"JACKAL'S NIGHTFALL","move":"counter","power":1.52},{"name":"COBRA'S VENOM SNAP","move":"hook","power":1.58},{"name":"ATLAS' TITAN BREAKER","move":"upper","power":2.05}];
 function signatureFor(){return signatures[career]||signatures[0]}
 const rivalPatterns=[["jab","jab","hook","jab"],["jab","counter","hook","counter"],["hook","upper","upper","hook"],["jab","hook","jab","upper"],["upper","hook","upper","upper"],["counter","jab","hook","counter"],["hook","jab","counter","upper"],["jab","hook","upper","counter"]];
@@ -101,10 +108,10 @@ function crowdReact(big=false){const arena=document.querySelector(".arena");if(!
 function finish(win){
  if(!s.active)return;s.active=false;
  const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
- if(win){wins++;sound("cheer");crowdReact(true);const rivalStyle=opponents[career].style,celebration="celebrate-"+boxer;rival.classList.add("final-knockout","ko-"+rivalStyle,"knockout-signature-"+career);player.classList.add("victory-celebrate",celebration);setTimeout(()=>{rival.classList.remove("final-knockout","ko-pressure","ko-counter","ko-power","ko-champion","knockout-signature-0","knockout-signature-1","knockout-signature-2","knockout-signature-3","knockout-signature-4","knockout-signature-5","knockout-signature-6","knockout-signature-7");player.classList.remove("victory-celebrate",celebration)},1900);const champion=career===opponents.length-1;say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");if(champion){const screen=$("champion-screen");if(screen)screen.classList.remove("hidden");}career=(career+1)%opponents.length}
+ if(win){wins++;sound("cheer");crowdReact(true);const rivalStyle=opponents[career].style,celebration="celebrate-"+boxer;rival.classList.add("final-knockout","ko-"+rivalStyle,"knockout-signature-"+career);player.classList.add("victory-celebrate",celebration);setTimeout(()=>{rival.classList.remove("final-knockout","ko-pressure","ko-counter","ko-power","ko-champion","knockout-signature-0","knockout-signature-1","knockout-signature-2","knockout-signature-3","knockout-signature-4","knockout-signature-5","knockout-signature-6","knockout-signature-7");player.classList.remove("victory-celebrate",celebration)},1900);const champion=career===opponents.length-1;if(champion){tourClears++;const total=$("champion-record");if(total)total.textContent="CAREER RECORD "+wins+"–"+losses+" · WORLD TOUR TITLES "+tourClears;}say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");if(champion){const screen=$("champion-screen");if(screen)screen.classList.remove("hidden");}career=(career+1)%opponents.length}
  else{losses++;sound("down");crowdReact();say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
  saveCareer();
- update();
+ updateCareerPanel();update();
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();const championArena=document.querySelector(".arena");if(championArena){championArena.classList.remove("champion-entrance");if(career===opponents.length-1){void championArena.offsetWidth;championArena.classList.add("champion-entrance");setTimeout(()=>championArena.classList.remove("champion-entrance"),1800);}}
@@ -191,5 +198,5 @@ setInterval(()=>{
  }
  if(s.t===0){finish(s.hp>=s.rh);return}update();
 },1000);
-applyBoxer();update();
+applyBoxer();updateCareerPanel();update();
 })();

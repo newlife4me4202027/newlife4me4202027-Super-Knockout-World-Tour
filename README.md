@@ -75,3 +75,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Rival knockdowns announce the opponent and trigger a crowd eruption.
 - Final victories use a rival-indexed knockout sting in addition to the existing archetype-specific finish and player celebration.
 - Reduced-motion preferences suppress the new crowd and fall animations.
+
+
+## Championship career presentation — Build 1.3
+- Persistent World Tour progress shows how many of the eight rivals have been defeated and identifies the next opponent.
+- Career record and completed World Tour title count are saved locally with the existing career data.
+- Winning the final Atlas Prime bout increments the title count and displays the updated career record on the championship screen.
+- Existing saved careers remain compatible; missing title-count data initializes to zero.
