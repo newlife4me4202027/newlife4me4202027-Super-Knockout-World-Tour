@@ -72,7 +72,7 @@ const feintRates=[0,.28,0,.12,0,.24,.2,.1];
 const antiRepeat=[0,.28,0,0,0,.16,.24,.18];
 function update(){
  rival.classList.remove("style-pressure","style-counter","style-power","style-champion");rival.classList.add("style-"+opponent().style);
- const rivalLook=opponent();rival.style.setProperty("--skin",rivalLook.skin);rival.style.setProperty("--short",rivalLook.short);rival.style.setProperty("--glove",rivalLook.glove);
+ const rivalLook=opponent();rival.dataset.rivalIndex=String(career);rival.style.setProperty("--skin",rivalLook.skin);rival.style.setProperty("--short",rivalLook.short);rival.style.setProperty("--glove",rivalLook.glove);
  $("ph").style.width=s.hp+"%";$("rh").style.width=(s.rh/opponent().health*100)+"%";
  $("ps").style.width=s.st+"%";$("rs").style.width=s.rs+"%";
  $("pht").textContent=Math.ceil(s.hp);$("rht").textContent=Math.ceil(s.rh);
