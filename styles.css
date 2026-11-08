@@ -609,3 +609,74 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @media(max-width:620px){.arena .fighter{width:142px;height:260px;bottom:10%;}.arena .you{left:15%;}.arena .foe{left:62%;}}
 @media(max-width:380px){.arena .fighter{width:126px;height:235px;}.arena .you{left:12%;}.arena .foe{left:62%;}}
 @media(prefers-reduced-motion:reduce){.boxer-art{animation:none!important;}}
+
+
+/* BUILD 2.4 — VERTICAL CHAMPIONSHIP VIEW */
+.shell{max-width:760px}
+.arena{
+ width:min(100%,540px);
+ height:min(76svh,900px);
+ min-height:560px;
+ aspect-ratio:9/16;
+ margin:0 auto;
+ border:3px solid #d7d9e2;
+ border-radius:2px;
+ background:
+  linear-gradient(180deg,rgba(5,9,27,.12),transparent 38%),
+  repeating-linear-gradient(90deg,transparent 0 38px,rgba(145,179,231,.08) 39px 41px),
+  linear-gradient(180deg,#111a43 0 27%,#080d27 28% 43%,#173d82 44% 100%);
+ box-shadow:0 0 0 5px #111a32,0 18px 55px #000b;
+}
+.arena:before{
+ content:"";
+ position:absolute;z-index:1;left:0;right:0;top:27%;height:17%;
+ background:repeating-linear-gradient(180deg,transparent 0 24px,#f0e8d6 25px 30px,transparent 31px 46px,#d92e55 47px 53px,transparent 54px 90px,#f0e8d6 91px 96px);
+ opacity:.95;pointer-events:none;
+}
+.crowd{
+ inset:8% 0 57%;
+ opacity:.95;
+ background:
+  radial-gradient(ellipse at 10% 20%,#e9ad50 0 3px,transparent 4px),
+  radial-gradient(ellipse at 35% 45%,#d94b65 0 4px,transparent 5px),
+  radial-gradient(ellipse at 65% 30%,#e6c66a 0 3px,transparent 4px),
+  radial-gradient(ellipse at 90% 65%,#587cc4 0 4px,transparent 5px),
+  repeating-linear-gradient(90deg,#151d42 0 7px,#273a70 8px 12px,#10172f 13px 19px);
+ background-size:29px 25px,37px 29px,31px 26px,41px 30px,100% 100%;
+}
+.ropes{top:28%;height:5px;z-index:2;box-shadow:0 46px #eee,0 92px #e7e7e7,0 138px #2859b9}
+.arena .hud{top:0;left:0;right:0;grid-template-columns:1fr 74px 1fr;gap:5px;padding:7px;background:#07102feF;border-bottom:2px solid #f4e8c6}
+.hud>div{padding:5px 6px;background:transparent;border:0;border-radius:0;font-size:clamp(9px,2vw,13px)}
+.hud b{font-family:monospace;letter-spacing:1px;color:#fff}
+.hud small{font-size:8px}
+.meter{height:13px;border:2px solid #eee;border-radius:0;background:#17213d;margin:5px 0 2px}
+.meter i{background:linear-gradient(90deg,#16b84e,#39df79)}
+.rival .meter i{background:linear-gradient(90deg,#d82039,#f44955)}
+.clock strong{font-size:clamp(23px,5vw,34px);color:#fff}
+.clock small{color:#f5c847;font-weight:900;font-size:11px}
+.arena .fighter{width:clamp(132px,34vw,178px);height:clamp(265px,54vw,340px);filter:drop-shadow(0 8px 5px #050918c9);z-index:4}
+.arena .foe{left:calc(50% - clamp(66px,17vw,89px));top:17%;bottom:auto;transform:scale(.92);transform-origin:top center}
+.arena .you{left:calc(50% - clamp(66px,17vw,89px));bottom:8%;top:auto;z-index:4}
+.boxer-art{image-rendering:pixelated;shape-rendering:crispEdges;filter:contrast(1.08) saturate(1.08)}
+.pixel-referee{top:52%;z-index:3}
+#callout{z-index:8}
+.panel{max-width:540px;margin:12px auto 0}
+.controller-wrap{border-radius:3px;background:linear-gradient(180deg,#172d58,#09162f);border:2px solid #8fa9d8}
+.controller-shoulders{display:flex;justify-content:space-between}
+.controller-brand{color:#f4c847}
+.gamepad-body{min-height:125px}
+.controller-legend{font-size:8px}
+@media(max-width:620px){
+ .shell{padding:8px}
+ header{display:none}
+ .arena{width:100%;height:min(72svh,760px);min-height:500px}
+ .arena .fighter{width:clamp(124px,35vw,154px);height:clamp(245px,53vw,290px)}
+ .arena .foe{left:calc(50% - clamp(62px,17.5vw,77px));top:17%;transform:scale(.9);transform-origin:top center}
+ .arena .you{left:calc(50% - clamp(62px,17.5vw,77px));bottom:8%}
+ .panel{margin-top:8px}
+}
+@media(max-height:720px) and (max-width:620px){
+ .arena{height:68svh;min-height:450px}
+ .arena .fighter{height:230px}
+}
+@media(prefers-reduced-motion:reduce){.boxer-art{image-rendering:auto}}
