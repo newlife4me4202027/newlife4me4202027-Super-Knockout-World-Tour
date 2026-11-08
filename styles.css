@@ -427,5 +427,6 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .foe.walkout-rival-6{--walkout-x:-18px}
 .foe.walkout-rival-7{--walkout-x:18px}
 @media(prefers-reduced-motion:reduce){
- #walkout.walkout-show,.foe.walkout-enter{animation:none!important;opacity:1;transform:translate(-50%,-50%)}
+ #walkout.walkout-show{animation:none!important;opacity:1;transform:translate(-50%,-50%)}
+ .foe.walkout-enter{animation:none!important;opacity:1;translate:0 0;scale:1}
 }

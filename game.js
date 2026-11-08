@@ -182,7 +182,7 @@ document.querySelectorAll("[data-boxer]").forEach(button=>button.addEventListene
  boxer=button.dataset.boxer;saveCareer();document.querySelectorAll("[data-boxer]").forEach(b=>b.classList.toggle("selected",b===button));applyBoxer();
 }));
 $("audio-toggle").addEventListener("click",()=>{audioMuted=!audioMuted;$("audio-toggle").textContent=audioMuted?"SOUND OFF":"SOUND ON";if(!audioMuted)sound("bell")});
-$("enter-ring").addEventListener("click",start);$("champion-continue").addEventListener("click",()=>{$("champion-screen").classList.add("hidden");showSelect();});$("restart").addEventListener("click",()=>{if(s.active){s.active=false}showSelect()});
+$("enter-ring").addEventListener("click",start);$("champion-continue").addEventListener("click",()=>{$("champion-screen").classList.add("hidden");showSelect();});$("restart").addEventListener("click",()=>{if(walkoutTimer){clearTimeout(walkoutTimer);walkoutTimer=null;}s.active=false;const walkout=$("walkout");if(walkout)walkout.classList.remove("walkout-show");rival.classList.remove("walkout-enter");showSelect()});
 document.addEventListener("keydown",event=>{
  if(["arrowleft","arrowright","arrowup","arrowdown"," "].includes(event.key.toLowerCase()))event.preventDefault();
  if(event.repeat)return;const key=event.key.toLowerCase();
