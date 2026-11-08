@@ -202,3 +202,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added eight distinct rival idle guard profiles, with controlled differences in glove height, arm spacing, elbow position, and body posture.
 - Rival stance selection follows the current World Tour opponent; player controls, attack logic, and the fixed top-to-bottom camera are unchanged.
 - Updated the offline cache version so installed copies request the corrected renderer and styles.
+
+
+## Boxer anatomy and punch animation pass — Build 3.10
+- Refined the polygonal torso with clearer pectoral, shoulder, upper-back, and abdominal forms while keeping the existing character proportions.
+- Rebuilt the gloves with a separate cuff, rounded palm shell, raised knuckle pad, and thumb volume for a more recognizable boxing silhouette.
+- Punch reach now follows a timed extension-and-return curve instead of holding the glove at full extension for the entire attack state.
+- Updated the offline cache version to v9 so the refreshed fighter renderer is picked up by installed copies.
