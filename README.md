@@ -185,3 +185,8 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Rival knockdowns now run a visible referee count from one through three, with a separate count pulse for each beat.
 - The fallen boxer remains down longer, then returns to a standing pose as the count sequence completes.
 - Existing knockdown triggers, recovery health, combat timing, and fixed vertical camera remain unchanged.
+
+## Boxer anatomy and facial detail — Build 3.7
+- Refined polygonal head details with visible eyes, brows, nose, mouth, and ears on the front-facing rival.
+- Tuned chest and torso geometry for a more defined athletic silhouette while retaining the established boxer scale.
+- Existing animation states, hit reactions, combat rules, touch controls, and fixed vertical camera remain unchanged.
