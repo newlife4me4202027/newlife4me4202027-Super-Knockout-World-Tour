@@ -195,3 +195,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added hip-pivot rotation across the complete polygon mesh so punch follow-through and hit recoil move the full boxer silhouette.
 - Added a subtle directional body displacement during impact to make clean hits read more clearly.
 - Preserved existing attack reach, knockdown timing, combat calculations, mobile controls, and fixed vertical camera.
+
+
+## 3D fighter visibility and individualized rival stances — Build 3.9
+- Fixed the arena visibility rule so the WebGL polygonal boxer canvas remains visible above legacy sprite elements.
+- Added eight distinct rival idle guard profiles, with controlled differences in glove height, arm spacing, elbow position, and body posture.
+- Rival stance selection follows the current World Tour opponent; player controls, attack logic, and the fixed top-to-bottom camera are unchanged.
+- Updated the offline cache version so installed copies request the corrected renderer and styles.
