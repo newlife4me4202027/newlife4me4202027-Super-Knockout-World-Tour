@@ -102,7 +102,7 @@ function rivalStrike(type){
 function showSelect(){$("select-screen").classList.remove("hidden")}
 function hideSelect(){$("select-screen").classList.add("hidden")}
 function applyBoxer(){
- const b=boxers[boxer];player.style.setProperty("--skin",b.skin);player.style.setProperty("--short",b.short);player.style.setProperty("--glove",b.glove);
+ const b=boxers[boxer];player.classList.remove("stance-balanced","stance-speed","stance-power","stance-counter","stance-southpaw","stance-endurance","stance-technical","stance-wild");player.classList.add("stance-"+boxer);player.style.setProperty("--skin",b.skin);player.style.setProperty("--short",b.short);player.style.setProperty("--glove",b.glove);
  document.querySelectorAll("[data-boxer]").forEach(el=>el.classList.toggle("selected",el.dataset.boxer===boxer));
 }
 const crowdChants=["LET'S GO! LET'S GO!","HIT! HIT! HIT!","WHAT A SHOT!","THIS IS A FIGHT!","ONE MORE ROUND!"];

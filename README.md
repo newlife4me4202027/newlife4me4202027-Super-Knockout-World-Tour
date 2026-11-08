@@ -137,3 +137,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added pixel-style hit flash, telegraph highlight, guard glow and knockdown fall.
 - Star Punch now gets a brighter, heavier animated impact.
 - Preserved reduced-motion accessibility and all existing input bindings.
+
+
+## Build 2.1 — Boxer stances and victory signatures
+- Added eight individual player idle stances keyed to the selected boxer.
+- Added four distinct rival idle rhythms for pressure, counter, power and champion archetypes.
+- Added stepped, boxer-specific victory animations for every selectable fighter.
+- Existing combat actions temporarily take precedence over idle stances; reduced-motion settings suppress idle loops.
