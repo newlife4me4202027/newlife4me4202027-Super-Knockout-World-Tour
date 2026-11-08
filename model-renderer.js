@@ -1,4 +1,4 @@
-/* BUILD 3.10 — refined boxer anatomy, sculpted gloves, and timed punch follow-through. */
+/* BUILD 3.11 — planted footwork, weight transfer, and strike-specific reactions. */
 (()=> {
  const fighters=[document.getElementById("you"),document.getElementById("foe")].filter(Boolean);
  const style=document.createElement("style");
@@ -13,10 +13,17 @@
  function sphere(m,cx,cy,cz,sx,sy,sz,color){const rows=10,cols=14;for(let i=0;i<rows;i++){const a0=Math.PI*i/rows,a1=Math.PI*(i+1)/rows;for(let j=0;j<cols;j++){const b0=2*Math.PI*j/cols,b1=2*Math.PI*(j+1)/cols;const pt=(a,b)=>[Math.sin(a)*Math.cos(b),Math.cos(a),Math.sin(a)*Math.sin(b)];const q=[pt(a0,b0),pt(a1,b0),pt(a1,b1),pt(a0,b1)];const v=q.map(t=>[cx+t[0]*sx,cy+t[1]*sy,cz+t[2]*sz]);const norm=q.map(t=>[t[0]/sx,t[1]/sy,t[2]/sz]);tri(m,v[0],v[1],v[2],norm[0],norm[1],norm[2],color);tri(m,v[0],v[2],v[3],norm[0],norm[2],norm[3],color)}}}
  function cylinder(m,a,b,r,color,r2=r){const dx=b[0]-a[0],dy=b[1]-a[1],dz=b[2]-a[2],len=Math.hypot(dx,dy,dz)||1,axis=[dx/len,dy/len,dz/len];let u=[-axis[1],axis[0],0];let ul=Math.hypot(...u);if(ul<.001){u=[1,0,0];ul=1}u=u.map(x=>x/ul);const v=[axis[1]*u[2]-axis[2]*u[1],axis[2]*u[0]-axis[0]*u[2],axis[0]*u[1]-axis[1]*u[0]];const steps=10;for(let i=0;i<steps;i++){const t0=i*2*Math.PI/steps,t1=(i+1)*2*Math.PI/steps;const ring=(p,t,rad)=>[p[0]+(u[0]*Math.cos(t)+v[0]*Math.sin(t))*rad,p[1]+(u[1]*Math.cos(t)+v[1]*Math.sin(t))*rad,p[2]+(u[2]*Math.cos(t)+v[2]*Math.sin(t))*rad];const p0=ring(a,t0,r),p1=ring(a,t1,r),p2=ring(b,t1,r2),p3=ring(b,t0,r2);const n0=[u[0]*Math.cos(t0)+v[0]*Math.sin(t0),u[1]*Math.cos(t0)+v[1]*Math.sin(t0),u[2]*Math.cos(t0)+v[2]*Math.sin(t0)],n1=[u[0]*Math.cos(t1)+v[0]*Math.sin(t1),u[1]*Math.cos(t1)+v[1]*Math.sin(t1),u[2]*Math.cos(t1)+v[2]*Math.sin(t1)];tri(m,p0,p1,p2,n0,n1,n1,color);tri(m,p0,p2,p3,n0,n1,n0,color)}}
  function build(el,t){const m=mesh(),back=el.id==="you",cl=el.classList,phase=t*.001,breath=Math.sin(phase*2.3+(back?0:1))*.012;const skin=getComputedStyle(el).getPropertyValue("--skin").trim()||"#a86c4d",short=getComputedStyle(el).getPropertyValue("--short").trim()||"#236fc5",glove=getComputedStyle(el).getPropertyValue("--glove").trim()||"#e74343";const rivalIndex=back?0:Math.max(0,Math.min(7,Number(el.dataset.rivalIndex)||0)),rivalStances=[[0,.00,.00,.00],[.035,.035,-.018,.025],[-.025,-.025,.025,-.035],[.018,.045,-.028,.045],[-.045,.015,.035,-.055],[.055,-.035,-.035,.065],[-.015,.055,.018,-.02],[.025,-.045,.045,.035]],stance=rivalStances[rivalIndex],hit=cl.contains("hit")||cl.contains("impact")||cl.contains("impact-burst"),guard=cl.contains("guard"),punch=[...cl].some(x=>x.startsWith("punch-")||x.startsWith("rival-strike")||x==="star-punch"),upper=cl.contains("punch-upper")||cl.contains("rival-strike-upper"),hook=cl.contains("punch-hook")||cl.contains("rival-strike-hook"),jab=cl.contains("punch-jab")||cl.contains("rival-strike-jab"),knocked=cl.contains("knockdown")||cl.contains("final-knockout"),stepping=cl.contains("step-in")||cl.contains("step-out")||cl.contains("depth-forward")||cl.contains("depth-back");const telegraph=cl.contains("telegraph"),striking=cl.contains("rival-strike"),impact=hit||cl.contains("reaction-jab")||cl.contains("reaction-hook")||cl.contains("reaction-upper")||cl.contains("reaction-special"),sway=stepping?Math.sin(phase*15)*.035:Math.sin(phase*1.7)*.012;let lean=(knocked?(back?-.28:.28):punch?(back?-.13:.13):striking?-.17:impact?(back?.12:-.12):guard?-.025:0)+(back?0:stance[3]);const recoil=impact?Math.sin(phase*32)*.035:0,headShift=telegraph?Math.sin(phase*13)*.045:impact?Math.sin(phase*30)*.055:0;const X=x=>x*Math.cos(lean)- (x*0+0)*Math.sin(lean),Y=y=>y+breath+sway;const joint=(a,b,r,c)=>cylinder(m,[X(a[0]),Y(a[1]),a[2]],[X(b[0]),Y(b[1]),b[2]],r,c);
- // legs and boots
- const footSwing=stepping?Math.sin(phase*15)*.055:Math.sin(phase*2)*.012,lead=back?-1:1;
- joint([-.16,.02,0],[-.18+footSwing,-.38,.01],.075,skin);joint([.16,.02,0],[.18-footSwing,-.38,.01],.075,skin);
- sphere(m,-.18+footSwing,-.42,.025,.12,.055,.13,"#17243a");sphere(m,.18-footSwing,-.42,.025,.12,.055,.13,"#17243a");
+ // legs and boots: a short, timed step with a planted support foot
+ if(stepping&&!el.__stepPoseActive){el.__stepPoseActive=true;el.__stepPoseStart=t;}if(!stepping)el.__stepPoseActive=false;
+ const stepElapsed=stepping?Math.max(0,t-(el.__stepPoseStart||t)):0,stepProgress=stepping?Math.min(1,stepElapsed/260):0,stepEnvelope=stepping?Math.sin(stepProgress*Math.PI):0;
+ const stepSide=cl.contains("step-in")?1:cl.contains("step-out")?-1:0,stepDepth=cl.contains("depth-forward")?1:cl.contains("depth-back")?-1:0;
+ const footSwing=stepping?Math.sin(stepProgress*Math.PI*2)*.075:Math.sin(phase*2)*.012;
+ const liftA=stepEnvelope*(stepSide!==0?.055:stepDepth!==0?.035:0),liftB=stepEnvelope*(stepSide!==0?.012:.035);
+ const footAX=-.18+footSwing-stepSide*.018,footBX=.18-footSwing+stepSide*.018,footAZ=.025+stepDepth*.035*stepEnvelope,footBZ=.025-stepDepth*.025*stepEnvelope;
+ const kneeA=[-.17+footSwing*.35,-.20+liftA*.35,.015+stepDepth*.012],kneeB=[.17-footSwing*.35,-.20+liftB*.25,.015-stepDepth*.008];
+ joint([-.16,.02,0],kneeA,.078,skin);joint(kneeA,[footAX,-.38+liftA,footAZ],.069,skin);
+ joint([.16,.02,0],kneeB,.078,skin);joint(kneeB,[footBX,-.38+liftB,footBZ],.069,skin);
+ sphere(m,footAX,-.42+liftA,footAZ,.12,.055,.13,"#17243a");sphere(m,footBX,-.42+liftB,footBZ,.12,.055,.13,"#17243a");
  // trunks
  sphere(m,0,-.015,0,.29,.17,.16,short);sphere(m,0,.105,.005,.30,.035,.17,"#eee9dc");
  // torso: tapered waist, defined pectorals, shoulders, and upper-back mass
@@ -38,7 +45,9 @@
  for(let k=0;k<3;k++){const yy=.40-k*.085;sphere(m,-.115,yy,.155,.105,.035,.018,"#8a5943");sphere(m,.115,yy,.155,.105,.035,.018,"#8a5943");}
  // Apply a true hip-pivot body rotation so punches and impacts move the full 3D silhouette.
  const angle=lean+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
- for(let i=0;i<m.p.length;i+=3){const x=m.p[i],y=m.p[i+1]-pivot;m.p[i]=x*co-y*si+(impact?(back?-.018:.018)*Math.abs(Math.sin(phase*28)):0);m.p[i+1]=pivot+x*si+y*co;}
+ const reactionDirection=cl.contains("reaction-hook")?1:cl.contains("reaction-upper")?-.45:cl.contains("reaction-special")?-.8:cl.contains("reaction-jab")?-.25:0;
+ const reactionPulse=impact?Math.max(0,Math.sin(phase*30))*(cl.contains("reaction-hook")?.085:cl.contains("reaction-upper")?.065:cl.contains("reaction-special")?.11:.045):0;
+ for(let i=0;i<m.p.length;i+=3){const x=m.p[i],y=m.p[i+1]-pivot,headFactor=m.p[i+1]>.70?1:0;m.p[i]=x*co-y*si+(impact?(back?-.018:.018)*Math.abs(Math.sin(phase*28)):0)+headShift*headFactor+reactionDirection*reactionPulse*headFactor;m.p[i+1]=pivot+x*si+y*co-(reactionPulse*.32*headFactor);}
  return m}
  fighters.forEach(el=>{const canvas=document.createElement("canvas");canvas.className="polygon3d";canvas.setAttribute("aria-hidden","true");el.appendChild(canvas);const gl=canvas.getContext("webgl",{alpha:true,antialias:true,preserveDrawingBuffer:false});if(!gl)return;const prog=gl.createProgram();gl.attachShader(prog,shader(gl,gl.VERTEX_SHADER,VERT));gl.attachShader(prog,shader(gl,gl.FRAGMENT_SHADER,FRAG));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))return;gl.useProgram(prog);const buffers={};for(const name of ["p","n","col"]){buffers[name]=gl.createBuffer();gl.enableVertexAttribArray(gl.getAttribLocation(prog,name));}
  const resize=()=>{const r=el.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.max(1,Math.round(r.width*d));canvas.height=Math.max(1,Math.round(r.height*d));gl.viewport(0,0,canvas.width,canvas.height)};new ResizeObserver(resize).observe(el);resize();gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.clearColor(0,0,0,0);
