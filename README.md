@@ -68,3 +68,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Vicious Velvet, Midnight Jackal, and Queen Cobra use distinct feint/counter tendencies.
 - Velvet, Jackal, Cobra, and Atlas Prime punish repeated player attack patterns with individualized anti-repeat defenses.
 - The existing telegraph, dodge, guard, signature-special, and Star Punch systems remain intact.
+
+
+## Crowd atmosphere and knockout reactions — Build 1.2
+- Combo milestones trigger rotating crowd chants; large reactions trigger a knockout-style crowd callout.
+- Rival knockdowns announce the opponent and trigger a crowd eruption.
+- Final victories use a rival-indexed knockout sting in addition to the existing archetype-specific finish and player celebration.
+- Reduced-motion preferences suppress the new crowd and fall animations.
