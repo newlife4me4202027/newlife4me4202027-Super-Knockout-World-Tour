@@ -1,4 +1,4 @@
-/* BUILD 3.5 — combat polish: telegraph head movement, strike follow-through and impact recoil. */
+/* BUILD 3.7 — boxer anatomy and facial definition. */
 (()=> {
  const fighters=[document.getElementById("you"),document.getElementById("foe")].filter(Boolean);
  const style=document.createElement("style");
@@ -20,10 +20,10 @@
  // trunks
  sphere(m,0,-.015,0,.29,.17,.16,short);sphere(m,0,.105,.005,.30,.035,.17,"#eee9dc");
  // torso: tapered chest and waist
- sphere(m,0,.36,0,.29,.34,.16,skin);sphere(m,-.13,.43,.12,.15,.13,.07,skin);sphere(m,.13,.43,.12,.15,.13,.07,skin);
+ sphere(m,0,.36,0,.285,.33,.155,skin);sphere(m,-.13,.43,.12,.145,.125,.075,skin);sphere(m,.13,.43,.12,.145,.125,.075,skin);sphere(m,0,.28,.145,.105,.105,.025,skin);
  // neck and head
  joint([0,.59,0],[0,.72,0],.09,skin);sphere(m,0,.81,0,.17,.19,.15,skin);
- if(back){sphere(m,0,.93,-.005,.18,.085,.16,"#35221e")}else{sphere(m,0,.94,0,.18,.08,.16,"#20202a");sphere(m,-.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,.065,.82,.13,.025,.018,.012,"#17151a");}
+ if(back){sphere(m,0,.93,-.005,.18,.085,.16,"#35221e")}else{sphere(m,0,.94,0,.18,.08,.16,"#20202a");sphere(m,-.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,-.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,-.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,0,.785,.16,.028,.045,.025,"#895a43");sphere(m,0,.745,.155,.065,.012,.012,"#4a2522");sphere(m,-.18,.81,0,.035,.055,.035,skin);sphere(m,.18,.81,0,.035,.055,.035,skin);}
  // shoulders, arms, forearms and wrist wraps
  const gY=guard?.43:.29,extension=punch?(upper?.22:hook?.17:.25):striking?.18:0,attackSide=back?-1:1;
  for(const side of [-1,1]){const attacking=punch&&side===attackSide,reach=attacking?extension:0,guardLift=guard&&!attacking?.16:0;const sh=[side*.27,.55,0],elbow=[side*(.39+reach*.2),.36+reach*.35+guardLift*.45,.02],wrist=[side*(.40+reach),gY+guardLift+(attacking?(back?.12:-.09):0),.09+(attacking?.06:0)];sphere(m,sh[0],sh[1],sh[2],.13,.14,.13,skin);joint(sh,elbow,.085,skin);sphere(m,elbow[0],elbow[1],elbow[2],.09,.09,.09,skin);joint(elbow,wrist,.07,skin);joint([wrist[0],wrist[1]-.08,.08],[wrist[0],wrist[1]-.02,.08],.075,"#eee9dc");sphere(m,wrist[0],wrist[1]+.055,.11,.13,.12,.12,glove);sphere(m,wrist[0]-.025,wrist[1]+.085,.20,.075,.045,.04,"#ffffff");}
