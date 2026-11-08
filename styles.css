@@ -826,3 +826,45 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
   animation:none!important;opacity:1;translate:0 0;scale:1;rotate:0;filter:none
  }
 }
+
+/* BUILD 2.9 — PS2-ERA CINEMATIC PRESENTATION
+   Preserve the Punch-Out!! vertical camera and all existing combat controls. */
+body{
+ background:radial-gradient(ellipse at 50% 4%,rgba(76,112,164,.42),transparent 44%),radial-gradient(ellipse at 50% 100%,#101a2a 0,#05070d 72%);
+}
+.shell{isolation:isolate}
+.arena{
+ isolation:isolate;border:2px solid #d7bd78;
+ background:radial-gradient(ellipse 72% 25% at 50% 57%,rgba(255,226,164,.18),transparent 75%),linear-gradient(180deg,rgba(6,12,26,.08),rgba(6,12,26,.42)),repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 2px,transparent 2px 7px),linear-gradient(180deg,#111b36 0%,#263b60 25%,#101a30 43%,#3e526e 57%,#c0c8d1 58%,#69788d 100%);
+ box-shadow:0 0 0 5px #080d18,0 26px 85px #000e,inset 0 0 85px #020713aa,inset 0 2px 0 #fff7;
+}
+.arena .crowd{
+ opacity:.96;filter:contrast(1.16) saturate(1.28) brightness(1.08);
+ background:radial-gradient(ellipse at 50% 0%,rgba(255,245,208,.36),transparent 52%),radial-gradient(ellipse at 8% 36%,#f5bd6a 0 3px,transparent 5px),radial-gradient(ellipse at 22% 61%,#d85b69 0 4px,transparent 6px),radial-gradient(ellipse at 42% 27%,#e7d39a 0 3px,transparent 5px),radial-gradient(ellipse at 68% 53%,#648bd0 0 4px,transparent 6px),radial-gradient(ellipse at 88% 31%,#e7a65b 0 3px,transparent 5px),repeating-linear-gradient(90deg,#121b32 0 7px,#304668 8px 12px,#18243b 13px 19px);
+ background-size:100% 100%,31px 29px,37px 33px,29px 27px,41px 31px,33px 35px,100% 100%;
+}
+.arena .ropes{height:7px;background:linear-gradient(180deg,#fff 0%,#d4d9e2 48%,#78869b 52%,#f9f7ee 100%);box-shadow:0 46px #f5f4ef,0 92px #dfe5ed,0 0 15px #fff9,0 46px 14px #fff8,0 92px 12px #fff7}
+.arena .hud>div{background:linear-gradient(145deg,rgba(7,14,28,.98),rgba(31,47,72,.96));border:1px solid #e6c77c;box-shadow:0 7px 18px #000a,inset 0 1px 0 #ffffff25,inset 0 -8px 18px #02071355}
+.arena .hud b{text-shadow:0 1px 0 #000,0 0 8px #ffffff22}
+.arena .meter{border-color:#d5d8dc;box-shadow:inset 0 2px 5px #000,0 1px 0 #fff4}
+.arena .meter i{filter:saturate(1.18);box-shadow:0 0 14px currentColor}
+.arena .clock strong{font-family:Georgia,serif;text-shadow:0 0 14px #fff9,0 3px 0 #18243a}
+.arena .fighter{filter:drop-shadow(0 17px 11px rgba(0,0,0,.68)) drop-shadow(0 0 7px rgba(255,220,155,.16))}
+.arena .boxer-art{image-rendering:auto;shape-rendering:geometricPrecision;filter:contrast(1.13) saturate(1.17) brightness(1.035)}
+.arena .you .player-back-art,.arena .foe .boxer-art{filter:contrast(1.16) saturate(1.2) drop-shadow(0 8px 6px #02050bcc)}
+.arena .fighter.punch{filter:drop-shadow(0 18px 13px #000b) brightness(1.12)}
+.arena .fighter.hit{filter:drop-shadow(0 18px 13px #000b) brightness(1.28) saturate(1.22)}
+.arena #callout{text-shadow:0 2px 0 #fff4,0 5px 0 #6b321b,0 9px 20px #000d,0 0 22px #f5ca65aa}
+.panel{background:linear-gradient(145deg,#1b2a43,#0a1222 72%);border:1px solid #d7bd7866;border-radius:4px;box-shadow:0 15px 35px #0009,inset 0 1px 0 #ffffff18}
+.controller-wrap{background:linear-gradient(155deg,#27446d 0%,#142846 42%,#091426 100%);border:2px solid #9db5d6;box-shadow:0 13px 28px #000b,inset 0 2px 0 #ffffff2b,inset 0 -12px 22px #02081799}
+.controller-brand{color:#ffe09a;text-shadow:0 0 10px #f5c45366}
+.gamepad-body{filter:drop-shadow(0 5px 4px #0008)}
+.face-buttons button,.dpad button,.shoulder{border:1px solid #ffffff75;background-image:linear-gradient(145deg,#ffffff35,transparent 44%,#0005);box-shadow:inset 0 2px 3px #ffffff4a,inset 0 -4px 6px #0005,0 5px 0 #050b16,0 8px 13px #0008;text-shadow:0 1px 2px #000a}
+#select-screen{background:radial-gradient(ellipse at 50% 15%,#3b5278aa,transparent 55%),linear-gradient(180deg,#050914f5,#080d18fa);backdrop-filter:blur(12px)}
+.select-card,.champion-card{background:linear-gradient(145deg,#263c5d,#111c30 72%);border:1px solid #e2c57e;border-radius:5px;box-shadow:0 25px 90px #000d,inset 0 1px 0 #ffffff28,inset 0 -22px 45px #050a15}
+.fighter-choice{background:linear-gradient(145deg,#354e70,#17263d);border:1px solid #ffffff45;border-radius:4px;box-shadow:inset 0 1px 0 #ffffff25,0 5px 12px #0005}
+.fighter-choice.selected{background:linear-gradient(145deg,#655a3d,#29334a);border:2px solid #f6d17c;box-shadow:0 0 22px #f6c4534d,inset 0 1px 0 #fff6}
+#enter-ring,.champion-card button{background:linear-gradient(180deg,#ffe69a,#d49b32);border:1px solid #fff0b8;box-shadow:0 4px 0 #80571e,0 8px 18px #0007,inset 0 1px 0 #fff9}
+#walkout{box-shadow:0 15px 35px #000c,inset 0 1px 0 #fff4;backdrop-filter:blur(7px)}
+@media(max-width:620px){.shell{padding:8px}.arena{border-color:#e2c57e}.panel{padding:9px}}
+@media(prefers-reduced-motion:reduce){.arena .crowd{animation:none!important}}
