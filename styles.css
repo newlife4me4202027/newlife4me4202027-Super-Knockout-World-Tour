@@ -868,3 +868,11 @@ body{
 #walkout{box-shadow:0 15px 35px #000c,inset 0 1px 0 #fff4;backdrop-filter:blur(7px)}
 @media(max-width:620px){.shell{padding:8px}.arena{border-color:#e2c57e}.panel{padding:9px}}
 @media(prefers-reduced-motion:reduce){.arena .crowd{animation:none!important}}
+
+/* BUILD 3.0 — replace flat vector artwork with shaded, animated boxer models */
+.arena .fighter{overflow:visible}
+.arena .fighter>.model-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:8;pointer-events:none;filter:contrast(1.08) saturate(1.12)}
+.arena .fighter>*:not(.model-canvas){visibility:hidden!important}
+.arena .fighter:before{z-index:0}
+.arena .fighter{will-change:transform,translate,filter}
+@media(prefers-reduced-motion:reduce){.arena .fighter{will-change:auto}}
