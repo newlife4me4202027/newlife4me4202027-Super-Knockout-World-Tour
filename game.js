@@ -105,6 +105,13 @@ function applyBoxer(){
 }
 const crowdChants=["LET'S GO! LET'S GO!","HIT! HIT! HIT!","WHAT A SHOT!","THIS IS A FIGHT!","ONE MORE ROUND!"];
 function crowdReact(big=false){const arena=document.querySelector(".arena");if(!arena)return;arena.classList.remove("crowd-roar","crowd-eruption");arena.dataset.chant=big?"THAT'S A KNOCKOUT!":crowdChants[Math.floor(Math.random()*crowdChants.length)];void arena.offsetWidth;arena.classList.add(big?"crowd-eruption":"crowd-roar");clearTimeout(crowdReact.timer);crowdReact.timer=setTimeout(()=>{arena.classList.remove("crowd-roar","crowd-eruption");delete arena.dataset.chant},big?1550:850)}
+function impactBurst(target,heavy=false){
+ const arena=document.querySelector(".arena");if(!target||!arena)return;
+ target.classList.remove("impact-burst","heavy-impact");arena.classList.remove("impact-flash");
+ void target.offsetWidth;target.classList.add("impact-burst");if(heavy)target.classList.add("heavy-impact");
+ void arena.offsetWidth;arena.classList.add("impact-flash");
+ clearTimeout(impactBurst.timer);impactBurst.timer=setTimeout(()=>{target.classList.remove("impact-burst","heavy-impact");arena.classList.remove("impact-flash")},heavy?520:330);
+}
 function finish(win){
  if(!s.active)return;s.active=false;
  const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
@@ -128,7 +135,7 @@ function hit(type){
  s.combo++;if(s.combo===3||s.combo===5||s.combo===8){crowdReact(s.combo>=5);if(s.combo>=5)announce(s.combo>=8?"UNSTOPPABLE COMBO!":"CROWD IS GOING WILD!")}const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
  if(Math.random()<Math.min(.98,accuracy)){
-  const critical=Math.random()<.16?1.7:1,counterBoost=s.counterWindow>0?1.5:1;s.rh=clamp(s.rh-damage*critical*rangeFactor*counterBoost,0,opponent().health);checkRivalPhase();if(counterBoost>1){s.counterWindow=0;player.classList.remove("counter-ready");}if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");
+  const critical=Math.random()<.16?1.7:1,counterBoost=s.counterWindow>0?1.5:1;s.rh=clamp(s.rh-damage*critical*rangeFactor*counterBoost,0,opponent().health);checkRivalPhase();if(counterBoost>1){s.counterWindow=0;player.classList.remove("counter-ready");}if(s.combo>0&&s.combo%3===0&&s.stars<3){s.stars++;announce("STAR EARNED!");}s.rs=clamp(s.rs-3,0,100);anim(rival,"hit");anim(rival,"impact");impactBurst(rival,critical>1||type==="upper");
   const damageRatio=s.rh/opponent().health;let rivalResponse="";if(s.hurtStage===0&&damageRatio<.7){s.hurtStage=1;rivalResponse=opponent().hurt}else if(s.hurtStage===1&&damageRatio<.35){s.hurtStage=2;rivalResponse=opponent().hurt+" — NOW I’M MAD!";}
   if(s.rh>0&&s.rh<opponent().health*.3&&s.rivalDowns<2&&Math.random()<.28){s.rivalDowns++;s.enemy=5;down(rival);announce("RIVAL DOWN!")}
   say(rivalResponse||(counterBoost>1?"DODGE COUNTER! 50% BONUS DAMAGE!":critical>1?"PERFECT COUNTER — BIG DAMAGE!":type.toUpperCase()+" CONNECTS!"));sound("impact");
@@ -189,7 +196,7 @@ setInterval(()=>{
    const attackType=s.enemyMove==="special"?signatureFor().move:s.enemyMove;const specialPower=s.enemyMove==="special"?signatureFor().power:1;const moveDamage=(attackType==="upper"?1.55:attackType==="hook"?1.25:attackType==="counter"?1.35:1)*specialPower*(o.style==="power"?1.18:1)*(o.style==="champion"&&s.lastAttack===s.enemyMove?1.12:1)*(s.ragePhase===2?1.35:s.ragePhase===1?1.15:1);
    const counterMiss=o.style==="counter"&&s.combo>0?.12:0;
    if(Math.random()<Math.min(.45,evade+counterMiss)){say("RIVAL MISSES — COUNTER NOW!");announce("MISS!");sound("miss")}
-   else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance*moveDamage,0,100);s.combo=0;anim(player,"hit");say(s.enemyMove==="special"?o.name+" LANDS "+signatureFor().name+"!":o.name+" LANDS A "+s.enemyMove.toUpperCase()+"!");if(s.enemyMove==="special")announce("SIGNATURE HIT!");sound("impact");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}
+   else{s.hp=clamp(s.hp-(o.damage+Math.floor(Math.random()*7))*distance*moveDamage,0,100);s.combo=0;anim(player,"hit");impactBurst(player,s.enemyMove==="special"||attackType==="upper");say(s.enemyMove==="special"?o.name+" LANDS "+signatureFor().name+"!":o.name+" LANDS A "+s.enemyMove.toUpperCase()+"!");if(s.enemyMove==="special")announce("SIGNATURE HIT!");sound("impact");if(s.hp>0&&s.hp<25&&s.playerDowns<1){s.playerDowns++;s.downTimer=3;down(player);announce("YOU ARE DOWN!")}}
   }
   const recovery=o.style==="pressure"?.72:o.style==="counter"?1.2:o.style==="power"?1.38:o.style==="champion"?(Math.random()<.3?.68:1.02):1;
   const ragePace=s.ragePhase===2?.68:s.ragePhase===1?.84:1;s.enemy=(o.pace+Math.random()*o.pace)*recovery*ragePace;

@@ -82,3 +82,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Career record and completed World Tour title count are saved locally with the existing career data.
 - Winning the final Atlas Prime bout increments the title count and displays the updated career record on the championship screen.
 - Existing saved careers remain compatible; missing title-count data initializes to zero.
+
+
+## Arena presentation and impact feedback — Build 1.4
+- Added arena light beams, brighter ring-rope highlights, and layered overhead lighting.
+- Clean hits create a brief impact spark; critical and uppercut hits use a larger burst.
+- Incoming signature attacks and uppercuts produce heavier player impact feedback.
+- Reduced-motion settings suppress the new impact animations.

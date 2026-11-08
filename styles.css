@@ -321,3 +321,16 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .career-progress-track{height:9px;overflow:hidden;border-radius:99px;background:#080f1c;border:1px solid #ffffff22}.career-progress-track i{display:block;width:0;height:100%;background:linear-gradient(90deg,#d49b38,#ffe58a);box-shadow:0 0 12px #ffd45c;transition:width .35s ease}
 .champion-card #champion-record{display:block;margin:12px 0 16px;color:#ffe08a;font-size:12px;letter-spacing:.08em}
 @media(prefers-reduced-motion:reduce){.career-progress-track i{transition:none}}
+
+
+/* BUILD 1.4 — RING LIGHTING AND PUNCH IMPACT FEEDBACK */
+.arena{background:radial-gradient(ellipse at 50% 8%,#8293ad66,transparent 43%),radial-gradient(ellipse at 16% 0%,#f8d78a24,transparent 32%),radial-gradient(ellipse at 84% 0%,#f8d78a24,transparent 32%),linear-gradient(#26344d 0 55%,#4b5260 56%,#d2d7df 57%,#929cac 100%)}
+.arena::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(112deg,transparent 20%,#fff2 38%,transparent 52%),linear-gradient(248deg,transparent 20%,#fff2 38%,transparent 52%);opacity:.42;mix-blend-mode:screen}
+.ropes{background:linear-gradient(180deg,#fff,#aeb9c9 55%,#68758a);box-shadow:0 45px #dce3ed,0 90px #dce3ed,0 47px 5px #28344788,0 92px 5px #28344788}
+.fighter.impact-burst::after{content:"✦";position:absolute;z-index:7;left:50%;top:43%;font-size:48px;font-weight:1000;color:#fff7c5;text-shadow:0 0 8px #fff,0 0 20px #ffd45c;pointer-events:none;animation:impact-star .32s ease-out both}
+.fighter.heavy-impact::after{content:"✹";font-size:68px;color:#fff;text-shadow:0 0 12px #fff,0 0 28px #ff8c32;animation:heavy-impact-star .5s cubic-bezier(.12,.8,.2,1) both}
+@keyframes impact-star{0%{opacity:0;scale:.25;rotate:-25deg}35%{opacity:1;scale:1.2;rotate:12deg}100%{opacity:0;scale:1.7;rotate:35deg}}
+@keyframes heavy-impact-star{0%{opacity:0;scale:.1;rotate:-40deg}25%{opacity:1;scale:1.35;rotate:15deg}100%{opacity:0;scale:2.1;rotate:45deg}}
+.arena.impact-flash::after{content:"";position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(ellipse at 50% 52%,#fff9 0,transparent 43%);animation:ring-flash .28s ease-out both}
+@keyframes ring-flash{from{opacity:.85}to{opacity:0}}
+@media(prefers-reduced-motion:reduce){.fighter.impact-burst::after,.arena.impact-flash::after{animation:none!important;opacity:0}}
