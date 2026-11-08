@@ -179,3 +179,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Rival attacks show clearer forward follow-through.
 - Successful hits trigger upper-body and head recoil on the affected boxer.
 - Existing telegraph timing, combat calculations, touch controls, and classic vertical camera are preserved.
+
+
+## Knockdown count and recovery — Build 3.6
+- Rival knockdowns now run a visible referee count from one through three, with a separate count pulse for each beat.
+- The fallen boxer remains down longer, then returns to a standing pose as the count sequence completes.
+- Existing knockdown triggers, recovery health, combat timing, and fixed vertical camera remain unchanged.
