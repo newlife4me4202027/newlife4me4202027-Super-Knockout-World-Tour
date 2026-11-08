@@ -574,3 +574,27 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes pixel-win-technical{0%,100%{translate:0 0;rotate:0}35%{translate:0 -13px;rotate:-5deg}70%{translate:0 -4px;rotate:5deg}}
 @keyframes pixel-win-wild{0%,100%{translate:0 0;rotate:0}25%{translate:-11px -14px;rotate:-12deg}75%{translate:11px -11px;rotate:12deg}}
 @media(prefers-reduced-motion:reduce){.arena .you[class*="stance-"],.arena .foe[class*="style-"]:not(.telegraph):not(.rival-strike){animation:none!important}}
+
+/* BUILD 2.2 — PIXEL REFEREE AND RING-OFFICIAL CUES */
+.pixel-referee{position:absolute;z-index:3;left:50%;top:48%;width:34px;height:76px;translate:-50% -50%;image-rendering:pixelated;filter:drop-shadow(0 4px 3px #090d18aa);pointer-events:none}
+.pixel-referee i{position:absolute;display:block;border-radius:0}
+.ref-head{left:11px;top:0;width:13px;height:14px;background:#b97853;box-shadow:0 -4px 0 #242b37,4px 5px 0 -3px #161c27}
+.ref-body{left:8px;top:15px;width:19px;height:28px;background:linear-gradient(90deg,#172333 0 30%,#f0eee4 31% 70%,#172333 71%);box-shadow:0 4px 0 #111a27}
+.ref-arm{top:17px;width:7px;height:25px;background:#b97853;transform-origin:top center}
+.ref-arm-left{left:4px;rotate:18deg}.ref-arm-right{right:3px;rotate:-18deg}
+.ref-leg{top:42px;width:8px;height:27px;background:#172333}
+.ref-leg-left{left:9px}.ref-leg-right{right:8px}
+.ref-count{position:absolute;left:50%;top:-25px;translate:-50% 0;padding:3px 5px;background:#111a27;border:1px solid #f6c453;color:#ffe18a;font-size:8px;font-weight:1000;letter-spacing:1px;white-space:nowrap;opacity:0}
+.pixel-referee.referee-bell .ref-arm-left{animation:ref-bell-left .42s steps(3,end) 2}
+.pixel-referee.referee-bell .ref-arm-right{animation:ref-bell-right .42s steps(3,end) 2}
+.pixel-referee.referee-count .ref-count{opacity:1;animation:ref-count-pop 1.2s steps(3,end) both}
+.pixel-referee.referee-count .ref-arm{animation:ref-count-arms .35s steps(2,end) 3}
+.pixel-referee.referee-victory{animation:ref-victory .55s steps(3,end) 2}
+.pixel-referee.referee-defeat{opacity:.55;translate:-50% -40%}
+@keyframes ref-bell-left{50%{rotate:-115deg;translate:-2px -4px}}
+@keyframes ref-bell-right{50%{rotate:115deg;translate:2px -4px}}
+@keyframes ref-count-pop{0%{opacity:0;scale:.7}20%,85%{opacity:1;scale:1}100%{opacity:0}}
+@keyframes ref-count-arms{50%{rotate:0deg;translate:0 -5px}}
+@keyframes ref-victory{50%{translate:-50% -58%;scale:1.12}}
+@media(max-width:620px){.pixel-referee{top:49%;scale:.82}}
+@media(prefers-reduced-motion:reduce){.pixel-referee,.pixel-referee *{animation:none!important;transition:none!important}.pixel-referee.referee-count .ref-count{opacity:1}}

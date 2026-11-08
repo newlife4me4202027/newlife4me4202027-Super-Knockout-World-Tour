@@ -144,3 +144,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added four distinct rival idle rhythms for pressure, counter, power and champion archetypes.
 - Added stepped, boxer-specific victory animations for every selectable fighter.
 - Existing combat actions temporarily take precedence over idle stances; reduced-motion settings suppress idle loops.
+
+
+## Build 2.2 — Pixel referee and round presentation
+- Added a small pixel-art referee between the fighters in the ring.
+- The referee signals the opening bell, raises their arms during a knockdown count, and reacts to the bout result.
+- Added a compact count callout without covering the fighters or HUD.
+- Preserved the fixed vertical camera, classic controller, fighter animations, combat values, and reduced-motion support.

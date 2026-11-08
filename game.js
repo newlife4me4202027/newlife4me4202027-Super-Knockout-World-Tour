@@ -86,7 +86,7 @@ function update(){
 }
 function say(message){$("status").textContent=message}
 function checkRivalPhase(){const ratio=s.rh/opponent().health;if(s.ragePhase===0&&ratio<=.55){s.ragePhase=1;rival.classList.add("rage-1");s.enemy=Math.min(s.enemy,.7);say(opponent().name+" IS TURNING UP THE PRESSURE!");announce("RIVAL ENRAGED!");sound("warning")}else if(s.ragePhase===1&&ratio<=.25){s.ragePhase=2;rival.classList.remove("rage-1");rival.classList.add("rage-2");s.enemy=Math.min(s.enemy,.45);say(opponent().name+" IS FIGHTING DESPERATELY!");announce("FINAL PHASE!");sound("warning")}}
-function down(el){sound("down");const isRival=el===rival;const finishClass=isRival?"knockdown-"+career:"knockdown-player";el.classList.remove("knockdown",finishClass);void el.offsetWidth;el.classList.add("knockdown",finishClass);if(isRival){crowdReact(true);announce("DOWN GOES "+opponent().name+"!")}setTimeout(()=>el.classList.remove("knockdown",finishClass),1800)}
+function down(el){sound("down");const isRival=el===rival;const finishClass=isRival?"knockdown-"+career:"knockdown-player";el.classList.remove("knockdown",finishClass);void el.offsetWidth;el.classList.add("knockdown",finishClass);if(isRival){crowdReact(true);const referee=document.querySelector(".pixel-referee");if(referee){referee.classList.remove("referee-count");void referee.offsetWidth;referee.classList.add("referee-count");}announce("KNOCKDOWN! REFEREE COUNT!");}setTimeout(()=>el.classList.remove("knockdown",finishClass),1800)}
 function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1100)}
 function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),cls==="star-punch"?560:cls.startsWith("punch-")?340:300)}
 function reaction(el,type){const classes=["reaction-jab","reaction-hook","reaction-upper","reaction-special","reaction-guard"];el.classList.remove(...classes);void el.offsetWidth;const cls=type==="special"?"reaction-special":type==="guard"?"reaction-guard":"reaction-"+type;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),420)}
@@ -116,6 +116,7 @@ function impactBurst(target,heavy=false){
 }
 function finish(win){
  if(!s.active)return;s.active=false;
+ const referee=document.querySelector(".pixel-referee");if(referee){referee.classList.remove("referee-count","referee-bell");referee.classList.add(win?"referee-victory":"referee-defeat");setTimeout(()=>referee.classList.remove("referee-victory","referee-defeat"),1600);}
  const arena=document.querySelector(".arena");if(arena){arena.classList.remove("ko-flash");void arena.offsetWidth;arena.classList.add("ko-flash");}
  if(win){wins++;sound("cheer");crowdReact(true);const rivalStyle=opponents[career].style,celebration="celebrate-"+boxer;rival.classList.add("final-knockout","ko-"+rivalStyle,"knockout-signature-"+career);player.classList.add("victory-celebrate",celebration);setTimeout(()=>{rival.classList.remove("final-knockout","ko-pressure","ko-counter","ko-power","ko-champion","knockout-signature-0","knockout-signature-1","knockout-signature-2","knockout-signature-3","knockout-signature-4","knockout-signature-5","knockout-signature-6","knockout-signature-7");player.classList.remove("victory-celebrate",celebration)},1900);const champion=career===opponents.length-1;if(champion){tourClears++;const total=$("champion-record");if(total)total.textContent="CAREER RECORD "+wins+"–"+losses+" · WORLD TOUR TITLES "+tourClears;}say(champion?"WORLD CHAMPION! THE TOUR IS YOURS":"VICTORY — "+opponents[career].name+" DEFEATED");announce(champion?"WORLD CHAMPION!":"KNOCKOUT!");if(champion){const screen=$("champion-screen");if(screen)screen.classList.remove("hidden");}career=(career+1)%opponents.length}
  else{losses++;sound("down");crowdReact();say("DEFEAT — RECOVER AND TRY AGAIN");announce("DOWN!")}
@@ -147,7 +148,7 @@ function start(){
  walkoutTimer=setTimeout(()=>{
   const panel=$("walkout");if(panel)panel.classList.remove("walkout-show");
   rival.classList.remove("walkout-enter");
-  if(s.active===false){s.active=true;sound("bell");announce("FIGHT!");say("FIGHT! "+o.name+" — LET'S GO!");update();}
+  if(s.active===false){s.active=true;sound("bell");const referee=document.querySelector(".pixel-referee");if(referee){referee.classList.remove("referee-bell");void referee.offsetWidth;referee.classList.add("referee-bell");setTimeout(()=>referee.classList.remove("referee-bell"),1250);}announce("FIGHT!");say("FIGHT! "+o.name+" — LET'S GO!");update();}
  },1550);
 }
 function hit(type){
