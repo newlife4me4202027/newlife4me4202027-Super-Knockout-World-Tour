@@ -598,3 +598,14 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @keyframes ref-victory{50%{translate:-50% -58%;scale:1.12}}
 @media(max-width:620px){.pixel-referee{top:49%;scale:.82}}
 @media(prefers-reduced-motion:reduce){.pixel-referee,.pixel-referee *{animation:none!important;transition:none!important}.pixel-referee.referee-count .ref-count{opacity:1}}
+
+
+/* BUILD 2.3 — REPLACEMENT CHARACTER ART: FULL-BODY ARCADE BOXER SPRITES */
+.arena .fighter{width:168px;height:300px;bottom:9%;overflow:visible;filter:drop-shadow(0 9px 5px #080d18a8);}
+.arena .you{left:25%;}
+.arena .foe{left:64%;}
+.boxer-art{display:block;width:100%;height:100%;overflow:visible;shape-rendering:geometricPrecision;}
+.boxer-art path,.boxer-art ellipse{vector-effect:non-scaling-stroke;}
+@media(max-width:620px){.arena .fighter{width:142px;height:260px;bottom:10%;}.arena .you{left:15%;}.arena .foe{left:62%;}}
+@media(max-width:380px){.arena .fighter{width:126px;height:235px;}.arena .you{left:12%;}.arena .foe{left:62%;}}
+@media(prefers-reduced-motion:reduce){.boxer-art{animation:none!important;}}
