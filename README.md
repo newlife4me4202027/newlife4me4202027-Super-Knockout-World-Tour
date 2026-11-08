@@ -151,3 +151,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - The referee signals the opening bell, raises their arms during a knockdown count, and reacts to the bout result.
 - Added a compact count callout without covering the fighters or HUD.
 - Preserved the fixed vertical camera, classic controller, fighter animations, combat values, and reduced-motion support.
+
+
+## Build 3.2 — Polygonal 3D fighters
+- Replaced the shaded 2.5D boxer illustrations with real-time WebGL polygon meshes.
+- Fighters are assembled from lit 3D geometry with depth buffering, dimensional limbs, torso, head, gloves, trunks, and boots.
+- Existing fighter positions, attack classes, health, stamina, AI, touch controller, and fixed up/down camera remain connected to the original combat system.
+- The ring backdrop remains the current arena presentation; a fully modeled 3D ring is the next visual milestone.
