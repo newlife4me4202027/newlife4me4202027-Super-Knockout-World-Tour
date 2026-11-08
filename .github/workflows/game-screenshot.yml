@@ -35,8 +35,8 @@ jobs:
           (async () => {
             const browser = await chromium.launch({ headless: true });
             const page = await browser.newPage({
-              viewport: { width: 430, height: 932 },
-              deviceScaleFactor: 2,
+              viewport: { width: 540, height: 960 },
+              deviceScaleFactor: 2, // Full HD portrait capture: 1080 x 1920
               isMobile: true,
               hasTouch: true
             });
@@ -45,7 +45,7 @@ jobs:
             await page.goto('http://127.0.0.1:4173', { waitUntil: 'networkidle' });
             await page.locator('#enter-ring').click();
             await page.waitForTimeout(2300);
-            await page.screenshot({ path: 'screenshots/gameplay.png', fullPage: true });
+            await page.screenshot({ path: 'screenshots/gameplay.png', fullPage: false });
             if (errors.length) throw new Error(errors.join('\n'));
             await browser.close();
           })().catch(error => { console.error(error); process.exit(1); });
