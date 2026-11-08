@@ -430,3 +430,30 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
  #walkout.walkout-show{animation:none!important;opacity:1;transform:translate(-50%,-50%)}
  .foe.walkout-enter{animation:none!important;opacity:1;translate:0 0;scale:1}
 }
+
+
+/* BUILD 1.8 — CLASSIC CENTERED VIRTUAL CONTROLLER */
+.controller-wrap{width:min(100%,560px);margin:12px auto 8px;display:flex;flex-direction:column;align-items:center;gap:5px;touch-action:manipulation}
+.controller-shoulders{width:min(94%,490px);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.shoulder{min-width:92px;height:34px;border:1px solid #71809a;border-radius:10px 10px 5px 5px;background:linear-gradient(180deg,#59677d,#252f42);color:#fff;font-weight:1000;letter-spacing:.1em;box-shadow:0 3px 0 #101722,0 5px 10px #0006}
+.shoulder small{font-size:8px;color:#d9e1ee;margin-left:4px}
+.controller-brand{font-size:8px;font-weight:1000;letter-spacing:.22em;color:#8d9bb0}
+.gamepad-body{width:min(100%,520px);min-height:146px;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:2px solid #66748a;border-radius:42px 42px 32px 32px;background:linear-gradient(160deg,#46536a 0%,#202a3c 42%,#111927 100%);box-shadow:inset 0 3px 9px #ffffff26,inset 0 -7px 12px #0008,0 8px 18px #0009;position:relative}
+.gamepad-body::before{content:"";position:absolute;inset:5px 9%;border-top:1px solid #ffffff22;border-radius:50%;pointer-events:none}
+.dpad{width:116px;height:112px;display:grid;grid-template-columns:38px 38px 38px;grid-template-rows:36px 36px 36px;place-content:center;position:relative;z-index:1}
+.dpad button{border:1px solid #080d16;background:linear-gradient(145deg,#303b4f,#101722);color:#dce5f4;font-size:17px;font-weight:1000;box-shadow:inset 0 1px 2px #ffffff25,0 2px 2px #0008;touch-action:manipulation}
+.dpad-up{grid-area:1/2;border-radius:7px 7px 2px 2px}.dpad-left{grid-area:2/1;border-radius:7px 2px 2px 7px}.dpad-center{grid-area:2/2;background:#121a28;border-block:1px solid #080d16}.dpad-right{grid-area:2/3;border-radius:2px 7px 7px 2px}.dpad-down{grid-area:3/2;border-radius:2px 2px 7px 7px}
+.pad-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#9aa8bd;font-size:7px;font-weight:900;letter-spacing:.13em}
+.pad-center b{font-size:20px;filter:drop-shadow(0 2px 2px #000)}
+.face-buttons{width:132px;height:112px;position:relative;flex:0 0 132px}
+.face-buttons button{position:absolute;width:43px;height:43px;border-radius:50%;border:2px solid #101723;color:#fff;font-size:16px;font-weight:1000;box-shadow:inset 0 2px 3px #ffffff55,0 3px 0 #080d16,0 5px 8px #0008;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.face-y{left:44px;top:0;background:linear-gradient(145deg,#6d91dc,#294b91)}
+.face-x{left:0;top:34px;background:linear-gradient(145deg,#c28be9,#7040a0)}
+.face-b{left:88px;top:34px;background:linear-gradient(145deg,#ed8c83,#a53d3d)}
+.face-a{left:44px;top:68px;background:linear-gradient(145deg,#7acb9c,#28774f)}
+.controller-wrap button:active{transform:translateY(2px) scale(.96);filter:brightness(1.22)}
+.controller-wrap button:disabled{opacity:.38;filter:grayscale(1)}
+.controller-wrap button:focus-visible{outline:3px solid #ffe58a;outline-offset:3px}
+.controller-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:7px 14px;color:#8996aa;font-size:8px;font-weight:900;letter-spacing:.07em;text-align:center}
+@media(max-width:420px){.gamepad-body{min-height:132px;padding:9px 12px;border-radius:34px 34px 26px 26px;gap:3px}.dpad{transform:scale(.88);transform-origin:left center;width:104px}.face-buttons{transform:scale(.88);transform-origin:right center;margin-left:auto}.pad-center{font-size:6px}.controller-shoulders{width:96%}.shoulder{min-width:82px;height:32px}}
+@media(prefers-reduced-motion:reduce){.controller-wrap button{transition:none!important}}
