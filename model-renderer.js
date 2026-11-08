@@ -1,4 +1,4 @@
-/* BUILD 3.7 — boxer anatomy and facial definition. */
+/* BUILD 3.8 — full-body punch follow-through and impact recoil. */
 (()=> {
  const fighters=[document.getElementById("you"),document.getElementById("foe")].filter(Boolean);
  const style=document.createElement("style");
@@ -29,6 +29,9 @@
  for(const side of [-1,1]){const attacking=punch&&side===attackSide,reach=attacking?extension:0,guardLift=guard&&!attacking?.16:0;const sh=[side*.27,.55,0],elbow=[side*(.39+reach*.2),.36+reach*.35+guardLift*.45,.02],wrist=[side*(.40+reach),gY+guardLift+(attacking?(back?.12:-.09):0),.09+(attacking?.06:0)];sphere(m,sh[0],sh[1],sh[2],.13,.14,.13,skin);joint(sh,elbow,.085,skin);sphere(m,elbow[0],elbow[1],elbow[2],.09,.09,.09,skin);joint(elbow,wrist,.07,skin);joint([wrist[0],wrist[1]-.08,.08],[wrist[0],wrist[1]-.02,.08],.075,"#eee9dc");sphere(m,wrist[0],wrist[1]+.055,.11,.13,.12,.12,glove);sphere(m,wrist[0]-.025,wrist[1]+.085,.20,.075,.045,.04,"#ffffff");}
  // dimensional rib/abdominal accents
  for(let k=0;k<3;k++){const yy=.40-k*.085;sphere(m,-.115,yy,.155,.105,.035,.018,"#8a5943");sphere(m,.115,yy,.155,.105,.035,.018,"#8a5943");}
+ // Apply a true hip-pivot body rotation so punches and impacts move the full 3D silhouette.
+ const angle=lean+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
+ for(let i=0;i<m.p.length;i+=3){const x=m.p[i],y=m.p[i+1]-pivot;m.p[i]=x*co-y*si+(impact?(back?-.018:.018)*Math.abs(Math.sin(phase*28)):0);m.p[i+1]=pivot+x*si+y*co;}
  return m}
  fighters.forEach(el=>{const canvas=document.createElement("canvas");canvas.className="polygon3d";canvas.setAttribute("aria-hidden","true");el.appendChild(canvas);const gl=canvas.getContext("webgl",{alpha:true,antialias:true,preserveDrawingBuffer:false});if(!gl)return;const prog=gl.createProgram();gl.attachShader(prog,shader(gl,gl.VERTEX_SHADER,VERT));gl.attachShader(prog,shader(gl,gl.FRAGMENT_SHADER,FRAG));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))return;gl.useProgram(prog);const buffers={};for(const name of ["p","n","col"]){buffers[name]=gl.createBuffer();gl.enableVertexAttribArray(gl.getAttribLocation(prog,name));}
  const resize=()=>{const r=el.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.max(1,Math.round(r.width*d));canvas.height=Math.max(1,Math.round(r.height*d));gl.viewport(0,0,canvas.width,canvas.height)};new ResizeObserver(resize).observe(el);resize();gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.clearColor(0,0,0,0);
