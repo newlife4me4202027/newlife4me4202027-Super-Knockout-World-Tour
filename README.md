@@ -98,3 +98,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Touch controls use larger tap targets, clearer spacing, focus outlines, and a compact grid on narrow screens.
 - Existing dodge windows, stamina costs, Star Punch, rival AI, and fight positioning rules are unchanged.
 - Reduced-motion preferences suppress the added movement animations.
+
+
+## Living fighter animations — Build 1.6
+- Added subtle breathing and focus movement to both fighters' idle stances.
+- Jab, hook, uppercut, and signature-special impacts now trigger distinct body and head reactions.
+- Guarding adds a brief brace and glove-clash response.
+- Existing damage, timing, stamina, rival patterns, and Star Punch values are unchanged.
+- Reduced-motion preferences disable the added idle and reaction animations.

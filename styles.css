@@ -375,3 +375,34 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 @media(prefers-reduced-motion:reduce){
  .you.step-in,.you.step-out,.you.depth-forward,.you.depth-back,.you.dodge-step,.you.dodge-step .torso,.you.dodge-step .arm{animation:none!important}
 }
+
+/* BUILD 1.6 — LIVING STANCES AND CHARACTERFUL HIT REACTIONS */
+.fighter .torso{transform-origin:50% 18%}
+.fighter:not(.punch):not(.punch-jab):not(.punch-hook):not(.punch-upper):not(.star-punch):not(.hit):not(.knockdown):not(.dodge-step) .torso{animation:stance-breathe 2.35s ease-in-out infinite}
+.fighter:not(.punch):not(.punch-jab):not(.punch-hook):not(.punch-upper):not(.star-punch):not(.hit):not(.knockdown):not(.dodge-step) .head{animation:stance-focus 3.2s ease-in-out infinite}
+.fighter:not(.punch):not(.punch-jab):not(.punch-hook):not(.punch-upper):not(.star-punch):not(.hit):not(.knockdown) .glove{animation:glove-guard-bob 1.8s ease-in-out infinite}
+.fighter .arm,.fighter .glove,.fighter .head,.fighter .torso{will-change:transform}
+.fighter.guard .arm.a,.fighter.guard .arm.b{animation:guard-shell .22s ease-out}
+.fighter.guard .glove.c,.fighter.guard .glove.d{filter:brightness(1.22) drop-shadow(0 0 7px #ffe58a)}
+.fighter.reaction-jab .torso{animation:body-jolt-jab .38s ease-out}
+.fighter.reaction-hook .torso{animation:body-jolt-hook .4s ease-out}
+.fighter.reaction-upper .torso{animation:body-jolt-upper .42s ease-out}
+.fighter.reaction-special .torso{animation:body-jolt-special .42s ease-out}
+.fighter.reaction-guard .torso{animation:body-brace .32s ease-out}
+.fighter.reaction-jab .head,.fighter.reaction-hook .head,.fighter.reaction-upper .head,.fighter.reaction-special .head{animation:head-snap .38s ease-out}
+.fighter.reaction-guard .glove{animation:guard-clash .3s ease-out}
+@keyframes stance-breathe{0%,100%{scale:1 1}50%{scale:1 1.018}}
+@keyframes stance-focus{0%,100%{translate:0 0}50%{translate:0 -1.5px}}
+@keyframes glove-guard-bob{0%,100%{translate:0 0}50%{translate:0 -2px}}
+@keyframes guard-shell{50%{rotate:-7deg}}
+@keyframes body-jolt-jab{0%{translate:0 0}28%{translate:-8px 0;rotate:3deg}62%{translate:3px 0;rotate:-1deg}100%{translate:0 0;rotate:0}}
+@keyframes body-jolt-hook{0%{translate:0 0}30%{translate:11px 1px;rotate:-8deg}65%{translate:-3px 0;rotate:2deg}100%{translate:0 0;rotate:0}}
+@keyframes body-jolt-upper{0%{translate:0 0}30%{translate:0 -9px;rotate:5deg}68%{translate:0 3px;rotate:-2deg}100%{translate:0 0;rotate:0}}
+@keyframes body-jolt-special{0%{translate:0 0}22%{translate:-13px -5px;rotate:8deg}52%{translate:7px 2px;rotate:-5deg}100%{translate:0 0;rotate:0}}
+@keyframes body-brace{0%{translate:0 0}40%{translate:-3px 1px;scale:1.03 .98}100%{translate:0 0;scale:1}}
+@keyframes head-snap{0%,100%{translate:0 0;rotate:0}35%{translate:0 -5px;rotate:8deg}70%{translate:0 2px;rotate:-3deg}}
+@keyframes guard-clash{45%{translate:0 -5px;scale:1.12}}
+@media(prefers-reduced-motion:reduce){
+ .fighter .torso,.fighter .head,.fighter .glove,.fighter .arm{animation:none!important}
+ .fighter.reaction-jab .torso,.fighter.reaction-hook .torso,.fighter.reaction-upper .torso,.fighter.reaction-special .torso,.fighter.reaction-guard .torso,.fighter.reaction-jab .head,.fighter.reaction-hook .head,.fighter.reaction-upper .head,.fighter.reaction-special .head,.fighter.reaction-guard .glove{animation:none!important}
+}
