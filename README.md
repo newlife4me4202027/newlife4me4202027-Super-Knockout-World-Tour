@@ -190,3 +190,8 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Refined polygonal head details with visible eyes, brows, nose, mouth, and ears on the front-facing rival.
 - Tuned chest and torso geometry for a more defined athletic silhouette while retaining the established boxer scale.
 - Existing animation states, hit reactions, combat rules, touch controls, and fixed vertical camera remain unchanged.
+
+## Full-body punch and impact motion — Build 3.8
+- Added hip-pivot rotation across the complete polygon mesh so punch follow-through and hit recoil move the full boxer silhouette.
+- Added a subtle directional body displacement during impact to make clean hits read more clearly.
+- Preserved existing attack reach, knockdown timing, combat calculations, mobile controls, and fixed vertical camera.
