@@ -209,3 +209,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Rebuilt the gloves with a separate cuff, rounded palm shell, raised knuckle pad, and thumb volume for a more recognizable boxing silhouette.
 - Punch reach now follows a timed extension-and-return curve instead of holding the glove at full extension for the entire attack state.
 - Updated the offline cache version to v9 so the refreshed fighter renderer is picked up by installed copies.
+
+
+## Fighter movement and impact animation — Build 3.11
+- Reworked the boxer legs with articulated knee segments and timed foot lifts during sidesteps and ring-depth movement.
+- Added a short step envelope so movement has a clear push-off and recovery instead of continuous leg swinging.
+- Hook, uppercut, jab, and special-hit reactions now produce different head recoil directions and intensities.
+- The fixed up/down camera, combat timing, damage values, and controller layout remain unchanged.
+- Updated the service-worker cache to version 10 so installed clients fetch the new fighter renderer.
