@@ -10,11 +10,25 @@
   const w=142,h=285,style=getComputedStyle(el),skin=style.getPropertyValue("--skin").trim()||"#a86c4d",short=style.getPropertyValue("--short").trim()||"#236fc5",glove=style.getPropertyValue("--glove").trim()||"#e74343";
   const back=el.id==="you",classes=el.classList;
   const phase=now*.001,breath=Math.sin(phase*2.3+(back?0:1)) * 1.6;
-  const punch=classes.contains("punch-jab")||classes.contains("punch-hook")||classes.contains("punch-upper")||classes.contains("star-punch");
+  const rivalStrike=classes.contains("rival-strike")||classes.contains("rival-strike-jab")||classes.contains("rival-strike-hook")||classes.contains("rival-strike-upper");
+  const playerStrike=classes.contains("punch-jab")||classes.contains("punch-hook")||classes.contains("punch-upper")||classes.contains("star-punch");
+  const punch=playerStrike||rivalStrike;
+  const upper=classes.contains("punch-upper")||classes.contains("rival-strike-upper");
+  const hook=classes.contains("punch-hook")||classes.contains("rival-strike-hook");
+  const star=classes.contains("star-punch");
   const hit=classes.contains("hit")||classes.contains("impact"),guard=classes.contains("guard"),telegraph=classes.contains("telegraph");
+  const knocked=classes.contains("knockdown")||classes.contains("final-knockout");
   c.clearRect(0,0,w,h);c.save();
-  if(hit)c.translate(Math.sin(phase*55)*2,0);
-  if(punch)c.translate(0,-5-Math.sin(phase*28)*3);
+  // Small idle weight shifts keep each boxer alive; attacks lean toward the opponent.
+  c.translate(Math.sin(phase*1.7+(back?0:1.1))*1.15,Math.sin(phase*2.3+(back?0:1))*1.1);
+  if(hit)c.translate(Math.sin(phase*55)*3,0);
+  if(punch){
+   c.translate(71,160);
+   c.rotate((back?-1:1)*(star?.105:upper?.09:hook?.075:.055));
+   c.translate(-71,-160);
+   c.translate(0,back?-(star?13:upper?10:6):(star?13:upper?10:6));
+  }
+  if(knocked){c.translate(71,155);c.rotate(back?-.13:.13);c.translate(-71,-155);}
   if(telegraph)c.translate(0,Math.sin(phase*18)*2);
   // Ring-contact shadow and boot silhouette
   ellipse(c,71,277,43,6,"rgba(0,0,0,.52)");
@@ -61,7 +75,7 @@
   path(c,[[107,132],[133,127],[136,144],[111,150]],"#eee9dc","#37303a",2);
   c.strokeStyle="#b5b5b1";c.lineWidth=2;c.beginPath();c.moveTo(9,135);c.lineTo(33,140);c.moveTo(109,140);c.lineTo(133,135);c.stroke();
   // Gloves in foreground, with padded knuckle highlights
-  const gy=guard?105:116;
+  const gy=(guard?105:116)+(punch?(back?-13:13):0);
   ellipse(c,21,gy,20,22,gloveG,"#201b25",3);ellipse(c,121,gy,20,22,gloveG,"#201b25",3);
   ellipse(c,16,gy-6,9,7,"rgba(255,255,255,.27)");ellipse(c,116,gy-6,9,7,"rgba(255,255,255,.27)");
   c.strokeStyle="#fff8";c.lineWidth=3;c.beginPath();c.moveTo(8,gy+2);c.quadraticCurveTo(20,gy+9,34,gy+1);c.moveTo(108,gy+1);c.quadraticCurveTo(121,gy+9,134,gy+2);c.stroke();
@@ -83,6 +97,8 @@
   // fighter-specific signature trim and sweat glints
   c.fillStyle="#f8e9bf";c.font="bold 9px Arial";c.textAlign="center";c.fillText("★",71,188);
   if(telegraph||punch){ellipse(c,112,58,2,3,"#fff4c9");ellipse(c,30,50,1.5,2,"#fff4c9")}
+  if(punch){c.globalAlpha=.2;ellipse(c,back?71:71,back?gy-8:gy+8,30,17,"#fff0c5");c.globalAlpha=1}
+  if(hit){c.globalAlpha=.24;ellipse(c,71,105,43,83,"#fff0d2");c.globalAlpha=1}
   c.restore();
  }
  function mount(el){
