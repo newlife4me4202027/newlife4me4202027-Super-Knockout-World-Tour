@@ -291,3 +291,12 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .foe.rival-strike-special .arm.a,.foe.rival-strike-special .arm.b{animation:rival-signature-surge .48s ease-out}
 @keyframes rival-signature-surge{0%{transform:rotate(0)}35%{transform:rotate(-58deg) translateY(7px)}70%{transform:rotate(48deg) translateY(4px)}100%{transform:rotate(0)}}
 @media(prefers-reduced-motion:reduce){.foe.rival-strike-special,.foe.rival-strike-special .arm{animation:none!important}}
+
+
+/* BUILD 1.1 — EIGHT DISTINCT RIVAL RHYTHMS */
+.foe.telegraph{transition:filter .12s ease}
+.foe.style-pressure.telegraph{filter:brightness(1.3) drop-shadow(0 0 15px #ff594d)}
+.foe.style-counter.telegraph{filter:brightness(1.32) drop-shadow(0 0 17px #bd8cff)}
+.foe.style-power.telegraph{filter:brightness(1.3) drop-shadow(0 0 17px #ffad43)}
+.foe.style-champion.telegraph{filter:brightness(1.4) drop-shadow(0 0 20px #ffe58a)}
+@media(prefers-reduced-motion:reduce){.foe.telegraph{transition:none}}

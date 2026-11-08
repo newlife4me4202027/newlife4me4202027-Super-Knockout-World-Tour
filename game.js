@@ -56,10 +56,13 @@ function sound(kind){
  }catch(error){}
 }
 
-let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false};
+let s={hp:100,rh:100,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,patternStep:0};
 function opponent(){return opponents[career]}
 const signatures=[{"name":"MAKO'S TIDAL RUSH","move":"jab","power":1.18},{"name":"VELVET'S MIRROR TRAP","move":"counter","power":1.28},{"name":"NOVA'S COMET CRASH","move":"upper","power":1.65},{"name":"DUKE'S DOUBLE FUSE","move":"hook","power":1.42},{"name":"TORO'S BULL CHARGE","move":"upper","power":1.8},{"name":"JACKAL'S NIGHTFALL","move":"counter","power":1.52},{"name":"COBRA'S VENOM SNAP","move":"hook","power":1.58},{"name":"ATLAS' TITAN BREAKER","move":"upper","power":2.05}];
 function signatureFor(){return signatures[career]||signatures[0]}
+const rivalPatterns=[["jab","jab","hook","jab"],["jab","counter","hook","counter"],["hook","upper","upper","hook"],["jab","hook","jab","upper"],["upper","hook","upper","upper"],["counter","jab","hook","counter"],["hook","jab","counter","upper"],["jab","hook","upper","counter"]];
+const feintRates=[0,.28,0,.12,0,.24,.2,.1];
+const antiRepeat=[0,.28,0,0,0,.16,.24,.18];
 function update(){
  rival.classList.remove("style-pressure","style-counter","style-power","style-champion");rival.classList.add("style-"+opponent().style);
  const rivalLook=opponent();rival.style.setProperty("--skin",rivalLook.skin);rival.style.setProperty("--short",rivalLook.short);rival.style.setProperty("--glove",rivalLook.glove);
@@ -104,7 +107,7 @@ function finish(win){
 }
 function start(){
  const o=opponent();hideSelect();applyBoxer();const championArena=document.querySelector(".arena");if(championArena){championArena.classList.remove("champion-entrance");if(career===opponents.length-1){void championArena.offsetWidth;championArena.classList.add("champion-entrance");setTimeout(()=>championArena.classList.remove("champion-entrance"),1800);}}
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,dialogueStage:0,hurtStage:0});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,patternStep:0,dialogueStage:0,hurtStage:0});
  player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion","rage-1","rage-2");const arena=document.querySelector(".arena");if(arena)arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");say(career===opponents.length-1?"FINAL TITLE FIGHT — "+o.name+" ENTERS THE ARENA": "TITLE FIGHT — "+o.intro);announce(career===opponents.length-1?"FINAL BOSS!":"FIGHT!");sound("bell");update();
 }
 function hit(type){
@@ -112,7 +115,7 @@ function hit(type){
  const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina;let damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
  s.st-=cost;s.lastAttack=type;s.attackCounts[type]++;anim(player,"punch");anim(player,"punch-"+type);sound(type);
- const slipChance=opponent().style==="counter"?.2:opponent().style==="champion"?.12:0;
+ const slipChance=antiRepeat[career]||0;
  if(s.combo>=2&&Math.random()<slipChance){s.combo=0;s.enemy=Math.min(s.enemy,.8);say(opponent().name+" SLIPS THE REPEATED ATTACK!");announce("PUNCH MISSED!");sound("miss");update();return}
  s.combo++;if(s.combo===3||s.combo===5||s.combo===8){crowdReact(s.combo>=5);if(s.combo>=5)announce(s.combo>=8?"UNSTOPPABLE COMBO!":"CROWD IS GOING WILD!")}const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
  const accuracy=({jab:.91,hook:.76,upper:.65}[type])*b.accuracy*rangeFactor;
@@ -153,11 +156,11 @@ setInterval(()=>{
  s.t=Math.max(0,s.t-1);if(s.counterWindow>0){s.counterWindow--;if(s.counterWindow===0)player.classList.remove("counter-ready");}s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
  const o=opponent();
  if(s.enemy<=1&&!rival.classList.contains("telegraph")){
-  const moves=o.style==="power"?["hook","upper","hook","upper"]:o.style==="counter"?["jab","hook","counter","counter"]:o.style==="champion"?["jab","hook","upper","counter"]:["jab","jab","hook","jab"];
+  const moves=rivalPatterns[career]||rivalPatterns[0];
   s.specialActive=s.specialCooldown<=0&&Math.random()<.34;
   if(s.specialActive){s.enemyMove="special";s.specialCooldown=4;}
-  else{if(s.specialCooldown>0)s.specialCooldown--;if(o.style==="champion"&&s.lastAttack){const repeated=s.attackCounts[s.lastAttack];s.enemyMove=repeated>=3?(s.lastAttack==="jab"?"hook":"jab"):moves[Math.floor(Math.random()*moves.length)];}else s.enemyMove=moves[Math.floor(Math.random()*moves.length)];}
-  s.feint=!s.specialActive&&o.style==="counter"&&Math.random()<.22;
+  else{if(s.specialCooldown>0)s.specialCooldown--;s.enemyMove=moves[s.patternStep%moves.length];s.patternStep++;if(o.style==="champion"&&s.lastAttack&&s.attackCounts[s.lastAttack]>=3)s.enemyMove=s.lastAttack==="jab"?"hook":"jab";}
+  s.feint=!s.specialActive&&Math.random()<(feintRates[career]||0);
   rival.classList.add("telegraph");
   if(s.specialActive){say(o.name+" PREPARES "+signatureFor().name+"!");announce(signatureFor().name+"!");}
   else if(s.dialogueStage===0){say(o.taunt||o.name+" IS READY!");s.dialogueStage=1}else announce(s.enemyMove==="upper"?"UPPERCUT!":s.enemyMove==="hook"?"HOOK!":s.enemyMove==="counter"?"COUNTER!":"JAB!");

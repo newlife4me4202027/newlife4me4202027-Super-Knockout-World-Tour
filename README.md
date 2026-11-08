@@ -61,3 +61,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Specials can be avoided with existing sidestep/depth positioning and dodge timing; guarding reduces incoming damage.
 - Atlas Prime’s Titan Breaker is the strongest signature attack, with a clear warning before impact.
 - Reduced-motion settings disable the added special-attack animation.
+
+
+## Rival combat personalities — Build 1.1
+- Each of the eight rivals now follows an individual attack rhythm rather than drawing from only four broad AI archetypes.
+- Vicious Velvet, Midnight Jackal, and Queen Cobra use distinct feint/counter tendencies.
+- Velvet, Jackal, Cobra, and Atlas Prime punish repeated player attack patterns with individualized anti-repeat defenses.
+- The existing telegraph, dodge, guard, signature-special, and Star Punch systems remain intact.
