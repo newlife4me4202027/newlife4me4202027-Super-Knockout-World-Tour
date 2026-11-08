@@ -406,3 +406,26 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
  .fighter .torso,.fighter .head,.fighter .glove,.fighter .arm{animation:none!important}
  .fighter.reaction-jab .torso,.fighter.reaction-hook .torso,.fighter.reaction-upper .torso,.fighter.reaction-special .torso,.fighter.reaction-guard .torso,.fighter.reaction-jab .head,.fighter.reaction-hook .head,.fighter.reaction-upper .head,.fighter.reaction-special .head,.fighter.reaction-guard .glove{animation:none!important}
 }
+
+
+/* BUILD 1.7 — RIVAL WALKOUTS AND RING INTRODUCTIONS */
+#walkout{position:absolute;z-index:9;left:50%;top:43%;width:min(88%,520px);padding:13px 16px;text-align:center;transform:translate(-50%,-50%) scale(.94);opacity:0;pointer-events:none;border:1px solid #f6d27a99;background:linear-gradient(135deg,#101827f2,#202d43ee);box-shadow:0 10px 35px #000b,0 0 24px #f6c45322;border-radius:5px}
+#walkout.walkout-show{animation:walkout-card 1.55s ease both}
+#walkout small{display:block;color:#f6d27a;font-size:9px;font-weight:900;letter-spacing:.2em}
+#walkout strong{display:block;margin:5px 0;color:#fff;font-size:clamp(20px,5vw,34px);font-weight:1000;letter-spacing:.06em;text-shadow:0 3px 0 #000,0 0 18px #f6c45366}
+#walkout p{margin:5px 0;color:#e4e9f1;font-size:clamp(10px,2.2vw,13px);line-height:1.35}
+#walkout em{display:block;margin-top:7px;color:#ffe08a;font-size:9px;font-style:normal;font-weight:900;letter-spacing:.12em}
+@keyframes walkout-card{0%{opacity:0;transform:translate(-50%,-42%) scale(.9)}15%,78%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-58%) scale(1.03)}}
+.foe.walkout-enter{animation:rival-walkout 1.25s cubic-bezier(.18,.8,.2,1) both}
+@keyframes rival-walkout{0%{translate:var(--walkout-x,0) -78px;opacity:0;scale:.9}55%{translate:0 7px;opacity:1;scale:1.035}100%{translate:0 0;opacity:1;scale:1}}
+.foe.walkout-rival-0{--walkout-x:-28px}
+.foe.walkout-rival-1{--walkout-x:28px}
+.foe.walkout-rival-2{--walkout-x:-12px}
+.foe.walkout-rival-3{--walkout-x:12px}
+.foe.walkout-rival-4{--walkout-x:-34px}
+.foe.walkout-rival-5{--walkout-x:34px}
+.foe.walkout-rival-6{--walkout-x:-18px}
+.foe.walkout-rival-7{--walkout-x:18px}
+@media(prefers-reduced-motion:reduce){
+ #walkout.walkout-show,.foe.walkout-enter{animation:none!important;opacity:1;transform:translate(-50%,-50%)}
+}

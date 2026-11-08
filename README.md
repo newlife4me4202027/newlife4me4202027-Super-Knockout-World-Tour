@@ -106,3 +106,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Guarding adds a brief brace and glove-clash response.
 - Existing damage, timing, stamina, rival patterns, and Star Punch values are unchanged.
 - Reduced-motion preferences disable the added idle and reaction animations.
+
+
+## Rival walkouts and ring introductions — Build 1.7
+- Each bout opens with a dedicated rival entrance card featuring the opponent's own introduction line and named signature move.
+- The rival fighter animates into the ring with eight individually offset entrance variations.
+- The opening bell and live combat controls activate after the short introduction sequence.
+- The final Atlas Prime bout retains its championship entrance treatment.
+- Reduced-motion preferences suppress the walkout animations while preserving the introduction text.

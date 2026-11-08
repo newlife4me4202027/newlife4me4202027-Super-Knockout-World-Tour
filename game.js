@@ -122,10 +122,33 @@ function finish(win){
  saveCareer();
  updateCareerPanel();update();
 }
+let walkoutTimer=null;
+function beginWalkout(){
+ const panel=$("walkout"),name=$("walkout-name"),line=$("walkout-line"),signature=$("walkout-signature");
+ if(!panel)return;
+ const o=opponent();
+ name.textContent=o.name;
+ line.textContent=o.intro;
+ signature.textContent="SIGNATURE MOVE · "+signatureFor().name;
+ panel.classList.remove("hidden","walkout-show");
+ void panel.offsetWidth;
+ panel.classList.add("walkout-show");
+ rival.classList.remove(...Array.from({length:8},(_,i)=>"walkout-rival-"+i),"walkout-enter");
+ rival.classList.add("walkout-rival-"+career,"walkout-enter");
+}
 function start(){
+ if(walkoutTimer)clearTimeout(walkoutTimer);
  const o=opponent();hideSelect();applyBoxer();const championArena=document.querySelector(".arena");if(championArena){championArena.classList.remove("champion-entrance");if(career===opponents.length-1){void championArena.offsetWidth;championArena.classList.add("champion-entrance");setTimeout(()=>championArena.classList.remove("champion-entrance"),1800);}}
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:true,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,patternStep:0,dialogueStage:0,hurtStage:0});
- player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion","rage-1","rage-2");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");delete arena.dataset.chant;}say(career===opponents.length-1?"FINAL TITLE FIGHT — "+o.name+" ENTERS THE ARENA": "TITLE FIGHT — "+o.intro);announce(career===opponents.length-1?"FINAL BOSS!":"FIGHT!");sound("bell");update();
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,patternStep:0,dialogueStage:0,hurtStage:0});
+ player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion","rage-1","rage-2");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");delete arena.dataset.chant;}beginWalkout();
+ say(career===opponents.length-1?"FINAL TITLE FIGHT — "+o.name+" ENTERS THE ARENA":"TITLE FIGHT — "+o.name+" ENTERS THE ARENA");
+ announce(career===opponents.length-1?"FINAL BOSS!":"RIVAL ENTRANCE");
+ sound("warning");update();
+ walkoutTimer=setTimeout(()=>{
+  const panel=$("walkout");if(panel)panel.classList.remove("walkout-show");
+  rival.classList.remove("walkout-enter");
+  if(s.active===false){s.active=true;sound("bell");announce("FIGHT!");say("FIGHT! "+o.name+" — LET'S GO!");update();}
+ },1550);
 }
 function hit(type){
  if(!s.active)return;
