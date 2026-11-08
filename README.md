@@ -172,3 +172,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Punches extend the striking glove while the opposite hand stays closer to guard, with distinct reach for jabs, hooks, and uppercuts.
 - Guarding raises the gloves into a defensive position; impact and knockdown states feed into the model pose.
 - The fixed vertical Punch-Out camera, ring layout, combat rules, and touch controls remain unchanged.
+
+
+## Combat animation polish — Build 3.5
+- Opponents visibly move their head while telegraphing an incoming attack.
+- Rival attacks show clearer forward follow-through.
+- Successful hits trigger upper-body and head recoil on the affected boxer.
+- Existing telegraph timing, combat calculations, touch controls, and classic vertical camera are preserved.
