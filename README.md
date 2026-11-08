@@ -121,3 +121,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Player uses blue trunks and green gloves; rivals use black trunks and red gloves.
 - Fighters remain centered in the fixed vertical ring composition; the classic virtual controller and combat HUD are unchanged.
 - Pixel edges are preserved on mobile with nearest-neighbor rendering.
+
+
+## Pixel fighter animation — Build 2.0
+- Added pixel-stepped whole-sprite animation for jab, hook, uppercut, dodge, Star Punch, rival telegraphs and rival signature strikes.
+- Added distinct hit recoil, knockdown, final knockout and victory celebration movement.
+- Added a blue guard glow and preserved the pixel-art rendering.
+- The animation layer uses the existing gameplay classes, so combat timing, damage, AI, controller inputs and career progression are unchanged.
+- Reduced-motion preferences disable the new animation layer.

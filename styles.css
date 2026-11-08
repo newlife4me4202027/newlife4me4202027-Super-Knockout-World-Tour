@@ -464,3 +464,42 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .arena .you{left:calc(50% - var(--fighter-half,48px));bottom:4%;background-image:url("assets/player.png");transform-origin:bottom center}
 .arena .foe{left:calc(50% - var(--fighter-half,48px));top:19%;bottom:auto;background-image:url("assets/rival.png");transform:scaleX(-1);transform-origin:center bottom}
 @media(max-width:620px){.arena .you{bottom:4%;scale:1.08}.arena .foe{top:18%;scale:1.04;transform:scaleX(-1)}}
+
+
+/* BUILD 2.0 — PIXEL BOXER ANIMATION PASS
+   Whole-sprite motion replaces the old hidden mannequin-part animations. */
+.fighter{will-change:translate,rotate,filter;image-rendering:pixelated}
+.arena .you.punch-jab{animation:pixel-jab .24s steps(4,end)}
+.arena .you.punch-hook{animation:pixel-hook .3s steps(4,end)}
+.arena .you.punch-upper{animation:pixel-upper .34s steps(4,end)}
+.arena .you.dodge-step{animation:pixel-dodge .38s steps(5,end)}
+.arena .you.dodge-step.dodge-urgent{animation-duration:.72s}
+.arena .you.star-punch{animation:pixel-star .52s steps(6,end);filter:brightness(1.55) drop-shadow(0 0 13px #ffe36a)}
+.arena .you.guard{filter:drop-shadow(0 0 8px #8fc7ff)}
+.arena .foe.telegraph{animation:pixel-telegraph .5s steps(3,end) infinite alternate}
+.arena .foe.rival-strike{animation:pixel-rival-strike .36s steps(4,end)}
+.arena .foe.rival-strike-hook{animation-name:pixel-rival-hook}
+.arena .foe.rival-strike-upper{animation-name:pixel-rival-upper}
+.arena .foe.rival-strike-special{animation:pixel-rival-special .5s steps(5,end);filter:brightness(1.4) drop-shadow(0 0 15px #ffbd49)}
+.arena .fighter.hit{animation:pixel-hit .27s steps(4,end)}
+.arena .you.knockdown{animation:pixel-fall .72s steps(7,end) forwards}
+.arena .foe.knockdown{animation:pixel-fall .72s steps(7,end) forwards}
+.arena .foe.final-knockout{animation:pixel-final-ko .9s steps(8,end) forwards}
+.arena .you.victory-celebrate{animation:pixel-victory .8s steps(6,end) 2}
+@keyframes pixel-jab{0%,100%{translate:0 0;rotate:0}35%{translate:0 -9px;rotate:-3deg}65%{translate:0 -3px;rotate:2deg}}
+@keyframes pixel-hook{0%,100%{translate:0 0;rotate:0}35%{translate:9px -5px;rotate:-11deg}68%{translate:-3px 0;rotate:5deg}}
+@keyframes pixel-upper{0%,100%{translate:0 0;rotate:0}35%{translate:0 -18px;rotate:5deg}68%{translate:0 -5px;rotate:-3deg}}
+@keyframes pixel-dodge{0%,100%{translate:0 0;rotate:0}28%{translate:-15px 4px;rotate:-9deg}62%{translate:13px 0;rotate:7deg}}
+@keyframes pixel-star{0%,100%{translate:0 0;scale:1}28%{translate:0 -25px;scale:1.16}58%{translate:0 -8px;scale:1.08}78%{translate:0 -14px;scale:1.12}}
+@keyframes pixel-telegraph{from{translate:0 0;rotate:-2deg}to{translate:0 -7px;rotate:2deg}}
+@keyframes pixel-rival-strike{0%,100%{translate:0 0;rotate:0}38%{translate:0 17px;rotate:-3deg}70%{translate:0 7px;rotate:2deg}}
+@keyframes pixel-rival-hook{0%,100%{translate:0 0;rotate:0}38%{translate:-10px 13px;rotate:11deg}72%{translate:0 3px;rotate:-4deg}}
+@keyframes pixel-rival-upper{0%,100%{translate:0 0;rotate:0}38%{translate:0 20px;rotate:-7deg}72%{translate:0 5px;rotate:3deg}}
+@keyframes pixel-rival-special{0%,100%{translate:0 0;rotate:0;scale:1}25%{translate:0 14px;rotate:-7deg;scale:1.08}55%{translate:0 25px;rotate:5deg;scale:1.12}78%{translate:0 6px;rotate:-2deg;scale:1.04}}
+@keyframes pixel-hit{0%,100%{translate:0 0;rotate:0;filter:none}30%{translate:-12px 0;rotate:8deg;filter:brightness(1.8)}65%{translate:5px 0;rotate:-4deg}}
+@keyframes pixel-fall{0%{translate:0 0;rotate:0;scale:1}45%{translate:0 10px;rotate:34deg;scale:1.03}100%{translate:0 18px;rotate:82deg;scale:.82;filter:brightness(.72)}}
+@keyframes pixel-final-ko{0%{translate:0 0;rotate:0;scale:1}30%{translate:0 15px;rotate:25deg;scale:1.08}100%{translate:0 27px;rotate:88deg;scale:.78;filter:brightness(.65)}}
+@keyframes pixel-victory{0%,100%{translate:0 0;rotate:0}35%{translate:0 -15px;rotate:-4deg}70%{translate:0 -4px;rotate:4deg}}
+@media(prefers-reduced-motion:reduce){
+ .arena .fighter,.arena .fighter.hit,.arena .fighter.telegraph,.arena .fighter.rival-strike,.arena .fighter.punch-jab,.arena .fighter.punch-hook,.arena .fighter.punch-upper,.arena .fighter.dodge-step,.arena .fighter.star-punch,.arena .fighter.knockdown,.arena .fighter.final-knockout,.arena .fighter.victory-celebrate{animation:none!important;will-change:auto}
+}
