@@ -89,7 +89,7 @@ function checkRivalPhase(){const ratio=s.rh/opponent().health;if(s.ragePhase===0
 function down(el){sound("down");const isRival=el===rival;const finishClass=isRival?"knockdown-"+career:"knockdown-player";el.classList.remove("knockdown",finishClass);void el.offsetWidth;el.classList.add("knockdown",finishClass);if(isRival){crowdReact(true);announce("DOWN GOES "+opponent().name+"!")}setTimeout(()=>el.classList.remove("knockdown",finishClass),1800)}
 function announce(message){$("callout").textContent=message;clearTimeout(announce.timer);announce.timer=setTimeout(()=>$("callout").textContent="",1100)}
 function anim(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),cls==="star-punch"?560:cls.startsWith("punch-")?340:300)}
-function stepMotion(direction){player.classList.remove("step-in","step-out");void player.offsetWidth;player.classList.add(direction>0?"step-in":"step-out");setTimeout(()=>player.classList.remove("step-in","step-out"),260)}
+function stepMotion(direction,axis="horizontal"){const classes=["step-in","step-out","depth-forward","depth-back"];player.classList.remove(...classes);void player.offsetWidth;const motionClass=axis==="depth"?(direction>0?"depth-forward":"depth-back"):(direction>0?"step-in":"step-out");player.classList.add(motionClass);setTimeout(()=>player.classList.remove(motionClass),260)}
 function rivalStrike(type){
  const move=type==="counter"?"hook":type==="special"?signatureFor().move:type;
  rival.classList.remove("rival-strike","rival-strike-"+move);
@@ -143,9 +143,9 @@ function hit(type){
  update();if(s.rh<=0)finish(true);
 }
 function starPunch(){if(!s.active||s.stars<1){say("LAND THREE CLEAN HITS TO EARN A STAR");return}const b=boxers[boxer];s.stars--;s.st-=Math.min(s.st,14/b.stamina);anim(player,"star-punch");sound("star");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("star-impact");void arena.offsetWidth;arena.classList.add("star-impact");setTimeout(()=>arena.classList.remove("star-impact"),520)}const rangeFactor=clamp(.82+(s.depth+8)*.012,.82,1.08);const damage=32*b.damage*rangeFactor;s.rh=clamp(s.rh-damage,0,opponent().health);checkRivalPhase();s.rs=clamp(s.rs-9,0,100);s.combo++;s.enemy=Math.max(s.enemy,2.5);rival.classList.remove("telegraph");anim(rival,"hit");anim(rival,"impact");say("STAR PUNCH! MASSIVE DAMAGE!");crowdReact(true);announce("★ STAR PUNCH!");update();if(s.rh<=0)finish(true)}
-function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);stepMotion(direction);update()}
-function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);stepMotion(direction);update()}
-function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;const timed=rival.classList.contains("telegraph");player.classList.remove("dodge-step");void player.offsetWidth;player.classList.add("dodge-step");setTimeout(()=>player.classList.remove("dodge-step"),timed?760:360);setTimeout(()=>s.dodging=false,timed?1250:380);update()}
+function move(direction){if(!s.active)return;s.x=clamp(s.x+direction*18,-64,64);stepMotion(direction,"horizontal");update()}
+function moveDepth(direction){if(!s.active)return;s.depth=clamp(s.depth+direction*5,-8,12);stepMotion(direction,"depth");update()}
+function dodge(){if(!s.active||s.st<10)return;sound("dodge");s.st-=10;s.dodging=true;const timed=rival.classList.contains("telegraph");player.classList.remove("dodge-step","dodge-urgent");void player.offsetWidth;player.classList.add("dodge-step");if(timed)player.classList.add("dodge-urgent");setTimeout(()=>player.classList.remove("dodge-step","dodge-urgent"),timed?760:360);setTimeout(()=>s.dodging=false,timed?1250:380);update()}
 function guard(on){s.block=on;player.classList.toggle("guard",on)}
 function act(action){if(action==="left")move(-1);else if(action==="right")move(1);else if(action==="up")moveDepth(1);else if(action==="down")moveDepth(-1);else if(["jab","hook","upper"].includes(action))hit(action);else if(action==="dodge")dodge();else if(action==="star")starPunch();else if(action==="block")guard(true)}
 document.querySelectorAll("[data-a]").forEach(button=>{

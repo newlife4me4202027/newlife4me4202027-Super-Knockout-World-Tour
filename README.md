@@ -89,3 +89,12 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Clean hits create a brief impact spark; critical and uppercut hits use a larger burst.
 - Incoming signature attacks and uppercuts produce heavier player impact feedback.
 - Reduced-motion settings suppress the new impact animations.
+
+
+## Boxer footwork and mobile controls — Build 1.5
+- Horizontal sidesteps now visibly shift the boxer’s body and footwork.
+- Forward/back ring-depth adjustments have distinct advance and retreat animations while retaining the fixed vertical camera.
+- Dodge steps use a stronger lean and weave; the longer telegraph-timed evade has a distinct extended animation.
+- Touch controls use larger tap targets, clearer spacing, focus outlines, and a compact grid on narrow screens.
+- Existing dodge windows, stamina costs, Star Punch, rival AI, and fight positioning rules are unchanged.
+- Reduced-motion preferences suppress the added movement animations.
