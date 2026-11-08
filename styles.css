@@ -876,3 +876,7 @@ body{
 .arena .fighter:before{z-index:0}
 .arena .fighter{will-change:transform,translate,filter}
 @media(prefers-reduced-motion:reduce){.arena .fighter{will-change:auto}}
+
+/* BUILD 3.9 — keep the WebGL boxer canvas visible above legacy sprite layers. */
+.arena .fighter>*:not(.model-canvas):not(.polygon3d){visibility:hidden!important}
+.arena .fighter>.polygon3d{visibility:visible!important;display:block!important}
