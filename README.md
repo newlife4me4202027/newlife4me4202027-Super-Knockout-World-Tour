@@ -158,3 +158,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Fighters are assembled from lit 3D geometry with depth buffering, dimensional limbs, torso, head, gloves, trunks, and boots.
 - Existing fighter positions, attack classes, health, stamina, AI, touch controller, and fixed up/down camera remain connected to the original combat system.
 - The ring backdrop remains the current arena presentation; a fully modeled 3D ring is the next visual milestone.
+
+
+## Build 3.3 — Perspective championship ring
+- Added a dedicated arena renderer for a raised perspective boxing platform, canvas seams, apron, corner posts, turnbuckle pads, and three rows of ropes.
+- The ring scales with the arena on mobile and desktop; the fixed vertical Punch-Out-style camera and existing combat logic remain unchanged.
+- The ring renderer loads before the polygonal boxer renderer so fighters remain visually in front of the ropes and canvas.
