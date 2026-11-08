@@ -164,3 +164,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added a dedicated arena renderer for a raised perspective boxing platform, canvas seams, apron, corner posts, turnbuckle pads, and three rows of ropes.
 - The ring scales with the arena on mobile and desktop; the fixed vertical Punch-Out-style camera and existing combat logic remain unchanged.
 - The ring renderer loads before the polygonal boxer renderer so fighters remain visually in front of the ropes and canvas.
+
+
+## Animated boxer models — Build 3.4
+- Polygonal fighters now animate their idle stance with subtle upper-body movement instead of remaining perfectly still.
+- Sidestep and depth movement trigger visible footwork in the legs and stance.
+- Punches extend the striking glove while the opposite hand stays closer to guard, with distinct reach for jabs, hooks, and uppercuts.
+- Guarding raises the gloves into a defensive position; impact and knockdown states feed into the model pose.
+- The fixed vertical Punch-Out camera, ring layout, combat rules, and touch controls remain unchanged.
