@@ -129,3 +129,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added a blue guard glow and preserved the pixel-art rendering.
 - The animation layer uses the existing gameplay classes, so combat timing, damage, AI, controller inputs and career progression are unchanged.
 - Reduced-motion preferences disable the new animation layer.
+
+
+## Build 2.0 — Pixel-art combat animation
+- Added stepped sprite movement for jab, hook, uppercut and dodge.
+- Added mirrored rival jab, hook and uppercut animations.
+- Added pixel-style hit flash, telegraph highlight, guard glow and knockdown fall.
+- Star Punch now gets a brighter, heavier animated impact.
+- Preserved reduced-motion accessibility and all existing input bindings.
