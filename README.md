@@ -114,3 +114,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - The opening bell and live combat controls activate after the short introduction sequence.
 - The final Atlas Prime bout retains its championship entrance treatment.
 - Reduced-motion preferences suppress the walkout animations while preserving the introduction text.
+
+
+## 16-bit fighter art — Build 1.9
+- Replaced the rounded 3D-style CSS mannequins with original pixel-art boxer sprites.
+- Player uses blue trunks and green gloves; rivals use black trunks and red gloves.
+- Fighters remain centered in the fixed vertical ring composition; the classic virtual controller and combat HUD are unchanged.
+- Pixel edges are preserved on mobile with nearest-neighbor rendering.

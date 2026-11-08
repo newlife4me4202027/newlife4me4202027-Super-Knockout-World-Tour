@@ -457,3 +457,10 @@ header>span{background:#111a2a;border-color:#eac04e88;color:#f7d47b;font-weight:
 .controller-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:7px 14px;color:#8996aa;font-size:8px;font-weight:900;letter-spacing:.07em;text-align:center}
 @media(max-width:420px){.gamepad-body{min-height:132px;padding:9px 12px;border-radius:34px 34px 26px 26px;gap:3px}.dpad{transform:scale(.88);transform-origin:left center;width:104px}.face-buttons{transform:scale(.88);transform-origin:right center;margin-left:auto}.pad-center{font-size:6px}.controller-shoulders{width:96%}.shoulder{min-width:82px;height:32px}}
 @media(prefers-reduced-motion:reduce){.controller-wrap button{transition:none!important}}
+
+/* BUILD 1.9 — 16-BIT BOXER SPRITES */
+.fighter{--fighter-half:48px;width:96px;height:144px;background-repeat:no-repeat;background-position:center bottom;background-size:100% 100%;image-rendering:pixelated;filter:drop-shadow(0 7px 3px #0008)}
+.fighter>*{display:none!important}
+.arena .you{left:calc(50% - var(--fighter-half,48px));bottom:4%;background-image:url("assets/player.png");transform-origin:bottom center}
+.arena .foe{left:calc(50% - var(--fighter-half,48px));top:19%;bottom:auto;background-image:url("assets/rival.png");transform:scaleX(-1);transform-origin:center bottom}
+@media(max-width:620px){.arena .you{bottom:4%;scale:1.08}.arena .foe{top:18%;scale:1.04;transform:scaleX(-1)}}
