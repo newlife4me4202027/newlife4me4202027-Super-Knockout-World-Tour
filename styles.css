@@ -935,3 +935,7 @@ body{
 /* BUILD 3.19 — remove idle referee overlap from the active fighter silhouettes. */
 .pixel-referee{opacity:0;transition:opacity .12s ease}
 .pixel-referee.referee-bell,.pixel-referee.referee-count,.pixel-referee.referee-victory,.pixel-referee.referee-defeat{opacity:1}
+
+
+/* BUILD 3.22 — disable legacy pixel-art background sprites behind the WebGL fighters. */
+.arena .fighter{background-image:none!important;background-color:transparent!important}
