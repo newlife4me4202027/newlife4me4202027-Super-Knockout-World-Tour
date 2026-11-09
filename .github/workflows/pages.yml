@@ -89,10 +89,11 @@ jobs:
               const player = document.querySelector('#you').getBoundingClientRect();
               const playerCanvas = document.querySelector('#you canvas.polygon3d').getBoundingClientRect();
               const rivalCanvas = document.querySelector('#foe canvas.polygon3d').getBoundingClientRect();
-              return {arena:{top:arena.top,bottom:arena.bottom},rival:{top:rival.top,bottom:rival.bottom,width:rival.width,height:rival.height},player:{top:player.top,bottom:player.bottom,width:player.width,height:player.height},canvases:{player:{width:playerCanvas.width,height:playerCanvas.height},rival:{width:rivalCanvas.width,height:rivalCanvas.height}},verticalGap:player.top-rival.bottom};
+              return {arena:{top:arena.top,bottom:arena.bottom},rival:{top:rival.top,bottom:rival.bottom,width:rival.width,height:rival.height},player:{top:player.top,bottom:player.bottom,width:player.width,height:player.height},canvases:{player:{top:playerCanvas.top,bottom:playerCanvas.bottom,width:playerCanvas.width,height:playerCanvas.height},rival:{top:rivalCanvas.top,bottom:rivalCanvas.bottom,width:rivalCanvas.width,height:rivalCanvas.height}},verticalGap:player.top-rival.bottom,renderedGap:playerCanvas.top-rivalCanvas.bottom};
             });
             if (!(layout.rival.top < layout.player.top && layout.verticalGap > 0 && layout.rival.height > 100 && layout.player.height > 150 && layout.rival.bottom < layout.arena.bottom && layout.player.top > layout.arena.top)) throw new Error('Fighter lanes overlap or are outside the ring: '+JSON.stringify(layout));
             if (layout.canvases.player.width < 100 || layout.canvases.rival.width < 100 || layout.canvases.player.height < 100 || layout.canvases.rival.height < 100) throw new Error('One boxer canvas is too small: '+JSON.stringify(layout));
+            if (layout.renderedGap < 100) throw new Error('Rendered boxer canvases do not have a clearly visible center gap: '+JSON.stringify(layout));
             await page.screenshot({path:'artifacts/02-live-gameplay.png',fullPage:true});
             if (errors.length) throw new Error('Browser JavaScript errors: '+errors.join(' | '));
             console.log(JSON.stringify({url:process.env.GAME_URL,render,layout,status,errors,screenshots:['01-fighter-select.png','02-live-gameplay.png']},null,2));
