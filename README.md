@@ -286,3 +286,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Kept the two WebGL polygon fighters as the only characters rendered in the ring.
 - Updated the visible build label and offline cache to v20.
 - Browser validation now confirms there is no referee element, no fallback SVG boxer, and no overlapping fighter lane on desktop or mobile.
+
+
+## Build 3.22 — remove legacy pixel-art background layers
+- Found and disabled the old player.png and rival.png CSS background sprites that were still rendering behind the polygonal WebGL fighters.
+- The active ring now uses only the two WebGL fighter canvases; no legacy SVG, sprite background, or referee DOM character remains.
+- Updated the visible build label and offline cache to v21.
+- Added a browser assertion that both fighter containers have no background image.
