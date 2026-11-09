@@ -217,3 +217,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Hook, uppercut, jab, and special-hit reactions now produce different head recoil directions and intensities.
 - The fixed up/down camera, combat timing, damage values, and controller layout remain unchanged.
 - Updated the service-worker cache to version 10 so installed clients fetch the new fighter renderer.
+
+
+## Clear fighter separation — Build 3.12
+- Repositioned the opponent into a dedicated upper-ring lane and the player into a dedicated lower-ring lane.
+- Adjusted both fighter canvas proportions and stacking so the two full-body boxers read as separate opponents, with open ring space between them.
+- Kept the fixed vertical Punch-Out-style camera, existing fighter models, combat logic, and controller layout.
+- Updated the offline cache to version 11 so installed copies receive the layout correction.
