@@ -907,7 +907,7 @@ body{
 @media(max-width:620px){
  .arena .foe{
   left:calc(50% - 18vw);
-  top:3%;
+  top:17%;
   width:36vw;
   height:27%;
   transform:scale(.94);
