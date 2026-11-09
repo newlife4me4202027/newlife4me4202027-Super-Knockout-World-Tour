@@ -257,3 +257,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Corrected the in-game footer, which still displayed the original Build 3.3 label despite the later renderer, layout, and gameplay updates.
 - The footer now identifies the deployed release as Build 3.15.
 - Updated the offline cache to v15 so installed copies receive the corrected build label.
+
+
+## Build 3.16 — clear fighter spacing
+- Increased the vertical gap substantially instead of relying on the previous near-touching layout bounds.
+- Moved the rival into a smaller upper lane and the player into a smaller lower lane on desktop and mobile.
+- Updated the visible build label and offline cache to v16.
