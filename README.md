@@ -245,3 +245,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Expanded the GitHub Pages workflow to syntax-check all three game JavaScript files before deployment.
 - The Playwright gameplay test now checks that both WebGL boxer canvases render at usable sizes and that the opponent's upper-ring lane does not overlap the player's lower-ring lane.
 - The test still enters a match, performs a jab and sidestep, captures the live gameplay screenshot, and fails on browser JavaScript errors.
+
+
+## Build 3.14 — clearer boxer spacing
+- Lowered the player's ring lane slightly to create a visible gap between the two full-body WebGL fighters.
+- Applied the same spacing adjustment to narrow mobile layouts while keeping both boxers inside the ring.
+- Updated the offline cache to v14.
