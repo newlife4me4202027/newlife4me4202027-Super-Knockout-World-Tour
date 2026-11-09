@@ -231,3 +231,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Preserved the complete head-to-toe silhouettes during idle, guard, and punch poses.
 - Kept the fixed vertical camera, touch controller, and combat logic unchanged.
 - Updated the offline cache to v12 so installed copies fetch the framing adjustment.
+
+
+## Build 3.13 — Mobile rendering performance
+- Capped the two WebGL boxer render loops at approximately 30 frames per second to reduce repeated mesh generation and GPU uploads on phones.
+- Skipped boxer rendering when the page is backgrounded or the fighter is outside the visible screen area.
+- Throttled the ring canvas to the same frame budget and paused its drawing while the page is hidden.
+- Preserved combat timing, input handling, boxer animations, and the vertical ring layout; this changes visual rendering cadence, not game simulation speed.
+- Updated the offline cache to v13.
