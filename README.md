@@ -279,3 +279,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Kept the referee hidden during ordinary combat and available for bell, knockdown count, and result cues.
 - Updated the visible build label and offline cache to v19.
 - Expanded browser checks to confirm no fallback SVG boxer layers or callout overlays remain in the captured gameplay screenshots.
+
+
+## Build 3.21 — remove the center-ring overlay character
+- Removed the pixel referee DOM character from the live ring so no third figure can overlap the player or rival during combat.
+- Kept the two WebGL polygon fighters as the only characters rendered in the ring.
+- Updated the visible build label and offline cache to v20.
+- Browser validation now confirms there is no referee element, no fallback SVG boxer, and no overlapping fighter lane on desktop or mobile.
