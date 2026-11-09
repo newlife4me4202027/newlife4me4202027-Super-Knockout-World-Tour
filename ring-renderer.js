@@ -33,6 +33,6 @@
  for(let side=0;side<2;side++){const bx=side?w*.81:w*.19,fx=side?w*.94:w*.06;rows.forEach((f,i)=>rail([bx,h*f],[fx,h*(f+.34)],"#e8e9e8",Math.max(2,3.5-i*.3)))}
  // Small animated arena light glints.
  const pulse=.35+.18*Math.sin(t*2.1);ctx.fillStyle="rgba(255,226,160,"+pulse+")";ctx.beginPath();ctx.arc(w*.5,h*.12,Math.max(2,w*.006),0,Math.PI*2);ctx.fill();
- requestAnimationFrame(draw)}
+ }
  requestAnimationFrame(draw);
 })();
