@@ -896,7 +896,7 @@ body{
 .arena .you{
  left:calc(50% - clamp(72px,19vw,102px));
  top:auto;
- bottom:12%;
+ bottom:7%;
  width:clamp(144px,38vw,204px);
  height:45%;
  transform:none;
@@ -914,7 +914,7 @@ body{
  }
  .arena .you{
   left:calc(50% - 19vw);
-  bottom:12%;
+  bottom:7%;
   width:38vw;
   height:45%;
   transform:none;
