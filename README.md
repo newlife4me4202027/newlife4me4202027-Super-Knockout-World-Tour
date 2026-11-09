@@ -263,3 +263,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Increased the vertical gap substantially instead of relying on the previous near-touching layout bounds.
 - Moved the rival into a smaller upper lane and the player into a smaller lower lane on desktop and mobile.
 - Updated the visible build label and offline cache to v16.
+
+
+## Build 3.19 — remove duplicate legacy boxer and clean gameplay framing
+- Removed orphaned legacy CSS boxer parts that were still rendered outside the two WebGL fighter containers, creating the appearance of a third boxer overlapping the player.
+- Kept the player and rival as the only full-body fighter models in the ring.
+- Hid the referee during ordinary live combat; the referee still appears for the opening bell, knockdown counts, and bout results.
+- Updated the visible build label and offline cache to v18.
+- Expanded browser validation to capture desktop and mobile gameplay after temporary callouts clear, and to check referee visibility as well as fighter separation.
