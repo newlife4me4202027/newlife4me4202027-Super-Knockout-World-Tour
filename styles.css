@@ -885,7 +885,7 @@ body{
 /* BUILD 3.16 — create a visibly wide vertical gap between the two complete boxer models. */
 .arena .foe{
  left:calc(50% - clamp(68px,18vw,96px));
- top:3%;
+ top:17%;
  bottom:auto;
  width:clamp(136px,36vw,192px);
  height:27%;
