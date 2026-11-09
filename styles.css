@@ -929,3 +929,8 @@ body{
 /* BUILD 3.17 — shrink each rendered boxer inside its own lane, anchored away from the center gap. */
 .arena .foe>.polygon3d{transform:scale(.72);transform-origin:top center}
 .arena .you>.polygon3d{transform:scale(.72);transform-origin:bottom center}
+
+
+/* BUILD 3.19 — remove idle referee overlap from the active fighter silhouettes. */
+.pixel-referee{opacity:0;transition:opacity .12s ease}
+.pixel-referee.referee-bell,.pixel-referee.referee-count,.pixel-referee.referee-victory,.pixel-referee.referee-defeat{opacity:1}
