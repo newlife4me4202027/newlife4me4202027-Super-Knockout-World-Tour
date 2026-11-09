@@ -224,3 +224,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Adjusted both fighter canvas proportions and stacking so the two full-body boxers read as separate opponents, with open ring space between them.
 - Kept the fixed vertical Punch-Out-style camera, existing fighter models, combat logic, and controller layout.
 - Updated the offline cache to version 11 so installed copies receive the layout correction.
+
+
+## Build 3.12 — Full-body vertical camera framing
+- Added a small, uniform WebGL framing adjustment so both boxers fit comfortably inside their upper and lower ring lanes.
+- Preserved the complete head-to-toe silhouettes during idle, guard, and punch poses.
+- Kept the fixed vertical camera, touch controller, and combat logic unchanged.
+- Updated the offline cache to v12 so installed copies fetch the framing adjustment.
