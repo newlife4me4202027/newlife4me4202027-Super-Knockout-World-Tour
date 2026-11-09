@@ -55,7 +55,7 @@ jobs:
         run: |
           npm install --no-save playwright
           npx playwright install --with-deps chromium
-      - name: Launch game and test live controls
+      - name: Launch game and test desktop and mobile gameplay
         env:
           GAME_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
@@ -75,28 +75,44 @@ jobs:
               webgl: !!canvas.getContext('webgl')
             }));
             if (!render.visible || !render.width || !render.height || !render.webgl) throw new Error('Player WebGL renderer did not initialize: '+JSON.stringify(render));
-            await page.screenshot({path:'artifacts/01-fighter-select.png',fullPage:true});
+            await page.screenshot({path:'artifacts/01-fighter-select-desktop.png',fullPage:true});
             await page.locator('#enter-ring').click();
             await page.waitForTimeout(1900);
             await page.locator('[data-a="jab"]').click();
-            await page.waitForTimeout(450);
+            await page.waitForTimeout(1250);
             await page.locator('[data-a="left"]').click();
             await page.waitForTimeout(350);
-            const status = await page.locator('#status').innerText();
-            const layout = await page.evaluate(() => {
+            const desktop = await page.evaluate(() => {
               const arena = document.querySelector('.arena').getBoundingClientRect();
               const rival = document.querySelector('#foe').getBoundingClientRect();
               const player = document.querySelector('#you').getBoundingClientRect();
               const playerCanvas = document.querySelector('#you canvas.polygon3d').getBoundingClientRect();
               const rivalCanvas = document.querySelector('#foe canvas.polygon3d').getBoundingClientRect();
-              return {arena:{top:arena.top,bottom:arena.bottom},rival:{top:rival.top,bottom:rival.bottom,width:rival.width,height:rival.height},player:{top:player.top,bottom:player.bottom,width:player.width,height:player.height},canvases:{player:{top:playerCanvas.top,bottom:playerCanvas.bottom,width:playerCanvas.width,height:playerCanvas.height},rival:{top:rivalCanvas.top,bottom:rivalCanvas.bottom,width:rivalCanvas.width,height:rivalCanvas.height}},verticalGap:player.top-rival.bottom,renderedGap:playerCanvas.top-rivalCanvas.bottom};
+              const referee = document.querySelector('.pixel-referee');
+              return {arena:{top:arena.top,bottom:arena.bottom},rival:{top:rival.top,bottom:rival.bottom,width:rival.width,height:rival.height},player:{top:player.top,bottom:player.bottom,width:player.width,height:player.height},canvases:{player:{top:playerCanvas.top,bottom:playerCanvas.bottom,width:playerCanvas.width,height:playerCanvas.height},rival:{top:rivalCanvas.top,bottom:rivalCanvas.bottom,width:rivalCanvas.width,height:rivalCanvas.height}},verticalGap:player.top-rival.bottom,renderedGap:playerCanvas.top-rivalCanvas.bottom,refereeOpacity:getComputedStyle(referee).opacity,legacyBoxerParts:document.querySelectorAll('.arena > .torso, .arena > .shorts, .arena > .arm, .arena > .glove, .arena > .leg').length};
             });
-            if (!(layout.rival.top < layout.player.top && layout.verticalGap > 0 && layout.rival.height > 100 && layout.player.height > 150 && layout.rival.bottom < layout.arena.bottom && layout.player.top > layout.arena.top)) throw new Error('Fighter lanes overlap or are outside the ring: '+JSON.stringify(layout));
-            if (layout.canvases.player.width < 100 || layout.canvases.rival.width < 100 || layout.canvases.player.height < 100 || layout.canvases.rival.height < 100) throw new Error('One boxer canvas is too small: '+JSON.stringify(layout));
-            if (layout.renderedGap < 100) throw new Error('Rendered boxer canvases do not have a clearly visible center gap: '+JSON.stringify(layout));
-            await page.screenshot({path:'artifacts/02-live-gameplay.png',fullPage:true});
+            if (!(desktop.rival.top < desktop.player.top && desktop.verticalGap > 0 && desktop.rival.height > 100 && desktop.player.height > 150 && desktop.rival.bottom < desktop.arena.bottom && desktop.player.top > desktop.arena.top)) throw new Error('Desktop fighter lanes overlap or leave the ring: '+JSON.stringify(desktop));
+            if (desktop.canvases.player.width < 100 || desktop.canvases.rival.width < 100 || desktop.canvases.player.height < 100 || desktop.canvases.rival.height < 100 || desktop.renderedGap < 100) throw new Error('Desktop WebGL fighter framing is too small or overlapping: '+JSON.stringify(desktop));
+            if (desktop.refereeOpacity !== '0' || desktop.legacyBoxerParts !== 0) throw new Error('An extra character is visible during ordinary combat: '+JSON.stringify(desktop));
+            await page.screenshot({path:'artifacts/02-live-gameplay-desktop.png',fullPage:true});
+            await page.setViewportSize({width:390,height:844});
+            await page.reload({waitUntil:'networkidle',timeout:60000});
+            await page.waitForSelector('#you canvas.polygon3d', {timeout:20000});
+            await page.locator('#enter-ring').click();
+            await page.waitForTimeout(1900);
+            const mobile = await page.evaluate(() => {
+              const arena = document.querySelector('.arena').getBoundingClientRect();
+              const rival = document.querySelector('#foe').getBoundingClientRect();
+              const player = document.querySelector('#you').getBoundingClientRect();
+              const pc = document.querySelector('#you canvas.polygon3d').getBoundingClientRect();
+              const rc = document.querySelector('#foe canvas.polygon3d').getBoundingClientRect();
+              return {arena:{top:arena.top,bottom:arena.bottom},rival:{top:rival.top,bottom:rival.bottom,width:rival.width,height:rival.height},player:{top:player.top,bottom:player.bottom,width:player.width,height:player.height},renderedGap:pc.top-rc.bottom,refereeOpacity:getComputedStyle(document.querySelector('.pixel-referee')).opacity};
+            });
+            if (!(mobile.rival.top < mobile.player.top && mobile.player.top-mobile.rival.bottom > 0 && mobile.rival.bottom < mobile.arena.bottom && mobile.player.bottom <= mobile.arena.bottom+2)) throw new Error('Mobile fighter lanes overlap or leave the ring: '+JSON.stringify(mobile));
+            if (mobile.renderedGap < 20 || mobile.refereeOpacity !== '0') throw new Error('Mobile fighter framing or referee visibility failed: '+JSON.stringify(mobile));
+            await page.screenshot({path:'artifacts/03-live-gameplay-mobile.png',fullPage:true});
             if (errors.length) throw new Error('Browser JavaScript errors: '+errors.join(' | '));
-            console.log(JSON.stringify({url:process.env.GAME_URL,render,layout,status,errors,screenshots:['01-fighter-select.png','02-live-gameplay.png']},null,2));
+            console.log(JSON.stringify({url:process.env.GAME_URL,render,desktop,mobile,errors,screenshots:['01-fighter-select-desktop.png','02-live-gameplay-desktop.png','03-live-gameplay-mobile.png']},null,2));
             await browser.close();
           })().catch(error => { console.error(error); process.exit(1); });
           NODE
