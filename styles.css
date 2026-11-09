@@ -924,3 +924,8 @@ body{
  .arena .foe{width:38vw;left:calc(50% - 19vw)}
  .arena .you{width:40vw;left:calc(50% - 20vw)}
 }
+
+
+/* BUILD 3.17 — shrink each rendered boxer inside its own lane, anchored away from the center gap. */
+.arena .foe>.polygon3d{transform:scale(.72);transform-origin:top center}
+.arena .you>.polygon3d{transform:scale(.72);transform-origin:bottom center}
