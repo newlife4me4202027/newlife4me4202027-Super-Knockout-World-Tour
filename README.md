@@ -271,3 +271,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Hid the referee during ordinary live combat; the referee still appears for the opening bell, knockdown counts, and bout results.
 - Updated the visible build label and offline cache to v18.
 - Expanded browser validation to capture desktop and mobile gameplay after temporary callouts clear, and to check referee visibility as well as fighter separation.
+
+
+## Build 3.20 — one 3D fighter render per lane
+- Removed the legacy SVG boxer layers from the active fighter containers so they cannot render on top of the WebGL polygon models.
+- Increased the polygon model framing within each dedicated upper/lower lane while preserving the tested vertical gap.
+- Kept the referee hidden during ordinary combat and available for bell, knockdown count, and result cues.
+- Updated the visible build label and offline cache to v19.
+- Expanded browser checks to confirm no fallback SVG boxer layers or callout overlays remain in the captured gameplay screenshots.
