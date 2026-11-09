@@ -882,13 +882,13 @@ body{
 .arena .fighter>.polygon3d{visibility:visible!important;display:block!important}
 
 
-/* BUILD 3.12 — separate the two boxers into clear upper and lower ring lanes. */
+/* BUILD 3.16 — create a visibly wide vertical gap between the two complete boxer models. */
 .arena .foe{
  left:calc(50% - clamp(68px,18vw,96px));
- top:13%;
+ top:3%;
  bottom:auto;
  width:clamp(136px,36vw,192px);
- height:32%;
+ height:27%;
  transform:scale(.94);
  transform-origin:top center;
  z-index:4;
@@ -896,9 +896,9 @@ body{
 .arena .you{
  left:calc(50% - clamp(72px,19vw,102px));
  top:auto;
- bottom:7%;
+ bottom:2%;
  width:clamp(144px,38vw,204px);
- height:45%;
+ height:38%;
  transform:none;
  transform-origin:bottom center;
  z-index:5;
@@ -907,16 +907,16 @@ body{
 @media(max-width:620px){
  .arena .foe{
   left:calc(50% - 18vw);
-  top:13%;
+  top:3%;
   width:36vw;
-  height:32%;
+  height:27%;
   transform:scale(.94);
  }
  .arena .you{
   left:calc(50% - 19vw);
-  bottom:7%;
+  bottom:2%;
   width:38vw;
-  height:45%;
+  height:38%;
   transform:none;
  }
 }
