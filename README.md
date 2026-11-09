@@ -251,3 +251,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Lowered the player's ring lane slightly to create a visible gap between the two full-body WebGL fighters.
 - Applied the same spacing adjustment to narrow mobile layouts while keeping both boxers inside the ring.
 - Updated the offline cache to v14.
+
+
+## Build 3.15 — visible version label
+- Corrected the in-game footer, which still displayed the original Build 3.3 label despite the later renderer, layout, and gameplay updates.
+- The footer now identifies the deployed release as Build 3.15.
+- Updated the offline cache to v15 so installed copies receive the corrected build label.
