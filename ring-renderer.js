@@ -12,7 +12,7 @@
  new ResizeObserver(resize).observe(arena);resize();
  const path=(pts,fill,stroke,line=1)=>{ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=line;ctx.stroke()}};
  function rail(a,b,color,thick){ctx.lineCap="round";ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.strokeStyle="#07101f99";ctx.lineWidth=thick+4;ctx.stroke();ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.strokeStyle=color;ctx.lineWidth=thick;ctx.stroke();ctx.beginPath();ctx.moveTo(a[0],a[1]-thick*.3);ctx.lineTo(b[0],b[1]-thick*.3);ctx.strokeStyle="#ffffff9c";ctx.lineWidth=Math.max(1,thick*.22);ctx.stroke()}
- function draw(now){if(!arena.isConnected)return;ctx.clearRect(0,0,w,h);const t=now*.001;
+ let lastDraw=0;function draw(now){if(!arena.isConnected)return;requestAnimationFrame(draw);if(document.hidden||now-lastDraw<33||!w||!h)return;lastDraw=now;ctx.clearRect(0,0,w,h);const t=now*.001;
  // Ring apron and raised platform, in a deep perspective trapezoid.
  const backL=[w*.19,h*.39],backR=[w*.81,h*.39],frontR=[w*.94,h*.78],frontL=[w*.06,h*.78];
  path([[w*.10,h*.78],[w*.90,h*.78],[w*.96,h*.86],[w*.04,h*.86]],"#080e1b","#c5a65f",2);
