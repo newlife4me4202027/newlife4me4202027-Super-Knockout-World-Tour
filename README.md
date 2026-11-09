@@ -239,3 +239,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Throttled the ring canvas to the same frame budget and paused its drawing while the page is hidden.
 - Preserved combat timing, input handling, boxer animations, and the vertical ring layout; this changes visual rendering cadence, not game simulation speed.
 - Updated the offline cache to v13.
+
+
+## Live browser layout verification — Build 3.13
+- Expanded the GitHub Pages workflow to syntax-check all three game JavaScript files before deployment.
+- The Playwright gameplay test now checks that both WebGL boxer canvases render at usable sizes and that the opponent's upper-ring lane does not overlap the player's lower-ring lane.
+- The test still enters a match, performs a jab and sidestep, captures the live gameplay screenshot, and fails on browser JavaScript errors.
