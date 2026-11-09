@@ -3,103 +3,7 @@
 <button class="fighter-choice" data-boxer="southpaw"><span class="avatar">👊</span><b>LEFTY LEGEND</b><small>SOUTHPAW · FORCE</small></button>
 <button class="fighter-choice" data-boxer="endurance"><span class="avatar">🛡️</span><b>IRON LUNGS</b><small>ENDURANCE · STAMINA</small></button>
 <button class="fighter-choice" data-boxer="technical"><span class="avatar">🎯</span><b>RAZOR EDGE</b><small>PRECISION · ACCURACY</small></button>
-<button class="fighter-choice" data-boxer="wild"><span class="avatar">🔥</span><b>WILDFIRE</b><small>COMBOS · POWER</small></button></div><button id="enter-ring">ENTER THE RING →</button></div></div><section class="arena"><div class="hud"><div><b>YOU · CONTENDER</b><div class="meter"><i id="ph"></i></div><small>HEALTH <span id="pht">100</span> · STAMINA</small><div class="meter stamina"><i id="ps"></i></div></div><div class="clock"><small>ROUND 01</small><strong id="timer">2:00</strong></div><div class="rival"><b>RIVAL · IRON MAKO</b><div class="meter"><i id="rh"></i></div><small>HEALTH <span id="rht">100</span> · STAMINA</small><div class="meter stamina"><i id="rs"></i></div></div></div><div class="crowd"></div><div class="ropes"></div><div class="pixel-referee" aria-label="Referee"><i class="ref-head"></i><i class="ref-body"></i><i class="ref-arm ref-arm-left"></i><i class="ref-arm ref-arm-right"></i><i class="ref-leg ref-leg-left"></i><i class="ref-leg ref-leg-right"></i><span class="ref-count">1 · 2 · 3!</span></div><div class="fighter you" id="you"><svg class="boxer-art player-back-art" viewBox="0 0 150 300" role="img" aria-label="Austin, viewed from behind in a powerful boxing stance">
- <defs>
-  <linearGradient id="backSkin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd0a5"/><stop offset=".34" stop-color="var(--skin)"/><stop offset=".72" stop-color="#a56648"/><stop offset="1" stop-color="#553326"/></linearGradient>
-  <linearGradient id="blueShorts" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#60a7ff"/><stop offset=".3" stop-color="var(--short)"/><stop offset="1" stop-color="#102c69"/></linearGradient>
-  <linearGradient id="greenGloves" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b9ff82"/><stop offset=".22" stop-color="var(--glove)"/><stop offset=".75" stop-color="var(--glove)"/><stop offset="1" stop-color="#07502b"/></linearGradient>
- </defs>
- <ellipse cx="75" cy="291" rx="49" ry="7" fill="#050b1b" opacity=".48"/>
- <!-- boots and calves -->
- <path d="M43 211Q37 233 35 253L31 269 52 276 65 256 72 218Z" fill="url(#backSkin)" stroke="#523326" stroke-width="2.5"/>
- <path d="M81 216Q91 235 96 255L101 271 121 269 119 250 106 211Z" fill="url(#backSkin)" stroke="#523326" stroke-width="2.5"/>
- <path d="M33 264L26 281Q26 289 37 291H66L70 284 57 270Z M101 266L94 283Q93 290 104 292H132Q140 288 132 280L119 266Z" fill="#123a91" stroke="#101a38" stroke-width="3"/>
- <path d="M29 281H66M97 283H134" stroke="#e9f2ff" stroke-width="5"/>
- <path d="M37 270L53 278M104 273L120 280" stroke="#9dc8ff" stroke-width="3"/>
- <!-- trunks, rear waistband and fabric folds -->
- <path d="M35 177Q75 187 115 177L121 222Q105 236 88 230L75 216 61 231Q43 236 29 222Z" fill="url(#blueShorts)" stroke="#10214d" stroke-width="3"/>
- <path d="M34 180Q75 190 117 180L118 195Q75 205 32 195Z" fill="#edf4ff" stroke="#18335f" stroke-width="2"/>
- <path d="M75 195V220M42 207L59 214M106 205L91 214" fill="none" stroke="#9bc5ff" stroke-width="3" opacity=".75"/>
- <path d="M42 201L35 219M108 201L116 218" stroke="#d7e8ff" stroke-width="4"/>
- <!-- muscular back, tapered waist -->
- <path d="M53 61Q64 55 75 60Q88 54 99 62L116 82Q125 97 119 120L111 168Q105 186 94 193L56 193Q44 185 39 168L31 120Q25 96 36 81Z" fill="url(#backSkin)" stroke="#573729" stroke-width="3"/>
- <!-- traps, broad shoulders and lats -->
- <path d="M51 67Q61 56 75 65Q89 56 101 68L112 88Q97 98 84 91L75 82 66 91Q50 98 38 87Z" fill="#f1bc91" opacity=".4"/>
- <path d="M42 88Q55 78 68 91L75 105 82 91Q97 78 109 89L116 119Q108 143 100 157L91 177 75 185 58 177 49 157Q39 139 34 118Z" fill="#754632" opacity=".18"/>
- <path d="M75 83L75 177M44 100Q54 110 68 113M106 100Q96 110 82 113M47 124Q57 132 69 131M103 124Q93 132 81 131M54 151Q63 157 71 154M96 151Q87 157 79 154" fill="none" stroke="#593728" stroke-width="3" opacity=".62"/>
- <path d="M42 94Q54 86 65 98M85 98Q98 86 108 94M49 139Q56 145 65 143M101 139Q94 145 85 143" fill="none" stroke="#ffdbb8" stroke-width="3" opacity=".42"/>
- <!-- neck and back of head -->
- <path d="M62 44L60 69Q75 84 90 69L88 43Z" fill="url(#backSkin)" stroke="#563526" stroke-width="2"/>
- <path d="M49 20Q51 2 75 3Q99 3 101 24L97 49Q88 67 75 69Q60 66 52 49Z" fill="url(#backSkin)" stroke="#523326" stroke-width="3"/>
- <!-- textured brown hair -->
- <path d="M48 31Q40 12 58 5Q76 -3 94 6Q108 14 102 36L95 31 91 17 81 24 72 13 60 27 54 37Z" fill="#4c2b20" stroke="#251b19" stroke-width="3"/>
- <path d="M55 17L66 9M66 20L77 8M79 20L91 12M91 25L99 18" stroke="#a96b35" stroke-width="3"/>
- <!-- raised arms, elbows and forearms -->
- <path d="M43 70Q29 66 23 81L12 107Q8 121 19 130L34 135 48 111 62 89Z" fill="url(#backSkin)" stroke="#573729" stroke-width="3"/>
- <path d="M107 70Q121 66 127 81L138 107Q142 121 131 130L116 135 102 111 88 89Z" fill="url(#backSkin)" stroke="#573729" stroke-width="3"/>
- <path d="M19 111Q30 121 42 115M108 115Q120 121 131 111" fill="none" stroke="#ffdab6" stroke-width="4" opacity=".5"/>
- <!-- white wrist wraps and raised green gloves -->
- <path d="M10 119L34 124 31 142 7 137Z M116 124L140 118 143 137 120 144Z" fill="#f0f2e9" stroke="#263047" stroke-width="3"/>
- <path d="M3 91Q7 78 21 80Q37 82 41 98L38 121Q31 137 15 133Q2 128 1 112Z" fill="url(#greenGloves)" stroke="#123b2b" stroke-width="3"/>
- <path d="M109 98Q113 82 129 80Q143 78 147 92L149 112Q148 128 135 133Q119 137 112 121Z" fill="url(#greenGloves)" stroke="#123b2b" stroke-width="3"/>
- <path d="M8 96Q20 85 32 96M116 96Q130 85 142 96" fill="none" stroke="#e4ffca" stroke-width="4" opacity=".7"/>
- <path d="M8 113L33 119M117 119L142 113" stroke="#0a6536" stroke-width="3" opacity=".65"/>
-</svg></div><div class="fighter foe" id="foe"><svg class="boxer-art" viewBox="0 0 142 285" role="img" aria-label="Detailed arcade boxing champion">
- <defs>
-  <linearGradient id="skinTone" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f0bd91"/><stop offset=".42" stop-color="var(--skin)"/><stop offset="1" stop-color="#613b2d"/></linearGradient>
-  <linearGradient id="gloveTone" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff0d7"/><stop offset=".18" stop-color="var(--glove)"/><stop offset=".75" stop-color="var(--glove)"/><stop offset="1" stop-color="#351b26"/></linearGradient>
-  <linearGradient id="shortTone" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#e5f0ff"/><stop offset=".2" stop-color="var(--short)"/><stop offset="1" stop-color="#101d39"/></linearGradient>
- </defs>
- <ellipse cx="72" cy="275" rx="48" ry="8" fill="#080d18" opacity=".48"/>
- <!-- rear leg and boot -->
- <path d="M48 204L43 242 39 265 54 270 68 246 77 213Z" fill="url(#skinTone)" stroke="#39251f" stroke-width="2"/>
- <path d="M39 258L35 271 38 279 69 279 72 272 62 265 54 267Z" fill="#17243a" stroke="#080f1b" stroke-width="3"/>
- <path d="M38 273H68M43 266L56 272" stroke="#e8e6db" stroke-width="3"/>
- <!-- forward leg -->
- <path d="M78 205L82 235 91 263 106 266 108 252 100 224 105 207Z" fill="url(#skinTone)" stroke="#39251f" stroke-width="2"/>
- <path d="M91 255L94 268 88 278 121 279 128 273 118 265 106 263Z" fill="#17243a" stroke="#080f1b" stroke-width="3"/>
- <path d="M94 272H122M99 265L113 272" stroke="#f0eee5" stroke-width="3"/>
- <!-- torso silhouette -->
- <path d="M45 64Q53 58 64 62L82 61Q97 59 105 71L116 113 107 164 103 188 40 188 33 153 27 112Z" fill="url(#skinTone)" stroke="#3a251e" stroke-width="3"/>
- <!-- neck -->
- <path d="M59 49L58 71 70 82 87 68 83 48Z" fill="url(#skinTone)" stroke="#4a2c22" stroke-width="2"/>
- <!-- chest and abdominal definition -->
- <path d="M39 91Q51 77 68 87Q83 77 101 91L96 121Q82 128 70 119Q54 128 43 118Z" fill="#f0bd91" opacity=".34"/>
- <path d="M70 87V177M43 124Q55 118 68 128M73 128Q87 118 98 124M48 143Q58 137 68 144M74 144Q85 137 94 143M50 161Q60 155 68 161M74 161Q84 155 91 161" fill="none" stroke="#5a3428" stroke-width="2.3" opacity=".62"/>
- <path d="M43 94Q54 85 66 92M76 92Q88 85 99 94" fill="none" stroke="#ffe0b8" stroke-width="3" opacity=".45"/>
- <!-- shoulder and arms, guard pose -->
- <path d="M42 73Q29 70 25 84L13 111Q9 123 19 130L31 134 44 111 57 91Z" fill="url(#skinTone)" stroke="#3a251e" stroke-width="3"/>
- <path d="M100 72Q114 70 119 84L130 109Q134 122 123 130L111 133 99 111 88 91Z" fill="url(#skinTone)" stroke="#3a251e" stroke-width="3"/>
- <path d="M17 111L31 119M112 118L128 110" stroke="#f6c49b" stroke-width="4" opacity=".6"/>
- <!-- trunks -->
- <path d="M37 177L105 177 112 218 88 228 72 214 55 228 30 218Z" fill="url(#shortTone)" stroke="#10182b" stroke-width="3"/>
- <path d="M35 181Q70 190 107 181L109 192Q71 201 33 192Z" fill="#f4f0e6" stroke="#17233b" stroke-width="2"/>
- <path d="M72 194V216M41 205L59 210M86 210L103 203" stroke="#d8e5f8" stroke-width="2" opacity=".5"/>
- <!-- glove cuffs -->
- <path d="M9 119L28 124 25 141 6 137Z M114 121L133 116 137 134 119 142Z" fill="#f2eee2" stroke="#302638" stroke-width="3"/>
- <!-- gloves -->
- <path d="M5 98Q0 99 2 113L7 131Q12 141 27 137L38 128 34 110Q28 96 16 96Z" fill="url(#gloveTone)" stroke="#241c28" stroke-width="3"/>
- <path d="M111 96Q124 91 133 101L140 117Q142 130 130 137L116 137 106 126 108 108Z" fill="url(#gloveTone)" stroke="#241c28" stroke-width="3"/>
- <path d="M8 108Q17 101 29 108M115 108Q126 100 136 108" fill="none" stroke="#fff" stroke-width="3" opacity=".45"/>
- <path d="M10 124L26 128M116 128L132 123" stroke="#241c28" stroke-width="2" opacity=".4"/>
- <!-- face and ears -->
- <path d="M48 20Q51 2 72 4Q96 5 98 27L94 48Q87 64 72 66Q55 63 49 47Z" fill="url(#skinTone)" stroke="#39251f" stroke-width="3"/>
- <path d="M47 29Q39 27 42 41Q44 49 51 48M96 29Q105 27 102 41Q100 49 94 48" fill="#b97853" stroke="#39251f" stroke-width="2"/>
- <!-- hair -->
- <path d="M46 30Q40 11 56 6Q72 -2 89 7Q103 14 98 34L91 27 85 16 77 22 66 14 57 26 50 34Z" fill="#20202a" stroke="#11131c" stroke-width="3"/>
- <path d="M52 18Q66 7 80 13" fill="none" stroke="#62606a" stroke-width="3"/>
- <!-- eyebrows, eyes, nose and mouth -->
- <path d="M53 34L65 32M79 32L91 34" stroke="#32201e" stroke-width="3" stroke-linecap="round"/>
- <path d="M55 39L64 39M81 39L89 39" stroke="#fff2d8" stroke-width="3" stroke-linecap="round"/>
- <circle cx="60" cy="39" r="2" fill="#171a24"/><circle cx="85" cy="39" r="2" fill="#171a24"/>
- <path d="M72 38L68 49 74 51" fill="none" stroke="#754735" stroke-width="2.5" stroke-linecap="round"/>
- <path d="M63 57Q72 61 82 56" fill="none" stroke="#512c27" stroke-width="2.5" stroke-linecap="round"/>
- <path d="M64 55Q72 57 81 54" stroke="#f1d0ae" stroke-width="2" opacity=".5"/>
- <!-- glove highlights and athletic details -->
- <path d="M7 105Q14 97 24 103M116 103Q127 96 135 105" fill="none" stroke="#fff" stroke-width="2" opacity=".5"/>
- <path d="M46 185L55 190M88 190L98 185" stroke="#fff" stroke-width="2" opacity=".55"/>
- <path d="M43 235L50 237M91 237L99 234" stroke="#5b382b" stroke-width="3" opacity=".4"/>
-</svg></div></div><div id="star-flash" aria-hidden="true"></div><div id="walkout" class="hidden" aria-live="polite"><small>WORLD TOUR · OFFICIAL RING INTRODUCTION</small><strong id="walkout-name">RIVAL</strong><p id="walkout-line"></p><em id="walkout-signature"></em></div><div id="callout"></div></section><section class="panel"><div class="status"><b id="status">PRESS NEW MATCH TO ENTER THE RING</b><span>RECORD <b id="record">0–0</b> · KNOCKDOWNS <b id="kds">0</b> · COMBO <b id="combo">0</b> · RANGE <b id="range">MID</b></span></div><div class="controls controller-wrap" aria-label="On-screen controller">
+<button class="fighter-choice" data-boxer="wild"><span class="avatar">🔥</span><b>WILDFIRE</b><small>COMBOS · POWER</small></button></div><button id="enter-ring">ENTER THE RING →</button></div></div><section class="arena"><div class="hud"><div><b>YOU · CONTENDER</b><div class="meter"><i id="ph"></i></div><small>HEALTH <span id="pht">100</span> · STAMINA</small><div class="meter stamina"><i id="ps"></i></div></div><div class="clock"><small>ROUND 01</small><strong id="timer">2:00</strong></div><div class="rival"><b>RIVAL · IRON MAKO</b><div class="meter"><i id="rh"></i></div><small>HEALTH <span id="rht">100</span> · STAMINA</small><div class="meter stamina"><i id="rs"></i></div></div></div><div class="crowd"></div><div class="ropes"></div><div class="pixel-referee" aria-label="Referee"><i class="ref-head"></i><i class="ref-body"></i><i class="ref-arm ref-arm-left"></i><i class="ref-arm ref-arm-right"></i><i class="ref-leg ref-leg-left"></i><i class="ref-leg ref-leg-right"></i><span class="ref-count">1 · 2 · 3!</span></div><div class="fighter you" id="you"></div><div class="fighter foe" id="foe"></div></div><div id="star-flash" aria-hidden="true"></div><div id="walkout" class="hidden" aria-live="polite"><small>WORLD TOUR · OFFICIAL RING INTRODUCTION</small><strong id="walkout-name">RIVAL</strong><p id="walkout-line"></p><em id="walkout-signature"></em></div><div id="callout"></div></section><section class="panel"><div class="status"><b id="status">PRESS NEW MATCH TO ENTER THE RING</b><span>RECORD <b id="record">0–0</b> · KNOCKDOWNS <b id="kds">0</b> · COMBO <b id="combo">0</b> · RANGE <b id="range">MID</b></span></div><div class="controls controller-wrap" aria-label="On-screen controller">
  <div class="controller-shoulders"><button class="shoulder left-shoulder" data-a="block">L <small>GUARD</small></button><span class="controller-brand">WORLD TOUR</span><button class="shoulder right-shoulder" data-a="star" id="star-button" disabled>R <small>STAR</small></button></div>
  <div class="gamepad-body">
   <div class="dpad" aria-label="Movement controls">
@@ -111,4 +15,4 @@
   </div>
  </div>
  <div class="controller-legend"><span>← → MOVE</span><span>↑ ↓ DEPTH</span><span>A JAB · B HOOK · X UPPER · Y DODGE</span></div>
-</div><div class="bottom"><small>KEYBOARD: ↑ ↓ DEPTH · ← → DODGE · A JAB · S HOOK · D UPPERCUT · SPACE GUARD · SHIFT DODGE</small><div class="utility-buttons"><button id="audio-toggle" aria-label="Toggle sound">SOUND ON</button><button id="restart">NEW MATCH ↻</button></div></div></section><footer>WORLD TOUR BUILD 3.19 · PERSPECTIVE CHAMPIONSHIP ARENA · 3D FIGHTERS</footer><div id="champion-screen" class="champion-screen hidden" role="dialog" aria-modal="true" aria-labelledby="champion-title"><div class="champion-card"><div class="champion-trophy">🏆</div><small>WORLD TOUR COMPLETE</small><h2 id="champion-title">WORLD CHAMPION!</h2><p>You conquered all eight rivals. The championship belt is yours.</p><strong id="champion-record">CAREER RECORD 0–0 · WORLD TOUR TITLES 1</strong><button id="champion-continue">CONTINUE →</button></div></div></main><script src="ring-renderer.js"></script><script src="model-renderer.js"></script><script src="game.js"></script><script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));}</script></body></html>
+</div><div class="bottom"><small>KEYBOARD: ↑ ↓ DEPTH · ← → DODGE · A JAB · S HOOK · D UPPERCUT · SPACE GUARD · SHIFT DODGE</small><div class="utility-buttons"><button id="audio-toggle" aria-label="Toggle sound">SOUND ON</button><button id="restart">NEW MATCH ↻</button></div></div></section><footer>WORLD TOUR BUILD 3.20 · PERSPECTIVE CHAMPIONSHIP ARENA · 3D FIGHTERS</footer><div id="champion-screen" class="champion-screen hidden" role="dialog" aria-modal="true" aria-labelledby="champion-title"><div class="champion-card"><div class="champion-trophy">🏆</div><small>WORLD TOUR COMPLETE</small><h2 id="champion-title">WORLD CHAMPION!</h2><p>You conquered all eight rivals. The championship belt is yours.</p><strong id="champion-record">CAREER RECORD 0–0 · WORLD TOUR TITLES 1</strong><button id="champion-continue">CONTINUE →</button></div></div></main><script src="ring-renderer.js"></script><script src="model-renderer.js"></script><script src="game.js"></script><script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));}</script></body></html>
