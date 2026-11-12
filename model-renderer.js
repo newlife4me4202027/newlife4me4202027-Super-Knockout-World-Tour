@@ -35,7 +35,7 @@
  if(back){sphere(m,0,.93,-.005,.18,.085,.16,"#35221e")}else{sphere(m,0,.94,0,.18,.08,.16,"#20202a");sphere(m,-.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,-.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,-.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,0,.785,.16,.028,.045,.025,"#895a43");sphere(m,0,.745,.155,.065,.012,.012,"#4a2522");sphere(m,-.18,.81,0,.035,.055,.035,skin);sphere(m,.18,.81,0,.035,.055,.035,skin);}
  // shoulders, arms, forearms and wrist wraps
  const gY=(guard?.43:.29)+(back?0:stance[0]),attackSide=back?-1:1;
- if(punch&&!el.__posePunchActive){el.__posePunchActive=true;el.__posePunchStart=t;}if(!punch)el.__posePunchActive=false;const punchElapsed=punch?Math.max(0,t-(el.__posePunchStart||t)):0,punchDrive=punch?Math.sin(Math.min(1,punchElapsed/(striking?430:340))*Math.PI):0,extension=punch?(upper?.22:hook?.17:.25)*punchDrive:striking?.18:0;
+ if(punch&&!el.__posePunchActive){el.__posePunchActive=true;el.__posePunchStart=t;}if(!punch)el.__posePunchActive=false;const punchElapsed=punch?Math.max(0,t-(el.__posePunchStart||t)):0,punchProgress=punch?Math.min(1,punchElapsed/(striking?430:340)):0,punchDrive=punch?(punchProgress<.62?Math.sin(punchProgress/.62*Math.PI/2):Math.cos((punchProgress-.62)/.38*Math.PI/2)):0,extension=punch?(upper?.22:hook?.17:.25)*punchDrive:striking?.18:0;
  for(const side of [-1,1]){const attacking=punch&&side===attackSide,reach=attacking?extension:0,guardLift=guard&&!attacking?.16:0;const spread=back?1:1+stance[1],sh=[side*.27*spread,.55+(back?0:stance[2]*.35),0],elbow=[side*(.39+reach*.2)*spread,.36+reach*.35+guardLift*.45+(back?0:stance[2]),.02],wrist=[side*(.40+reach)*spread,gY+guardLift+(attacking?(back?.12:-.09)*punchDrive:0)+(back?0:stance[2]*.55),.09+(attacking?.06*punchDrive:0)];sphere(m,sh[0],sh[1],sh[2],.13,.14,.13,skin);joint(sh,elbow,.085,skin);sphere(m,elbow[0],elbow[1],elbow[2],.09,.09,.09,skin);joint(elbow,wrist,.07,skin);joint([wrist[0],wrist[1]-.085,.075],[wrist[0],wrist[1]-.015,.075],.074,"#eee9dc");
  // sculpted boxing glove: cuff, palm shell, raised knuckle pad, and thumb
  cylinder(m,[wrist[0],wrist[1]-.025,.09],[wrist[0],wrist[1]+.025,.10],.078,"#d7d0c3",.082);
@@ -44,7 +44,7 @@
  // dimensional rib/abdominal accents
  for(let k=0;k<3;k++){const yy=.40-k*.085;sphere(m,-.115,yy,.155,.105,.035,.018,"#8a5943");sphere(m,.115,yy,.155,.105,.035,.018,"#8a5943");}
  // Apply a true hip-pivot body rotation so punches and impacts move the full 3D silhouette.
- const angle=lean+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
+ const punchTorque=punch?(hook?.11:upper?-.035:.055)*punchDrive*(back?-1:1):0;const angle=lean+punchTorque+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
  const reactionDirection=cl.contains("reaction-hook")?1:cl.contains("reaction-upper")?-.45:cl.contains("reaction-special")?-.8:cl.contains("reaction-jab")?-.25:0;
  const reactionPulse=impact?Math.max(0,Math.sin(phase*30))*(cl.contains("reaction-hook")?.085:cl.contains("reaction-upper")?.065:cl.contains("reaction-special")?.11:.045):0;
  for(let i=0;i<m.p.length;i+=3){const x=m.p[i],y=m.p[i+1]-pivot,headFactor=m.p[i+1]>.70?1:0;m.p[i]=x*co-y*si+(impact?(back?-.018:.018)*Math.abs(Math.sin(phase*28)):0)+headShift*headFactor+reactionDirection*reactionPulse*headFactor;m.p[i+1]=pivot+x*si+y*co-(reactionPulse*.32*headFactor);}
