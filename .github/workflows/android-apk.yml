@@ -33,7 +33,9 @@ jobs:
       - name: Prepare Android web assets
         run: |
           mkdir -p www
-          cp index.html game.js styles.css manifest.webmanifest service-worker.js www/
+          cp index.html game.js styles.css manifest.webmanifest service-worker.js ring-renderer.js model-renderer.js www/
+          test -s www/ring-renderer.js
+          test -s www/model-renderer.js
       - name: Generate Android project
         run: npx cap add android
       - name: Sync game into Android project
