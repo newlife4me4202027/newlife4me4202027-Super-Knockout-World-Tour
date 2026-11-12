@@ -293,3 +293,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - The active ring now uses only the two WebGL fighter canvases; no legacy SVG, sprite background, or referee DOM character remains.
 - Updated the visible build label and offline cache to v21.
 - Added a browser assertion that both fighter containers have no background image.
+
+
+## Build 3.23 — mobile rendering optimization
+- Reduced polygon mesh tessellation for fighter spheres and cylinders to lower per-frame vertex generation and GPU upload work while preserving the overall 3D silhouettes.
+- Reduced the ring renderer's maximum device-pixel ratio from 1.6 to 1.25 to lower canvas fill cost on high-density mobile screens.
+- Preserved combat simulation, attack timing, damage, AI, and touch controls; these changes affect visual rendering workload only.
+- Updated the visible game build label and offline cache to v22.
