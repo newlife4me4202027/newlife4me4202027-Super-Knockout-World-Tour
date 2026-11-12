@@ -313,3 +313,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Reduced the WebGL fighter canvas maximum device-pixel ratio from 1.5 to 1.25, matching the ring renderer's mobile graphics cap.
 - Lowered fighter canvas pixel workload on high-density screens while preserving the 3D models, animation cadence, combat simulation, damage, and controls.
 - Updated the visible build label and offline cache to v24.
+
+
+## Build 3.26 — punch follow-through and body torque
+- Changed the 3D glove extension to accelerate into the strike and ease back during recovery instead of using a symmetric in-and-out motion.
+- Added a small strike-specific hip and torso torque for hooks, uppercuts, and jabs to make punch silhouettes carry more body weight.
+- Preserved hit detection, stamina costs, damage, attack windows, opponent AI, and mobile controls; this is a visual animation update.
+- Updated the visible build label and offline cache to v25.
