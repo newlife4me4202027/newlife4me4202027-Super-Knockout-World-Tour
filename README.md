@@ -300,3 +300,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Reduced the ring renderer's maximum device-pixel ratio from 1.6 to 1.25 to lower canvas fill cost on high-density mobile screens.
 - Preserved combat simulation, attack timing, damage, AI, and touch controls; these changes affect visual rendering workload only.
 - Updated the visible game build label and offline cache to v22.
+
+
+## Build 3.24 — Android renderer packaging and validation
+- Fixed the Android packaging workflow to copy both `ring-renderer.js` and `model-renderer.js` into the Capacitor web asset directory. These scripts are loaded by `index.html` and are required for the 3D arena and fighter renderers.
+- Added workflow checks confirming both renderer files exist in the Android web asset directory before the native project is generated.
+- Expanded the JavaScript validation command to syntax-check the game, ring renderer, fighter renderer, and service worker.
+- Updated the visible build label and offline cache to v23.
