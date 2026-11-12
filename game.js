@@ -186,9 +186,10 @@ function rivalDefense(type){
   rival.classList.remove("rival-slip");void rival.offsetWidth;rival.classList.add("rival-slip");
   setTimeout(()=>rival.classList.remove("rival-slip"),430);
   s.combo=0;s.enemy=Math.min(s.enemy,1.15);
-  say(opponent().name+" SLIPS YOUR "+type.toUpperCase()+" — WATCH THE COUNTER!");
-  announce("PUNCH SLIPPED!");
-  sound("miss");
+  s.counterWindow=3;player.classList.add("counter-ready");
+  say(opponent().name+" SLIPS YOUR "+type.toUpperCase()+" — COUNTER OPENING!");
+  announce("COUNTER WINDOW!");
+  sound("dodge");
   return "slip";
  }
  rival.classList.remove("rival-guard");void rival.offsetWidth;rival.classList.add("rival-guard");
