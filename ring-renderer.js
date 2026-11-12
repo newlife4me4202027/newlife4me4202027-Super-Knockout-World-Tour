@@ -8,7 +8,7 @@
  .arena:after{z-index:2}
  `;document.head.appendChild(css);arena.insertBefore(canvas,arena.firstChild);
  const ctx=canvas.getContext("2d");let w=0,h=0,dpr=1;
- function resize(){const r=arena.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,1.6);w=r.width;h=r.height;canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0)}
+ function resize(){const r=arena.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,1.25);w=r.width;h=r.height;canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0)}
  new ResizeObserver(resize).observe(arena);resize();
  const path=(pts,fill,stroke,line=1)=>{ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=line;ctx.stroke()}};
  function rail(a,b,color,thick){ctx.lineCap="round";ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.strokeStyle="#07101f99";ctx.lineWidth=thick+4;ctx.stroke();ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.strokeStyle=color;ctx.lineWidth=thick;ctx.stroke();ctx.beginPath();ctx.moveTo(a[0],a[1]-thick*.3);ctx.lineTo(b[0],b[1]-thick*.3);ctx.strokeStyle="#ffffff9c";ctx.lineWidth=Math.max(1,thick*.22);ctx.stroke()}
