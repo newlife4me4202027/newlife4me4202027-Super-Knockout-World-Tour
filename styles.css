@@ -958,3 +958,9 @@ body{
 .foe.rival-slip{animation:rival-weave .38s ease-out;filter:drop-shadow(0 0 10px #b8a1ff) drop-shadow(0 10px 8px #101522aa)}
 @keyframes rival-weave{0%{translate:0 0}38%{translate:24px 3px;rotate:8deg}72%{translate:-8px -2px;rotate:-3deg}100%{translate:0 0;rotate:0}}
 @media(prefers-reduced-motion:reduce){.foe.rival-slip{animation:none}}
+
+
+/* BUILD 3.29 — RIVAL SLIP COUNTER OPENING */
+.foe.rival-slip{filter:drop-shadow(0 0 12px #b8a1ff) drop-shadow(0 10px 8px #101522aa)}
+.you.counter-ready{outline:2px solid #ffd34e;outline-offset:5px}
+@media(prefers-reduced-motion:reduce){.you.counter-ready{animation:none}}
