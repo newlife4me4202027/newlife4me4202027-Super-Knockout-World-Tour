@@ -332,3 +332,10 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added readable rival defensive reactions: pressure fighters favor guarding, counter fighters favor slipping, power fighters defend less often, and the champion mixes both.
 - Defensive moves have a cooldown, cost rival stamina, and are limited when the rival is tired. A successful slip or block interrupts the player's combo and telegraphs a possible response.
 - Core punch damage, accuracy, and player controls remain unchanged; defense is chance-based and visibly animated.
+
+
+## Build 3.29 — counter openings after rival slips
+- A rival slip now creates a real three-second counter window instead of only displaying a warning.
+- The player receives the existing counter-ready visual cue; the next clean punch can deal the existing 50% counter bonus damage.
+- The opening uses the existing counter damage system and does not change standard punch damage, rival defense odds, or touch controls.
+- Updated the visible build label and offline cache to v28.
