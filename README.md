@@ -307,3 +307,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added workflow checks confirming both renderer files exist in the Android web asset directory before the native project is generated.
 - Expanded the JavaScript validation command to syntax-check the game, ring renderer, fighter renderer, and service worker.
 - Updated the visible build label and offline cache to v23.
+
+
+## Build 3.25 — unified mobile graphics budget
+- Reduced the WebGL fighter canvas maximum device-pixel ratio from 1.5 to 1.25, matching the ring renderer's mobile graphics cap.
+- Lowered fighter canvas pixel workload on high-density screens while preserving the 3D models, animation cadence, combat simulation, damage, and controls.
+- Updated the visible build label and offline cache to v24.
