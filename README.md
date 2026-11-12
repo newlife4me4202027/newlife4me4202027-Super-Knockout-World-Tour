@@ -326,3 +326,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 ## Build 3.27
 - Added brief, stylized red impact splashes and flying droplets when punches connect. Heavy strikes and Star Punches produce larger effects; incoming heavy hits can also trigger the effect on the player.
 - Effects are lightweight DOM particles, automatically cleaned up, and respect reduced-motion settings. No combat damage or timing values were changed.
+
+
+## Build 3.28
+- Added readable rival defensive reactions: pressure fighters favor guarding, counter fighters favor slipping, power fighters defend less often, and the champion mixes both.
+- Defensive moves have a cooldown, cost rival stamina, and are limited when the rival is tired. A successful slip or block interrupts the player's combo and telegraphs a possible response.
+- Core punch damage, accuracy, and player controls remain unchanged; defense is chance-based and visibly animated.
