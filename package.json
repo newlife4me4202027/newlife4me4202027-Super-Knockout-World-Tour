@@ -4,7 +4,7 @@
   "private": true,
   "description": "Mobile-first arcade boxing game",
   "scripts": {
-    "check": "node --check game.js"
+    "check": "node --check game.js && node --check ring-renderer.js && node --check model-renderer.js && node --check service-worker.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",
