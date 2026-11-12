@@ -13,6 +13,7 @@ A fast-loading, browser-playable arcade boxing game prototype built for mobile-f
 - Jab, hook, uppercut, guard, dodge, depth positioning, and stamina recovery.
 - Earn Star Points from clean hit streaks and spend them on the cinematic Star Punch.
 - Rival attack telegraphs, pressure/counter/power/champion AI behaviors, knockdowns, and KO effects.
+- Stylized arcade blood-splash particles on clean punches, heavy hits, and signature strikes; brief effects only, with no persistent gore.
 - Health, stamina, round timer, record, knockdowns, and combo HUD.
 - Synthesized sound effects with a mute toggle.
 
@@ -320,3 +321,8 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Added a small strike-specific hip and torso torque for hooks, uppercuts, and jabs to make punch silhouettes carry more body weight.
 - Preserved hit detection, stamina costs, damage, attack windows, opponent AI, and mobile controls; this is a visual animation update.
 - Updated the visible build label and offline cache to v25.
+
+
+## Build 3.27
+- Added brief, stylized red impact splashes and flying droplets when punches connect. Heavy strikes and Star Punches produce larger effects; incoming heavy hits can also trigger the effect on the player.
+- Effects are lightweight DOM particles, automatically cleaned up, and respect reduced-motion settings. No combat damage or timing values were changed.
