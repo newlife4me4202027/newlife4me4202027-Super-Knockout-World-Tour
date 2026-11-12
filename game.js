@@ -161,7 +161,7 @@ function beginWalkout(){
 function start(){
  if(walkoutTimer)clearTimeout(walkoutTimer);
  const o=opponent();hideSelect();applyBoxer();const championArena=document.querySelector(".arena");if(championArena){championArena.classList.remove("champion-entrance");if(career===opponents.length-1){void championArena.offsetWidth;championArena.classList.add("champion-entrance");setTimeout(()=>championArena.classList.remove("champion-entrance"),1800);}}
- Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,patternStep:0,dialogueStage:0,hurtStage:0});
+ Object.assign(s,{hp:100,rh:o.health,st:100,rs:100,t:120,x:0,depth:0,active:false,block:false,dodging:false,enemy:2,enemyMove:"jab",rivalDowns:0,playerDowns:0,downTimer:0,ragePhase:0,combo:0,stars:0,lastAttack:"",attackCounts:{jab:0,hook:0,upper:0},feint:false,counterWindow:0,specialCooldown:2,specialActive:false,rivalDefenseCooldown:0,patternStep:0,dialogueStage:0,hurtStage:0});
  player.classList.remove("guard","knockdown","counter-ready","victory-celebrate",...Object.keys(boxers).map(k=>"celebrate-"+k));rival.classList.remove("telegraph","impact","final-knockout","ko-pressure","ko-counter","ko-power","ko-champion","rage-1","rage-2");const arena=document.querySelector(".arena");if(arena){arena.classList.remove("crowd-roar","crowd-eruption","ko-flash");delete arena.dataset.chant;}beginWalkout();
  say(career===opponents.length-1?"FINAL TITLE FIGHT — "+o.name+" ENTERS THE ARENA":"TITLE FIGHT — "+o.name+" ENTERS THE ARENA");
  announce(career===opponents.length-1?"FINAL BOSS!":"RIVAL ENTRANCE");
@@ -172,11 +172,40 @@ function start(){
   if(s.active===false){s.active=true;sound("bell");const referee=document.querySelector(".pixel-referee");if(referee){referee.classList.remove("referee-bell");void referee.offsetWidth;referee.classList.add("referee-bell");setTimeout(()=>referee.classList.remove("referee-bell"),1250);}announce("FIGHT!");say("FIGHT! "+o.name+" — LET'S GO!");update();}
  },1550);
 }
+function rivalDefense(type){
+ if(s.rivalDefenseCooldown>0||s.rh<=0||rival.classList.contains("knockdown"))return "";
+ const style=opponent().style;
+ const rates={pressure:{block:.17,slip:.035},counter:{block:.105,slip:.22},power:{block:.13,slip:.035},champion:{block:.19,slip:.17}};
+ const chance=rates[style]||{block:.1,slip:.08};
+ const staminaFactor=s.rs<18?.45:s.rs<35?.72:1;
+ const roll=Math.random(),slip=chance.slip*staminaFactor,block=slip+chance.block*staminaFactor;
+ if(roll>=block)return "";
+ s.rivalDefenseCooldown=style==="champion"?3:4;
+ s.rs=clamp(s.rs-(roll<slip?4:6),0,100);
+ if(roll<slip){
+  rival.classList.remove("rival-slip");void rival.offsetWidth;rival.classList.add("rival-slip");
+  setTimeout(()=>rival.classList.remove("rival-slip"),430);
+  s.combo=0;s.enemy=Math.min(s.enemy,1.15);
+  say(opponent().name+" SLIPS YOUR "+type.toUpperCase()+" — WATCH THE COUNTER!");
+  announce("PUNCH SLIPPED!");
+  sound("miss");
+  return "slip";
+ }
+ rival.classList.remove("rival-guard");void rival.offsetWidth;rival.classList.add("rival-guard");
+ setTimeout(()=>rival.classList.remove("rival-guard"),430);
+ reaction(rival,"guard");
+ s.combo=0;s.enemy=Math.min(s.enemy,1.35);
+ say(opponent().name+" BLOCKS YOUR "+type.toUpperCase()+"!");
+ announce("BLOCKED!");
+ sound("block");
+ return "block";
+}
 function hit(type){
  if(!s.active)return;
  const b=boxers[boxer],cost={jab:5,hook:12,upper:18}[type]/b.stamina;let damage={jab:7,hook:13,upper:20}[type]*b.damage;
  if(s.st<cost){say("TOO TIRED — RECOVER");return}
  s.st-=cost;s.lastAttack=type;s.attackCounts[type]++;anim(player,"punch");anim(player,"punch-"+type);sound(type);
+ const defended=rivalDefense(type);if(defended){update();return;}
  const slipChance=antiRepeat[career]||0;
  if(s.combo>=2&&Math.random()<slipChance){s.combo=0;s.enemy=Math.min(s.enemy,.8);say(opponent().name+" SLIPS THE REPEATED ATTACK!");announce("PUNCH MISSED!");sound("miss");update();return}
  s.combo++;if(s.combo===3||s.combo===5||s.combo===8){crowdReact(s.combo>=5);if(s.combo>=5)announce(s.combo>=8?"UNSTOPPABLE COMBO!":"CROWD IS GOING WILD!")}const rangeFactor=clamp(.78+(s.depth+8)*.015,.78,1.08);
@@ -215,7 +244,7 @@ document.addEventListener("keyup",event=>{if(event.key===" ")guard(false)});
 window.addEventListener("blur",()=>guard(false));
 setInterval(()=>{
  if(!s.active)return;
- s.t=Math.max(0,s.t-1);if(s.counterWindow>0){s.counterWindow--;if(s.counterWindow===0)player.classList.remove("counter-ready");}s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
+ s.t=Math.max(0,s.t-1);if(s.rivalDefenseCooldown>0)s.rivalDefenseCooldown--;if(s.counterWindow>0){s.counterWindow--;if(s.counterWindow===0)player.classList.remove("counter-ready");}s.st=clamp(s.st+2.2,0,100);s.rs=clamp(s.rs+1.5,0,100);s.enemy-=1;
  const o=opponent();
  if(s.enemy<=1&&!rival.classList.contains("telegraph")){
   const moves=rivalPatterns[career]||rivalPatterns[0];
