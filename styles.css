@@ -939,3 +939,14 @@ body{
 
 /* BUILD 3.22 — disable legacy pixel-art background sprites behind the WebGL fighters. */
 .arena .fighter{background-image:none!important;background-color:transparent!important}
+
+
+/* BUILD 3.27 — STYLIZED ARCADE BLOOD IMPACTS */
+.blood-fx{position:absolute;z-index:10;width:1px;height:1px;pointer-events:none;filter:drop-shadow(0 1px 2px #28000a99)}
+.blood-drop{position:absolute;left:0;top:0;width:var(--size);height:calc(var(--size)*1.55);border-radius:70% 35% 65% 35%;background:linear-gradient(145deg,#ff5966 0%,#b20e2c 58%,#650819 100%);opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(0deg);animation:blood-spray .62s cubic-bezier(.16,.72,.26,1) forwards}
+.blood-splat{position:absolute;left:0;top:0;width:24px;height:17px;border-radius:48% 52% 42% 58%;background:radial-gradient(ellipse,#d7193c 0 22%,#9c102b 48%,transparent 72%);opacity:0;transform:translate(-50%,-50%) scale(.25);animation:blood-mark .55s ease-out forwards}
+.blood-heavy .blood-splat{width:39px;height:27px}
+.blood-heavy .blood-drop{animation-duration:.76s}
+@keyframes blood-spray{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(0)}16%{opacity:.95}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.8) rotate(var(--spin))}}
+@keyframes blood-mark{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}22%{opacity:.9;transform:translate(-50%,-50%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-50%) scale(.72)}}
+@media(prefers-reduced-motion:reduce){.blood-drop,.blood-splat{animation:none;opacity:.45}}
