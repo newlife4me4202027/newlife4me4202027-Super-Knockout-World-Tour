@@ -4,7 +4,7 @@
  const style=document.createElement("style");
  style.textContent=".fighter{isolation:isolate}.fighter>.boxer-art,.fighter>.model-canvas{display:none!important}.fighter>.polygon3d{position:absolute;inset:0;width:100%;height:100%;display:block;visibility:visible!important;z-index:8;pointer-events:none}";
  document.head.appendChild(style);
- const VERT=`attribute vec3 p;attribute vec3 n;attribute vec3 col;varying vec3 vCol;varying float light;varying vec3 vNormal;void main(){gl_Position=vec4(p.x*0.92,p.y*0.92-0.035,p.z,1.0);vCol=col;vNormal=normalize(n);vec3 L=normalize(vec3(-.45,.75,1.0));light=.40+.60*max(dot(vNormal,L),0.0);}`;
+ const VERT=`attribute vec3 p;attribute vec3 n;attribute vec3 col;varying vec3 vCol;varying float light;varying vec3 vNormal;void main(){gl_Position=vec4(p.x*0.92,p.y*1.16-0.25,p.z,1.0);vCol=col;vNormal=normalize(n);vec3 L=normalize(vec3(-.45,.75,1.0));light=.40+.60*max(dot(vNormal,L),0.0);}`;
  const FRAG=`precision mediump float;varying vec3 vCol;varying float light;varying vec3 vNormal;void main(){vec3 N=normalize(vNormal);vec3 V=normalize(vec3(-.12,.18,1.0));float sheen=pow(max(dot(N,V),0.0),18.0)*.10;float rim=pow(1.0-max(dot(N,V),0.0),2.0)*.055;gl_FragColor=vec4(vCol*light+vec3(sheen+rim),1.0);}`;
  function shader(gl,type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s}
  function rgb(hex){const h=hex.replace("#","");const v=parseInt(h.length===3?h.split("").map(x=>x+x).join(""):h,16);return [((v>>16)&255)/255,((v>>8)&255)/255,(v&255)/255]}
