@@ -60,12 +60,12 @@
   let elbow=[side*(.355+idleSwing*.45),.405+guardPulse+idleLift*.45,.105];
   let wrist=[side*.235+idleSwing,.495+guardBob+idleLift+(guard?.045:0),.19];
   if(attacking){
-   if(attackMove==="jab"){elbow=[side*(.30+drive*.035),.445+drive*.025,.13+drive*.12];wrist=[side*(.22-drive*.18),.49+drive*.015,.19+drive*.72];}
-   else if(attackMove==="hook"){elbow=[side*(.39+drive*.045),.405+drive*.035,.14+drive*.10];wrist=[side*(.22-drive*.30),.47+drive*.10,.19+drive*.48];}
-   else{elbow=[side*(.30-drive*.025),.34+drive*.08,.13+drive*.10];wrist=[side*(.22-drive*.10),.48+drive*.24,.19+drive*.62];}
+   if(attackMove==="jab"){elbow=[side*(.30+drive*.035),.445+drive*.025,.13+drive*.12];wrist=[side*(.22-drive*.18),.49+drive*.015,.19+drive*.30];}
+   else if(attackMove==="hook"){elbow=[side*(.39+drive*.045),.405+drive*.035,.14+drive*.10];wrist=[side*(.22-drive*.30),.47+drive*.10,.19+drive*.22];}
+   else{elbow=[side*(.30-drive*.025),.34+drive*.08,.13+drive*.10];wrist=[side*(.22-drive*.10),.48+drive*.24,.19+drive*.28];}
   }
   if(striking&&!attacking){elbow=[side*.34,.43,.12];wrist=[side*.24,.50,.20];}
-  const gloveZ=wrist[2]+(attacking?reach*.65:0);
+  const gloveZ=wrist[2]+(attacking?reach*.15:0);
   sphere(m,shoulder[0],shoulder[1],shoulder[2],.125,.135,.125,skin);joint(shoulder,elbow,.082,skin);sphere(m,elbow[0],elbow[1],elbow[2],.086,.086,.086,skin);joint(elbow,wrist,.067,skin);
   joint([wrist[0],wrist[1]-.075,gloveZ-.015],[wrist[0],wrist[1]+.005,gloveZ],.073,"#eee9dc");
   cylinder(m,[wrist[0],wrist[1]-.025,gloveZ],[wrist[0],wrist[1]+.035,gloveZ+.012],.078,"#d7d0c3",.082);
