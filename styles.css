@@ -964,3 +964,7 @@ body{
 .foe.rival-slip{filter:drop-shadow(0 0 12px #b8a1ff) drop-shadow(0 10px 8px #101522aa)}
 .you.counter-ready{outline:2px solid #ffd34e;outline-offset:5px}
 @media(prefers-reduced-motion:reduce){.you.counter-ready{animation:none}}
+
+/* WORLD TOUR realism pass: bring the rival into readable range and keep the perspective believable. */
+@media(max-width:620px){.foe{top:24%!important;left:calc(50% - 56px)!important;bottom:auto!important;width:112px!important;height:235px!important;scale:.94!important;transform:scale(.94)!important;transform-origin:top center!important}.you{bottom:5%!important;scale:1!important}}
+@media(min-width:621px){.foe{top:23%!important;left:calc(50% - 56px)!important;bottom:auto!important;width:112px!important;height:235px!important;scale:.96!important;transform:scale(.96)!important;transform-origin:top center!important}.you{bottom:5%!important;scale:1!important}}
