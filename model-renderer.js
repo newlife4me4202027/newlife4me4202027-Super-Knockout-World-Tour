@@ -1,4 +1,4 @@
-/* BUILD 4.0 — articulated arcade boxers, visible facial detail, and punch-driven joint animation. */
+/* BUILD 4.1 — articulated arcade boxers with strike-specific shoulder, elbow, and glove paths. */
 (()=> {
  const fighters=[document.getElementById("you"),document.getElementById("foe")].filter(Boolean);
  const style=document.createElement("style");
