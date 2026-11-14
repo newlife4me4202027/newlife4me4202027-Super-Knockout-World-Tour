@@ -46,14 +46,14 @@
  const attackSide=back?-1:1;
  if(punch&&!el.__posePunchActive){el.__posePunchActive=true;el.__posePunchStart=t;}if(!punch)el.__posePunchActive=false;const punchElapsed=punch?Math.max(0,t-(el.__posePunchStart||t)):0,punchProgress=punch?Math.min(1,punchElapsed/(striking?430:340)):0,punchDrive=punch?(punchProgress<.62?Math.sin(punchProgress/.62*Math.PI/2):Math.cos((punchProgress-.62)/.38*Math.PI/2)):0,extension=punch?(upper?.24:hook?.31:.43)*punchDrive:striking?.25:0;
  // Active guard stance and continuous alternating shoulder/elbow movement keep both boxers alive between punches.
- const guardBob=Math.sin(phase*4.1)*.018,guardPulse=Math.sin(phase*2.7)*.014;
+ const guardBob=Math.sin(phase*3.2)*.024,guardPulse=Math.sin(phase*2.15)*.019,bodyRoll=Math.sin(phase*1.6)*.012;
  for(const side of [-1,1]){
   const attacking=punch&&side===attackSide,reach=attacking?extension:0,guardLift=guard?.055:0;
-  const armPhase=phase*4.6+side*1.35;
-  const armSwing=Math.sin(armPhase)*.027,armLift=Math.sin(armPhase*.72+1.1)*.018;
+  const armPhase=phase*3.25+side*1.45;
+  const armSwing=Math.sin(armPhase)*.062,armLift=Math.sin(armPhase*.78+1.1)*.038;
   const spread=back?1:1+stance[1];
-  const sh=[side*.27*spread,.55+guardBob+(back?0:stance[2]*.35),.005];
-  const elbow=[side*(.355+armSwing*.45+reach*.16)*spread,.425+guardPulse+armLift+reach*.24+guardLift*.4+(back?0:stance[2]),.105];
+  const sh=[side*(.27+bodyRoll)*spread,.55+guardBob+(back?0:stance[2]*.35),.005];
+  const elbow=[side*(.355+armSwing*.7+reach*.16)*spread,.425+guardPulse+armLift+reach*.24+guardLift*.4+(back?0:stance[2]),.105];
   const wrist=[side*(.245+armSwing+reach*.48)*spread,.495+guardBob+armLift+guardLift+(attacking?(back?.07:-.045)*punchDrive:0)+(back?0:stance[2]*.25),.19+reach*.72];
   sphere(m,sh[0],sh[1],sh[2],.13,.14,.13,skin);joint(sh,elbow,.085,skin);sphere(m,elbow[0],elbow[1],elbow[2],.09,.09,.09,skin);joint(elbow,wrist,.07,skin);joint([wrist[0],wrist[1]-.085,.16],[wrist[0],wrist[1]-.015,.17],.074,"#eee9dc");
   // Sculpted glove: cuff, padded knuckles, and thumb move with the wrist as one unit.
