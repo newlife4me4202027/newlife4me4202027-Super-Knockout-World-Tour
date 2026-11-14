@@ -30,6 +30,15 @@
  sphere(m,0,.36,0,.285,.33,.155,skin);sphere(m,-.13,.43,.12,.145,.125,.075,skin);sphere(m,.13,.43,.12,.145,.125,.075,skin);sphere(m,0,.28,.145,.105,.105,.025,skin);
  sphere(m,-.135,.475,.145,.132,.085,.045,skin);sphere(m,.135,.475,.145,.132,.085,.045,skin);sphere(m,0,.535,.035,.20,.09,.12,skin);sphere(m,-.285,.535,.005,.095,.12,.105,skin);sphere(m,.285,.535,.005,.095,.12,.105,skin);
  sphere(m,-.075,.345,.153,.07,.052,.018,"#895b45");sphere(m,.075,.345,.153,.07,.052,.018,"#895b45");sphere(m,-.075,.255,.151,.07,.042,.018,"#895b45");sphere(m,.075,.255,.151,.07,.042,.018,"#895b45");
+ // Rear-view player anatomy: shoulder blades, trapezius, and spinal groove.
+ if(back){
+  sphere(m,-.145,.405,-.135,.125,.17,.035,"#895a45");
+  sphere(m,.145,.405,-.135,.125,.17,.035,"#895a45");
+  sphere(m,0,.49,-.135,.105,.12,.035,skin);
+  sphere(m,0,.37,-.163,.018,.19,.012,"#694536");
+  sphere(m,-.13,.535,-.105,.13,.105,.065,skin);
+  sphere(m,.13,.535,-.105,.13,.105,.065,skin);
+ }
  // neck and head
  joint([0,.59,0],[0,.72,0],.09,skin);sphere(m,0,.81,0,.17,.19,.15,skin);
  if(back){sphere(m,0,.93,-.005,.18,.085,.16,"#35221e")}else{sphere(m,0,.94,0,.18,.08,.16,"#20202a");sphere(m,-.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,-.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,-.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,0,.785,.16,.028,.045,.025,"#895a43");sphere(m,0,.745,.155,.065,.012,.012,"#4a2522");sphere(m,-.18,.81,0,.035,.055,.035,skin);sphere(m,.18,.81,0,.035,.055,.035,skin);}
@@ -48,6 +57,15 @@
  const reactionDirection=cl.contains("reaction-hook")?1:cl.contains("reaction-upper")?-.45:cl.contains("reaction-special")?-.8:cl.contains("reaction-jab")?-.25:0;
  const reactionPulse=impact?Math.max(0,Math.sin(phase*30))*(cl.contains("reaction-hook")?.085:cl.contains("reaction-upper")?.065:cl.contains("reaction-special")?.11:.045):0;
  for(let i=0;i<m.p.length;i+=3){const x=m.p[i],y=m.p[i+1]-pivot,headFactor=m.p[i+1]>.70?1:0;m.p[i]=x*co-y*si+(impact?(back?-.018:.018)*Math.abs(Math.sin(phase*28)):0)+headShift*headFactor+reactionDirection*reactionPulse*headFactor;m.p[i+1]=pivot+x*si+y*co-(reactionPulse*.32*headFactor);}
+ // Turn only the player around so the camera sees the back, not the chest.
+ if(back){
+  for(let i=0;i<m.p.length;i+=3){
+   m.p[i]*=-1;
+   m.p[i+2]*=-1;
+   m.n[i]*=-1;
+   m.n[i+2]*=-1;
+  }
+ }
  return m}
  fighters.forEach(el=>{const canvas=document.createElement("canvas");canvas.className="polygon3d";canvas.setAttribute("aria-hidden","true");el.appendChild(canvas);const gl=canvas.getContext("webgl",{alpha:true,antialias:true,preserveDrawingBuffer:false});if(!gl)return;const prog=gl.createProgram();gl.attachShader(prog,shader(gl,gl.VERTEX_SHADER,VERT));gl.attachShader(prog,shader(gl,gl.FRAGMENT_SHADER,FRAG));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))return;gl.useProgram(prog);const buffers={};for(const name of ["p","n","col"]){buffers[name]=gl.createBuffer();gl.enableVertexAttribArray(gl.getAttribLocation(prog,name));}
  const resize=()=>{const r=el.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.25);canvas.width=Math.max(1,Math.round(r.width*d));canvas.height=Math.max(1,Math.round(r.height*d));gl.viewport(0,0,canvas.width,canvas.height)};new ResizeObserver(resize).observe(el);resize();gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.clearColor(0,0,0,0);
