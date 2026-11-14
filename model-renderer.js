@@ -1,11 +1,11 @@
-/* BUILD 3.11 — planted footwork, weight transfer, and strike-specific reactions. */
+/* BUILD 4.0 — articulated arcade boxers, visible facial detail, and punch-driven joint animation. */
 (()=> {
  const fighters=[document.getElementById("you"),document.getElementById("foe")].filter(Boolean);
  const style=document.createElement("style");
  style.textContent=".fighter{isolation:isolate}.fighter>.boxer-art,.fighter>.model-canvas{display:none!important}.fighter>.polygon3d{position:absolute;inset:0;width:100%;height:100%;display:block;visibility:visible!important;z-index:8;pointer-events:none}";
  document.head.appendChild(style);
- const VERT=`attribute vec3 p;attribute vec3 n;attribute vec3 col;varying vec3 vCol;varying float light;void main(){gl_Position=vec4(p.x*0.92,p.y*0.92-0.035,p.z,1.0);vCol=col;vec3 L=normalize(vec3(-.45,.75,1.0));light=.38+.62*max(dot(normalize(n),L),0.0);}`;
- const FRAG=`precision mediump float;varying vec3 vCol;varying float light;void main(){gl_FragColor=vec4(vCol*light,1.0);}`;
+ const VERT=`attribute vec3 p;attribute vec3 n;attribute vec3 col;varying vec3 vCol;varying float light;varying vec3 vNormal;void main(){gl_Position=vec4(p.x*0.92,p.y*0.92-0.035,p.z,1.0);vCol=col;vNormal=normalize(n);vec3 L=normalize(vec3(-.45,.75,1.0));light=.40+.60*max(dot(vNormal,L),0.0);}`;
+ const FRAG=`precision mediump float;varying vec3 vCol;varying float light;varying vec3 vNormal;void main(){vec3 N=normalize(vNormal);vec3 V=normalize(vec3(-.12,.18,1.0));float sheen=pow(max(dot(N,V),0.0),18.0)*.10;float rim=pow(1.0-max(dot(N,V),0.0),2.0)*.055;gl_FragColor=vec4(vCol*light+vec3(sheen+rim),1.0);}`;
  function shader(gl,type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s}
  function rgb(hex){const h=hex.replace("#","");const v=parseInt(h.length===3?h.split("").map(x=>x+x).join(""):h,16);return [((v>>16)&255)/255,((v>>8)&255)/255,(v&255)/255]}
  function mesh(){return {p:[],n:[],c:[]}}
@@ -41,20 +41,20 @@
  }
  // neck and head
  joint([0,.59,0],[0,.72,0],.09,skin);sphere(m,0,.81,0,.17,.19,.15,skin);
- if(back){sphere(m,0,.93,-.005,.18,.085,.16,"#35221e")}else{sphere(m,0,.94,0,.18,.08,.16,"#20202a");sphere(m,-.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,-.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,-.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,.065,.825,.15,.013,.012,.008,"#f2e7d5");sphere(m,0,.785,.16,.028,.045,.025,"#895a43");sphere(m,0,.745,.155,.065,.012,.012,"#4a2522");sphere(m,-.18,.81,0,.035,.055,.035,skin);sphere(m,.18,.81,0,.035,.055,.035,skin);}
+ if(back){sphere(m,0,.93,-.005,.18,.085,.16,"#35221e")}else{sphere(m,0,.94,0,.18,.08,.16,"#20202a");sphere(m,-.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,-.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,-.065,.825,.15,.018,.014,.009,"#f2e7d5");sphere(m,.065,.825,.15,.018,.014,.009,"#f2e7d5");sphere(m,-.065,.825,.161,.009,.01,.006,"#17151a");sphere(m,.065,.825,.161,.009,.01,.006,"#17151a");sphere(m,-.068,.852,.15,.045,.014,.018,"#34201c");sphere(m,.068,.852,.15,.045,.014,.018,"#34201c");sphere(m,0,.795,.17,.035,.055,.035,"#895a43");sphere(m,0,.765,.165,.075,.014,.014,"#4a2522");sphere(m,-.18,.81,0,.035,.055,.035,skin);sphere(m,.18,.81,0,.035,.055,.035,skin);
  // shoulders, arms, forearms and wrist wraps
  const attackSide=back?-1:1;
  if(punch&&!el.__posePunchActive){el.__posePunchActive=true;el.__posePunchStart=t;}if(!punch)el.__posePunchActive=false;const punchElapsed=punch?Math.max(0,t-(el.__posePunchStart||t)):0,punchProgress=punch?Math.min(1,punchElapsed/(striking?430:340)):0,punchDrive=punch?(punchProgress<.62?Math.sin(punchProgress/.62*Math.PI/2):Math.cos((punchProgress-.62)/.38*Math.PI/2)):0,extension=punch?(upper?.24:hook?.31:.43)*punchDrive:striking?.25:0;
  // Active guard stance and continuous alternating shoulder/elbow movement keep both boxers alive between punches.
- const guardBob=Math.sin(phase*3.2)*.024,guardPulse=Math.sin(phase*2.15)*.019,bodyRoll=Math.sin(phase*1.6)*.012;
+ const guardBob=Math.sin(phase*3.2)*.027,guardPulse=Math.sin(phase*2.15)*.022,bodyRoll=Math.sin(phase*1.6)*.016;
  for(const side of [-1,1]){
   const attacking=punch&&side===attackSide,reach=attacking?extension:0,guardLift=guard?.055:0;
-  const armPhase=phase*3.25+side*1.45;
-  const armSwing=Math.sin(armPhase)*.062,armLift=Math.sin(armPhase*.78+1.1)*.038;
+  const armPhase=phase*3.35+side*1.45;
+  const armSwing=Math.sin(armPhase)*.074,armLift=Math.sin(armPhase*.78+1.1)*.046;
   const spread=back?1:1+stance[1];
   const sh=[side*(.27+bodyRoll)*spread,.55+guardBob+(back?0:stance[2]*.35),.005];
-  const elbow=[side*(.355+armSwing*.7+reach*.16)*spread,.425+guardPulse+armLift+reach*.24+guardLift*.4+(back?0:stance[2]),.105];
-  const wrist=[side*(.245+armSwing+reach*.48)*spread,.495+guardBob+armLift+guardLift+(attacking?(back?.07:-.045)*punchDrive:0)+(back?0:stance[2]*.25),.19+reach*.72];
+  const elbow=[side*(.355+armSwing*.72+reach*.28)*spread,.425+guardPulse+armLift+reach*.31+guardLift*.4+(back?0:stance[2]),.105+reach*.10];
+  const wrist=[side*(.245+armSwing+reach*.64)*spread,.495+guardBob+armLift+guardLift+(attacking?(back?.085:-.065)*punchDrive:0)+(back?0:stance[2]*.25),.19+reach*.92];
   sphere(m,sh[0],sh[1],sh[2],.13,.14,.13,skin);joint(sh,elbow,.085,skin);sphere(m,elbow[0],elbow[1],elbow[2],.09,.09,.09,skin);joint(elbow,wrist,.07,skin);joint([wrist[0],wrist[1]-.085,.16],[wrist[0],wrist[1]-.015,.17],.074,"#eee9dc");
   // Sculpted glove: cuff, padded knuckles, and thumb move with the wrist as one unit.
   cylinder(m,[wrist[0],wrist[1]-.025,.19],[wrist[0],wrist[1]+.025,.20],.078,"#d7d0c3",.082);
