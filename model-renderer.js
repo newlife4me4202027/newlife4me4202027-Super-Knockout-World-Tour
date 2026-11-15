@@ -63,6 +63,11 @@
   const shoulder=[side*(.275+bodyRoll-(attacking?drive*.025:0)),.555+guardBob+idleLift*.24+(attacking&&upper?drive*.035:0),.005+(attacking?snap*.045:0)];
   let elbow=[side*(.355+idleSwing*.72),.405+guardPulse+idleLift*.72,.105+Math.abs(idleSwing)*.16];
   let wrist=[side*.235+idleSwing*1.18,.495+guardBob+idleLift*1.18+stanceLift,.19+Math.abs(idleSwing)*.22];
+  if(telegraph&&!back){
+   const load=Math.sin(phase*10)*.018+.045;
+   elbow=[side*(.37+(side===1?load*.65:0)),.39+(side===1?load:0),.13];
+   wrist=[side*(.255+(side===1?load*1.5:0)),.535+(side===1?load*1.4:0),.245+(side===1?load:0)];
+  }
   if(guard){
    elbow=[side*.34,.49,.13];
    wrist=[side*.245,.635,.23];
@@ -86,6 +91,11 @@
   if(striking&&!attacking){
    elbow=[side*.34,.47,.14];
    wrist=[side*.245,.64,.24];
+  }
+  if(striking&&attacking){
+   const snapBack=Math.sin(clamp(punchProgress,0,1)*Math.PI);
+   shoulder[1]+=.018+snapBack*.012;
+   elbow[1]+=.025*snapBack;
   }
   const gloveZ=wrist[2]+(attacking?snap*.055:0);
   sphere(m,shoulder[0],shoulder[1],shoulder[2],.125,.135,.125,skin);
