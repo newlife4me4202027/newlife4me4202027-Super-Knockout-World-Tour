@@ -339,3 +339,11 @@ The workflow generates the Capacitor Android project during the build, so genera
 - The player receives the existing counter-ready visual cue; the next clean punch can deal the existing 50% counter bonus damage.
 - The opening uses the existing counter damage system and does not change standard punch damage, rival defense odds, or touch controls.
 - Updated the visible build label and offline cache to v28.
+
+
+## Build 4.2 — Continuous arm motion and strike follow-through
+- Increased visible idle arm swing and shoulder movement so both boxers stay physically active between attacks.
+- Added more pronounced elbow and wrist movement while preserving a defensive guard position.
+- Strengthened strike-specific torso rotation for clearer weight transfer on hooks, jabs, and uppercuts.
+- Kept the existing combat calculations, fighter dimensions, opponent roster, and touch controls unchanged.
+- Updated the offline cache version so returning players receive the new renderer.
