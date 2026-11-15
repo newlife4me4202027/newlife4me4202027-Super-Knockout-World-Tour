@@ -1075,3 +1075,52 @@ footer{color:#9aa9bd;letter-spacing:1.5px}
  .arena .you{left:5%}
  .arena .foe{left:53%;top:15%;transform:scaleX(-1) scale(.82)}
 }
+
+
+/* BUILD 5.1 — restore the head-on depth lanes and guarantee clear boxer separation.
+   The player stays centered in the near lane; the rival stays centered in the far lane.
+   These dimensions are intentionally sized for both the desktop and mobile arena. */
+.arena .foe{
+ left:calc(50% - 85px)!important;
+ top:7%!important;
+ bottom:auto!important;
+ width:170px!important;
+ height:36%!important;
+ transform:scaleX(-1)!important;
+ transform-origin:top center!important;
+ scale:1!important;
+}
+.arena .you{
+ --fighter-half:85px;
+ left:calc(50% - var(--fighter-half) + 0px)!important;
+ top:auto!important;
+ bottom:0!important;
+ width:170px!important;
+ height:47%!important;
+ transform:none!important;
+ transform-origin:bottom center!important;
+ scale:1!important;
+}
+.arena .fighter>.polygon3d{
+ position:absolute!important;
+ inset:0!important;
+ width:100%!important;
+ height:100%!important;
+ transform:none!important;
+}
+@media(max-width:620px){
+ .arena .foe{
+  left:calc(50% - 60px)!important;
+  top:7%!important;
+  width:120px!important;
+  height:36%!important;
+  transform:scaleX(-1)!important;
+ }
+ .arena .you{
+  --fighter-half:60px;
+  left:calc(50% - var(--fighter-half) + 0px)!important;
+  bottom:0!important;
+  width:120px!important;
+  height:47%!important;
+ }
+}
