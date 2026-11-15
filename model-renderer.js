@@ -60,7 +60,7 @@
  for(const side of [-1,1]){
   const attacking=punch&&side===attackSide,covering=punch&&!attacking,armPhase=phase*3.7+side*1.35;
   const idleSwing=Math.sin(armPhase)*.064,idleLift=Math.sin(armPhase*.82+1.0)*.038;
-  const shoulder=[side*(.275+bodyRoll),.555+guardBob+idleLift*.24,.005];
+  const shoulder=[side*(.275+bodyRoll-(attacking?drive*.025:0)),.555+guardBob+idleLift*.24+(attacking&&upper?drive*.035:0),.005+(attacking?snap*.045:0)];
   let elbow=[side*(.355+idleSwing*.72),.405+guardPulse+idleLift*.72,.105+Math.abs(idleSwing)*.16];
   let wrist=[side*.235+idleSwing*1.18,.495+guardBob+idleLift*1.18+stanceLift,.19+Math.abs(idleSwing)*.22];
   if(guard){
@@ -73,14 +73,14 @@
   }
   if(attacking){
    if(attackMove==="jab"){
-    elbow=[side*(.34-drive*.035),.445+drive*.025,.14+snap*.13];
-    wrist=[side*(.235-drive*.205),.50+drive*.025,.19+snap*.38];
+    elbow=[side*(.34-drive*.055),.445+drive*.045,.14+snap*.15];
+    wrist=[side*(.235-drive*.245),.50+drive*.035,.19+snap*.42];
    }else if(attackMove==="hook"){
-    elbow=[side*(.39+drive*.045),.425+drive*.015,.17+snap*.16];
-    wrist=[side*(.235-drive*.31),.475+drive*.115,.19+snap*.29];
+    elbow=[side*(.39+drive*.055),.425+drive*.025,.17+snap*.18];
+    wrist=[side*(.235-drive*.34),.475+drive*.13,.19+snap*.32];
    }else{
-    elbow=[side*(.315-drive*.035),.355+drive*.075,.14+snap*.13];
-    wrist=[side*(.225-drive*.14),.49+drive*.235,.19+snap*.34];
+    elbow=[side*(.315-drive*.045),.355+drive*.10,.14+snap*.15];
+    wrist=[side*(.225-drive*.16),.49+drive*.27,.19+snap*.37];
    }
   }
   if(striking&&!attacking){
@@ -102,7 +102,7 @@
  // dimensional rib/abdominal accents
  for(let k=0;k<3;k++){const yy=.40-k*.085;sphere(m,-.115,yy,.155,.105,.035,.018,"#8a5943");sphere(m,.115,yy,.155,.105,.035,.018,"#8a5943");}
  // Apply a true hip-pivot body rotation so punches and impacts move the full 3D silhouette.
- const punchTorque=punch?(hook?.15:upper?-.055:.075)*drive*(back?-1:1):0;const angle=lean+punchTorque+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
+ const punchTorque=punch?(hook?.19:upper?-.085:.095)*drive*(back?-1:1):0;const angle=lean+punchTorque+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
  const reactionDirection=cl.contains("reaction-hook")?1:cl.contains("reaction-upper")?-.45:cl.contains("reaction-special")?-.8:cl.contains("reaction-jab")?-.25:0;
  const reactionPulse=impact?Math.max(0,Math.sin(phase*30))*(cl.contains("reaction-hook")?.085:cl.contains("reaction-upper")?.065:cl.contains("reaction-special")?.11:.045):0;
  for(let i=0;i<m.p.length;i+=3){const x=m.p[i],y=m.p[i+1]-pivot,headFactor=m.p[i+1]>.70?1:0;m.p[i]=x*co-y*si+(impact?(back?-.018:.018)*Math.abs(Math.sin(phase*28)):0)+headShift*headFactor+reactionDirection*reactionPulse*headFactor;m.p[i+1]=pivot+x*si+y*co-(reactionPulse*.32*headFactor);}
