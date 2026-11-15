@@ -79,7 +79,7 @@ function update(){
  $("timer").textContent=Math.floor(s.t/60)+":"+String(s.t%60).padStart(2,"0");
  $("record").textContent=wins+"–"+losses;$("kds").textContent=s.rivalDowns;$("combo").textContent=s.combo;const starDisplay=$("star-display");if(starDisplay)starDisplay.textContent="★".repeat(s.stars)+"☆".repeat(3-s.stars);const starButton=document.querySelector('[data-a="star"]');if(starButton)starButton.disabled=s.stars<1||!s.active;
  const range=$("range");if(range)range.textContent=s.depth>=7?"CLOSE":s.depth<=-3?"FAR":"MID";
- player.style.left="calc(50% - var(--fighter-half, 71px) + "+s.x+"px)";player.style.bottom=(8+s.depth*1.15)+"%";
+ player.style.left="calc(50% - var(--fighter-half, 71px) + "+s.x+"px)";player.style.setProperty("bottom",(8+s.depth*1.15)+"%","important");
  player.style.transform="scale("+(1+(12-s.depth)*.004).toFixed(3)+")";
  const label=document.querySelector(".rival b");if(label)label.textContent="RIVAL · "+opponent().name;
  const round=document.querySelector(".clock small");if(round)round.textContent="TOUR FIGHT 0"+(career+1);
