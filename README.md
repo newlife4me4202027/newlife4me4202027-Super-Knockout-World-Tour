@@ -347,3 +347,12 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Strengthened strike-specific torso rotation for clearer weight transfer on hooks, jabs, and uppercuts.
 - Kept the existing combat calculations, fighter dimensions, opponent roster, and touch controls unchanged.
 - Updated the offline cache version so returning players receive the new renderer.
+
+
+## Build 5.0 — Championship Edition presentation
+- Reframed the experience as an original, realistic 3D arcade boxing championship with broadcast-style arena lighting, crowd depth, premium HUD panels, and a closer two-fighter composition.
+- Increased procedural mesh tessellation and improved per-pixel lighting, surface sheen, and rim lighting for smoother, more dimensional boxers.
+- Enlarged the fighters and adjusted mobile framing to keep both boxers readable during attacks.
+- Updated page metadata, championship branding, and offline cache version.
+- Creative boundary: the game uses original fighter identities, dialogue, visual designs, animations, audio, interface, and code. It takes inspiration from broad boxing-game mechanics such as telegraphed attacks, dodging, guarding, timing, and counter windows, without reproducing Nintendo characters, assets, music, or exact presentation.
+- This is an ongoing browser-game development build; it is not a completed PS2 port.
