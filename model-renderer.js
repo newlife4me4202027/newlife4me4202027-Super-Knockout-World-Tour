@@ -1,4 +1,4 @@
-/* BUILD 4.1 — articulated arcade boxers with strike-specific shoulder, elbow, and glove paths. */
+/* BUILD 4.2 — stronger continuous arm motion, planted stance, and clearer strike follow-through. */
 (()=> {
  const fighters=[document.getElementById("you"),document.getElementById("foe")].filter(Boolean);
  const style=document.createElement("style");
@@ -52,13 +52,13 @@
  const punchDrive=punch?(punchProgress<.58?Math.sin(punchProgress/.58*Math.PI/2):Math.cos((punchProgress-.58)/.42*Math.PI/2)):0;
  const attackMove=upper?"upper":hook?"hook":jab?"jab":"jab";
  const reach=punch?(attackMove==="upper"?.30:attackMove==="hook"?.27:.48)*punchDrive:striking?.20:0;
- const guardBob=Math.sin(phase*3.1)*.022,guardPulse=Math.sin(phase*2.05)*.016,bodyRoll=Math.sin(phase*1.55)*.012;
+ const guardBob=Math.sin(phase*3.1)*.032,guardPulse=Math.sin(phase*2.05)*.022,bodyRoll=Math.sin(phase*1.55)*.018;
  for(const side of [-1,1]){
   const attacking=punch&&side===attackSide,drive=attacking?punchDrive:0;
-  const armPhase=phase*3.1+side*1.35,idleSwing=Math.sin(armPhase)*.025,idleLift=Math.sin(armPhase*.76+1.0)*.016;
-  const shoulder=[side*(.275+bodyRoll),.555+guardBob,.005];
-  let elbow=[side*(.355+idleSwing*.45),.405+guardPulse+idleLift*.45,.105];
-  let wrist=[side*.235+idleSwing,.495+guardBob+idleLift+(guard?.045:0),.19];
+  const armPhase=phase*3.7+side*1.35,idleSwing=Math.sin(armPhase)*.052,idleLift=Math.sin(armPhase*.82+1.0)*.031;
+  const shoulder=[side*(.275+bodyRoll),.555+guardBob+idleLift*.24,.005];
+  let elbow=[side*(.355+idleSwing*.72),.405+guardPulse+idleLift*.72,.105+Math.abs(idleSwing)*.16];
+  let wrist=[side*.235+idleSwing*1.18,.495+guardBob+idleLift*1.18+(guard?.065:0),.19+Math.abs(idleSwing)*.22];
   if(attacking){
    if(attackMove==="jab"){elbow=[side*(.30+drive*.035),.445+drive*.025,.13+drive*.12];wrist=[side*(.22-drive*.18),.49+drive*.015,.19+drive*.30];}
    else if(attackMove==="hook"){elbow=[side*(.39+drive*.045),.405+drive*.035,.14+drive*.10];wrist=[side*(.22-drive*.30),.47+drive*.10,.19+drive*.22];}
@@ -74,7 +74,7 @@
  // dimensional rib/abdominal accents
  for(let k=0;k<3;k++){const yy=.40-k*.085;sphere(m,-.115,yy,.155,.105,.035,.018,"#8a5943");sphere(m,.115,yy,.155,.105,.035,.018,"#8a5943");}
  // Apply a true hip-pivot body rotation so punches and impacts move the full 3D silhouette.
- const punchTorque=punch?(hook?.11:upper?-.035:.055)*punchDrive*(back?-1:1):0;const angle=lean+punchTorque+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
+ const punchTorque=punch?(hook?.15:upper?-.055:.075)*punchDrive*(back?-1:1):0;const angle=lean+punchTorque+(impact?Math.sin(phase*34)*.045:0),co=Math.cos(angle),si=Math.sin(angle),pivot=.12;
  const reactionDirection=cl.contains("reaction-hook")?1:cl.contains("reaction-upper")?-.45:cl.contains("reaction-special")?-.8:cl.contains("reaction-jab")?-.25:0;
  const reactionPulse=impact?Math.max(0,Math.sin(phase*30))*(cl.contains("reaction-hook")?.085:cl.contains("reaction-upper")?.065:cl.contains("reaction-special")?.11:.045):0;
  for(let i=0;i<m.p.length;i+=3){const x=m.p[i],y=m.p[i+1]-pivot,headFactor=m.p[i+1]>.70?1:0;m.p[i]=x*co-y*si+(impact?(back?-.018:.018)*Math.abs(Math.sin(phase*28)):0)+headShift*headFactor+reactionDirection*reactionPulse*headFactor;m.p[i+1]=pivot+x*si+y*co-(reactionPulse*.32*headFactor);}
