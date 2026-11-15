@@ -1,5 +1,6 @@
 /* BUILD 5.0 — original broadcast-style 3D boxing presentation, smoother anatomy, and readable close-range combat. */
 (()=> {
+ const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
  const fighters=[document.getElementById("you"),document.getElementById("foe")].filter(Boolean);
  const style=document.createElement("style");
  style.textContent=".fighter{isolation:isolate}.fighter>.boxer-art,.fighter>.model-canvas{display:none!important}.fighter>.polygon3d{position:absolute;inset:0;width:100%;height:100%;display:block;visibility:visible!important;z-index:8;pointer-events:none}";
