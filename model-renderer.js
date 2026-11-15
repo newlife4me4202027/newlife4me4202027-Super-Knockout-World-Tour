@@ -44,32 +44,59 @@
  if(back){sphere(m,0,.93,-.005,.18,.085,.16,"#35221e")}else{sphere(m,0,.94,0,.18,.08,.16,"#20202a");sphere(m,-.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,.065,.82,.13,.025,.018,.012,"#17151a");sphere(m,-.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,.065,.855,.137,.034,.012,.018,"#2b1c18");sphere(m,-.065,.825,.15,.018,.014,.009,"#f2e7d5");sphere(m,.065,.825,.15,.018,.014,.009,"#f2e7d5");sphere(m,-.065,.825,.161,.009,.01,.006,"#17151a");sphere(m,.065,.825,.161,.009,.01,.006,"#17151a");sphere(m,-.068,.852,.15,.045,.014,.018,"#34201c");sphere(m,.068,.852,.15,.045,.014,.018,"#34201c");sphere(m,0,.795,.17,.035,.055,.035,"#895a43");sphere(m,0,.765,.165,.075,.014,.014,"#4a2522");sphere(m,-.18,.81,0,.035,.055,.035,skin);sphere(m,.18,.81,0,.035,.055,.035,skin);}
  // shoulders, arms, forearms and wrist wraps
  const attackSide=back?-1:1;
- // Punches are animated as shoulder -> elbow -> wrist chains, with a distinct path for each strike.
- if(punch&&!el.__posePunchActive){el.__posePunchActive=true;el.__posePunchStart=t;}if(!punch)el.__posePunchActive=false;
+ // Strike animation is driven by the live combat classes, with a load, snap, and recoil phase.
+ if(punch&&!el.__posePunchActive){el.__posePunchActive=true;el.__posePunchStart=t;}
+ if(!punch)el.__posePunchActive=false;
  const punchElapsed=punch?Math.max(0,t-(el.__posePunchStart||t)):0;
- const punchDuration=striking?430:340;
+ const punchDuration=striking?430:cl.contains("star-punch")?560:340;
  const punchProgress=punch?Math.min(1,punchElapsed/punchDuration):0;
- const punchDrive=punch?(punchProgress<.58?Math.sin(punchProgress/.58*Math.PI/2):Math.cos((punchProgress-.58)/.42*Math.PI/2)):0;
+ const easeOut=q=>1-Math.pow(1-clamp(q,0,1),3);
+ const drive=punch?(punchProgress<.66?easeOut(punchProgress/.66):1-easeOut((punchProgress-.66)/.34)):0;
+ const snap=punch?Math.sin(Math.min(1,punchProgress/.72)*Math.PI/2):0;
  const attackMove=upper?"upper":hook?"hook":jab?"jab":"jab";
- const reach=punch?(attackMove==="upper"?.30:attackMove==="hook"?.27:.48)*punchDrive:striking?.20:0;
  const guardBob=Math.sin(phase*3.1)*.032,guardPulse=Math.sin(phase*2.05)*.022,bodyRoll=Math.sin(phase*1.55)*.018;
+ const stanceLift=guard?.075:0;
  for(const side of [-1,1]){
-  const attacking=punch&&side===attackSide,drive=attacking?punchDrive:0;
-  const armPhase=phase*3.7+side*1.35,idleSwing=Math.sin(armPhase)*.052,idleLift=Math.sin(armPhase*.82+1.0)*.031;
+  const attacking=punch&&side===attackSide,covering=punch&&!attacking,armPhase=phase*3.7+side*1.35;
+  const idleSwing=Math.sin(armPhase)*.064,idleLift=Math.sin(armPhase*.82+1.0)*.038;
   const shoulder=[side*(.275+bodyRoll),.555+guardBob+idleLift*.24,.005];
   let elbow=[side*(.355+idleSwing*.72),.405+guardPulse+idleLift*.72,.105+Math.abs(idleSwing)*.16];
-  let wrist=[side*.235+idleSwing*1.18,.495+guardBob+idleLift*1.18+(guard?.065:0),.19+Math.abs(idleSwing)*.22];
-  if(attacking){
-   if(attackMove==="jab"){elbow=[side*(.30+drive*.035),.445+drive*.025,.13+drive*.12];wrist=[side*(.22-drive*.18),.49+drive*.015,.19+drive*.30];}
-   else if(attackMove==="hook"){elbow=[side*(.39+drive*.045),.405+drive*.035,.14+drive*.10];wrist=[side*(.22-drive*.30),.47+drive*.10,.19+drive*.22];}
-   else{elbow=[side*(.30-drive*.025),.34+drive*.08,.13+drive*.10];wrist=[side*(.22-drive*.10),.48+drive*.24,.19+drive*.28];}
+  let wrist=[side*.235+idleSwing*1.18,.495+guardBob+idleLift*1.18+stanceLift,.19+Math.abs(idleSwing)*.22];
+  if(guard){
+   elbow=[side*.34,.49,.13];
+   wrist=[side*.245,.635,.23];
   }
-  if(striking&&!attacking){elbow=[side*.34,.43,.12];wrist=[side*.24,.50,.20];}
-  const gloveZ=wrist[2]+(attacking?reach*.15:0);
-  sphere(m,shoulder[0],shoulder[1],shoulder[2],.125,.135,.125,skin);joint(shoulder,elbow,.082,skin);sphere(m,elbow[0],elbow[1],elbow[2],.086,.086,.086,skin);joint(elbow,wrist,.067,skin);
+  if(covering){
+   elbow=[side*.34,.48,.15];
+   wrist=[side*.245,.65,.25];
+  }
+  if(attacking){
+   if(attackMove==="jab"){
+    elbow=[side*(.34-drive*.035),.445+drive*.025,.14+snap*.13];
+    wrist=[side*(.235-drive*.205),.50+drive*.025,.19+snap*.38];
+   }else if(attackMove==="hook"){
+    elbow=[side*(.39+drive*.045),.425+drive*.015,.17+snap*.16];
+    wrist=[side*(.235-drive*.31),.475+drive*.115,.19+snap*.29];
+   }else{
+    elbow=[side*(.315-drive*.035),.355+drive*.075,.14+snap*.13];
+    wrist=[side*(.225-drive*.14),.49+drive*.235,.19+snap*.34];
+   }
+  }
+  if(striking&&!attacking){
+   elbow=[side*.34,.47,.14];
+   wrist=[side*.245,.64,.24];
+  }
+  const gloveZ=wrist[2]+(attacking?snap*.055:0);
+  sphere(m,shoulder[0],shoulder[1],shoulder[2],.125,.135,.125,skin);
+  joint(shoulder,elbow,.082,skin);
+  sphere(m,elbow[0],elbow[1],elbow[2],.086,.086,.086,skin);
+  joint(elbow,wrist,.067,skin);
   joint([wrist[0],wrist[1]-.075,gloveZ-.015],[wrist[0],wrist[1]+.005,gloveZ],.073,"#eee9dc");
   cylinder(m,[wrist[0],wrist[1]-.025,gloveZ],[wrist[0],wrist[1]+.035,gloveZ+.012],.078,"#d7d0c3",.082);
-  sphere(m,wrist[0],wrist[1]+.085,gloveZ+.025,.128,.12,.12,glove);sphere(m,wrist[0],wrist[1]+.12,gloveZ+.105,.092,.062,.052,glove);sphere(m,wrist[0]-side*.075,wrist[1]+.04,gloveZ+.08,.05,.075,.052,glove);sphere(m,wrist[0],wrist[1]+.012,gloveZ+.125,.075,.012,.012,"#f0e8d9");
+  sphere(m,wrist[0],wrist[1]+.085,gloveZ+.025,.128,.12,.12,glove);
+  sphere(m,wrist[0],wrist[1]+.12,gloveZ+.105,.092,.062,.052,glove);
+  sphere(m,wrist[0]-side*.075,wrist[1]+.04,gloveZ+.08,.05,.075,.052,glove);
+  sphere(m,wrist[0],wrist[1]+.012,gloveZ+.125,.075,.012,.012,"#f0e8d9");
  }
  // dimensional rib/abdominal accents
  for(let k=0;k<3;k++){const yy=.40-k*.085;sphere(m,-.115,yy,.155,.105,.035,.018,"#8a5943");sphere(m,.115,yy,.155,.105,.035,.018,"#8a5943");}
