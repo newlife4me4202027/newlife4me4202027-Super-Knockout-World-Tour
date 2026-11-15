@@ -356,3 +356,9 @@ The workflow generates the Capacitor Android project during the build, so genera
 - Updated page metadata, championship branding, and offline cache version.
 - Creative boundary: the game uses original fighter identities, dialogue, visual designs, animations, audio, interface, and code. It takes inspiration from broad boxing-game mechanics such as telegraphed attacks, dodging, guarding, timing, and counter windows, without reproducing Nintendo characters, assets, music, or exact presentation.
 - This is an ongoing browser-game development build; it is not a completed PS2 port.
+
+
+## Fighter framing correction — Build 5.1
+- Re-centers both fighters on the same head-on axis, with the opponent in the far lane and the player in the near lane.
+- Reserves a clear vertical gap between the complete 3D silhouettes on desktop and mobile.
+- Keeps the player positioning compatible with the live depth-control offset.
